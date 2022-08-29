@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1015002955378",
+    "project_id": "informsafetydb",
+    "storage_bucket": "informsafetydb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1015002955378:android:1b4e84affacf891a238ceb",
+        "android_client_info": {
+          "package_name": "com.example.informsafety"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1015002955378-td5d03polsc1jno7hc29mtmvgm84d101.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6eqURsv1LlK9LZDRmo-dpvTZ_n2tV6zg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1015002955378-td5d03polsc1jno7hc29mtmvgm84d101.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

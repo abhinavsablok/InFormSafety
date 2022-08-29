@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_gravity="left"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_home"
+            android:icon="@drawable/ic_home"
+            android:title="Home" />
+
+        <item
+            android:id="@+id/navigation_draft_forms"
+            android:icon="@drawable/ic_draft"
+            android:title="Draft Forms" />
+
+        <item
+            android:id="@+id/navigation_sent_forms"
+            android:icon="@drawable/ic_sent"
+            android:title="Sent Forms" />
+
+        <item
+            android:id="@+id/navigation_completed_forms"
+            android:icon="@drawable/ic_online_mark_email_read_24"
+            android:title="Completed Forms" />
+
+    </group>
+
+    <item android:title="Communication">
+        <menu>
+            <item
+                android:id="@+id/navigation_notifications"
+                android:icon="@drawable/ic_notifications"
+                android:title="Notifications" />
+
+            <item
+                android:id="@+id/navigation_child_protection"
+                android:icon="@drawable/ic_child"
+                android:title="Child Protection" />
+
+        </menu>
+    </item>
+
+    <item android:title="Services">
+        <menu>
+            <item
+                android:id="@+id/navigation_about_us"
+                android:icon="@drawable/ic_about"
+                android:title="About" />
+
+            <item
+                android:id="@+id/navigation_contact_us"
+                android:icon="@drawable/ic_contact_us"
+                android:title="Contact Us" />
+
+            <item
+                android:id="@+id/navigation_privacy_policy"
+                android:icon="@drawable/ic_privacy"
+                android:title="Privacy Policy" />
+
+        </menu>
+    </item>
+
+    <item android:title="Account">
+        <menu>
+            <item
+                android:id="@+id/navigation_settings"
+                android:icon="@drawable/ic_settings"
+                android:title="Settings" />
+        </menu>
+    </item>
+
+
+</menu>
