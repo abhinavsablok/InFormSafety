@@ -29,18 +29,18 @@ import com.google.firebase.firestore.auth.User;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText email, password, reg_password,
-            name, contact, reg_email, confirmPassword;
+    EditText email, password, reg_password,
+            name, contact, reg_email, confirmPassword, resetEmail;
 
-    private FirebaseAuth mAuth;
+    FirebaseAuth mAuth;
 
-    Button login, signUp, register, resetPassword;
-    private TextInputLayout txtInLayoutUsername, txtInLayoutPassword;
-    private CheckBox rememberMe;
+    Button login, signUp, register, resetPassword, reset;
+    TextInputLayout txtInLayoutUsername, txtInLayoutPassword;
+    CheckBox rememberMe;
 
     ProgressBar progressBar;
 
-//    private DatabaseHelper databaseHelper;
+    //    private DatabaseHelper databaseHelper;
 //    long userID;
 //    long teacherID;
 //    long guardianID;
@@ -68,9 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.progressBar);
 
-
         ClickLogin();
-
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,27 +84,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-
     }
-
-
-//    private void ClickLogin() {
-//        login.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                Button login = (Button) findViewById(R.id.loginBtn);
-//                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-//                startActivity(intent);
-//            }
-//
-//        });
-//    }
 
     private void ClickLogin() {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 String mEmail = email.getText().toString();
                 String mPassword = password.getText().toString();
 
@@ -159,6 +143,36 @@ public class LoginActivity extends AppCompatActivity {
         View dialogView = inflater.inflate(R.layout.activity_reset_password, null);
         dialog.setView(dialogView);
 
+        resetEmail = dialogView.findViewById(R.id.resetEmail);
+        reset = dialogView.findViewById(R.id.reset);
+
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String mEmail = resetEmail.getText().toString();
+
+                if (mEmail.isEmpty()) {
+                    resetEmail.setError("Please fill out this field");
+                } else if (!Patterns.EMAIL_ADDRESS.matcher(mEmail).matches()) {
+                    resetEmail.setError("Please provide a valid email address!");
+                } else {
+                    mAuth.sendPasswordResetEmail(mEmail).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+
+                            if (task.isSuccessful()) {
+                                Toast.makeText(LoginActivity.this, "Check your email to reset your password!", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Something went wrong! Please Try again!", Toast.LENGTH_LONG).show();
+
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
 
         dialog.show();
     }
@@ -169,25 +183,25 @@ public class LoginActivity extends AppCompatActivity {
         View dialogView = inflater.inflate(R.layout.activity_signup, null);
         dialog.setView(dialogView);
 
-        reg_password = dialogView.findViewById(R.id.reg_password);
         name = dialogView.findViewById(R.id.name);
         contact = dialogView.findViewById(R.id.contact);
         reg_email = dialogView.findViewById(R.id.reg_email);
+        reg_password = dialogView.findViewById(R.id.reg_password);
         confirmPassword = dialogView.findViewById(R.id.confirmPassword);
         register = dialogView.findViewById(R.id.register);
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (reg_password.getText().toString().trim().isEmpty()) {
-                    reg_password.setError("Please fill out this field");
-                } else if (name.getText().toString().trim().isEmpty()) {
 
+                if (name.getText().toString().trim().isEmpty()) {
                     name.setError("Please fill out this field");
                 } else if (contact.getText().toString().trim().isEmpty()) {
                     contact.setError("Please fill out this field");
                 } else if (reg_email.getText().toString().trim().isEmpty()) {
                     reg_email.setError("Please fill out this field");
+                } else if (reg_password.getText().toString().trim().isEmpty()) {
+                    reg_password.setError("Please fill out this field");
                 } else if (confirmPassword.getText().toString().trim().isEmpty()) {
                     confirmPassword.setError("Please fill out this field");
                 } else {
