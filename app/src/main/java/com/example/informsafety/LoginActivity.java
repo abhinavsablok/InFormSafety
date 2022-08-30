@@ -16,10 +16,16 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.auth.User;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -28,22 +34,22 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
-    private Button login, signUp, register, resetPassword;
-    private TextInputLayout txtInLayoutUsername, txtInLayoutPassword, txtInLayoutRegPassword;
+    Button login, signUp, register, resetPassword;
+    private TextInputLayout txtInLayoutUsername, txtInLayoutPassword;
     private CheckBox rememberMe;
 
-    private ProgressBar progressBar;
+    ProgressBar progressBar;
 
-    private DatabaseHelper databaseHelper;
-    long userID;
-    long teacherID;
-    long guardianID;
+//    private DatabaseHelper databaseHelper;
+//    long userID;
+//    long teacherID;
+//    long guardianID;
     com.example.informsafety.RegistrationForm registrationForm;
-    com.example.informsafety.UserModel userModel;
-    LoginForm loginForm;
-    com.example.informsafety.ResetPasswordForm resetPasswordForm;
-    ChangePasswordForm changePasswordForm;
-    ChangeUserDetailsForm changeUserDetailsForm;
+//    com.example.informsafety.UserModel userModel;
+//    LoginForm loginForm;
+//    com.example.informsafety.ResetPasswordForm resetPasswordForm;
+//    ChangePasswordForm changePasswordForm;
+//    ChangeUserDetailsForm changeUserDetailsForm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +62,8 @@ public class LoginActivity extends AppCompatActivity {
         txtInLayoutUsername = findViewById(R.id.txtInLayoutEmail);
         txtInLayoutPassword = findViewById(R.id.txtInLayoutPassword);
         rememberMe = findViewById(R.id.rememberMe);
+        email = findViewById(R.id.email);
+        password = findViewById(R.id.password);
         resetPassword = findViewById(R.id.resetPassword);
         mAuth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.progressBar);
@@ -82,16 +90,66 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+//    private void ClickLogin() {
+//        login.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                Button login = (Button) findViewById(R.id.loginBtn);
+//                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+//                startActivity(intent);
+//            }
+//
+//        });
+//    }
+
     private void ClickLogin() {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String mEmail = email.getText().toString();
+                String mPassword = password.getText().toString();
 
-                Button login = (Button) findViewById(R.id.loginBtn);
-                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                startActivity(intent);
+                if (!mPassword.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(mEmail).matches()) {
+                    mAuth.signInWithEmailAndPassword(mEmail, mPassword)
+                            .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                @Override
+                                public void onSuccess(AuthResult authResult) {
+                                    Toast.makeText(LoginActivity.this, "Logged In!", Toast.LENGTH_LONG).show();
+                                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                                    finish();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(LoginActivity.this, "Login Failed! Please Try Again!", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                } else if (email.getText().toString().trim().isEmpty()) {
+                    Snackbar snackbar = Snackbar.make(view, "Please fill out these fields",
+                            Snackbar.LENGTH_LONG);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.blue));
+                    snackbar.show();
+                    txtInLayoutUsername.setError("Email should not be empty");
+                } else if (password.getText().toString().trim().isEmpty()) {
+                    Snackbar snackbar = Snackbar.make(view, "Please fill out these fields",
+                            Snackbar.LENGTH_LONG);
+                    View snackbarView = snackbar.getView();
+                    snackbarView.setBackgroundColor(getResources().getColor(R.color.blue));
+                    snackbar.show();
+                    txtInLayoutPassword.setError("Password should not be empty");
+                } else {
+                    txtInLayoutUsername.setError("Entered email or password is incorrect");
+                    txtInLayoutPassword.setError("Entered email or password is incorrect");
+                }
+
+                if (rememberMe.isChecked()) {
+
+                } else {
+
+                }
             }
-
         });
     }
 
@@ -106,20 +164,81 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void ClickSignUp() {
-
-        register = findViewById(R.id.register);
-        name = findViewById(R.id.name);
-        contact = findViewById(R.id.contact);
-        email = findViewById(R.id.email);
-        reg_password = findViewById(R.id.reg_password);
-        confirmPassword = findViewById(R.id.confirmPassword);
-        reg_email = findViewById(R.id.reg_email);
-
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.activity_signup, null);
         dialog.setView(dialogView);
 
+        reg_password = dialogView.findViewById(R.id.reg_password);
+        name = dialogView.findViewById(R.id.name);
+        contact = dialogView.findViewById(R.id.contact);
+        reg_email = dialogView.findViewById(R.id.reg_email);
+        confirmPassword = dialogView.findViewById(R.id.confirmPassword);
+        register = dialogView.findViewById(R.id.register);
+
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (reg_password.getText().toString().trim().isEmpty()) {
+                    reg_password.setError("Please fill out this field");
+                } else if (name.getText().toString().trim().isEmpty()) {
+
+                    name.setError("Please fill out this field");
+                } else if (contact.getText().toString().trim().isEmpty()) {
+                    contact.setError("Please fill out this field");
+                } else if (reg_email.getText().toString().trim().isEmpty()) {
+                    reg_email.setError("Please fill out this field");
+                } else if (confirmPassword.getText().toString().trim().isEmpty()) {
+                    confirmPassword.setError("Please fill out this field");
+                } else {
+                    String mName = name.getText().toString();
+                    String mContact = contact.getText().toString();
+                    String mEmail = reg_email.getText().toString();
+                    String mPassword = reg_password.getText().toString();
+                    String mConfirmPassword = confirmPassword.getText().toString();
+
+                    if (Patterns.EMAIL_ADDRESS.matcher(mEmail).matches()) {
+                        mAuth.createUserWithEmailAndPassword(mEmail, mPassword)
+                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            RegistrationForm register = new RegistrationForm(mName, mContact, mEmail, mPassword, mConfirmPassword);
+                                            FirebaseDatabase.getInstance().getReference("User")
+                                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                                    .setValue(register);
+                                            Toast.makeText(LoginActivity.this, "Registration Completed", Toast.LENGTH_LONG).show();
+                                            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                                        } else {
+                                            Toast.makeText(LoginActivity.this, "Failed to register the user. Please Try Again!", Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+                    } else {
+                        reg_email.setError("Please enter a valid email address!");
+                    }
+                }
+            }
+        });
+        dialog.show();
+    }
+}
+
+//    private void ClickSignUp() {
+//
+//        register = findViewById(R.id.register);
+//        name = findViewById(R.id.name);
+//        contact = findViewById(R.id.contact);
+//        email = findViewById(R.id.email);
+//        reg_password = findViewById(R.id.reg_password);
+//        confirmPassword = findViewById(R.id.confirmPassword);
+//        reg_email = findViewById(R.id.reg_email);
+//
+//        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+//        LayoutInflater inflater = getLayoutInflater();
+//        View dialogView = inflater.inflate(R.layout.activity_signup, null);
+//        dialog.setView(dialogView);
+//
 //        register.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -135,8 +254,8 @@ public class LoginActivity extends AppCompatActivity {
 //                } else if (confirmPassword.getText().toString().trim().isEmpty()) {
 //                    confirmPassword.setError("Please fill out this field");
 //                } else {
-//                    String mFirstName = name.getText().toString();
-//                    String mLastName = contact.getText().toString();
+//                    String mName = name.getText().toString();
+//                    String mContact = contact.getText().toString();
 //                    String mEmail = reg_email.getText().toString();
 //                    String mPassword = reg_password.getText().toString();
 //                    String mConfirmPassword = confirmPassword.getText().toString();
@@ -149,8 +268,8 @@ public class LoginActivity extends AppCompatActivity {
 //                                    @Override
 //                                    public void onComplete(@NonNull Task<AuthResult> task) {
 //                                        if (task.isSuccessful()) {
-//                                            User user = new User(mFirstName, mLastName, mEmail, mPassword, mConfirmPassword);
-//                                            FirebaseDatabase.getInstance().getReference("User")
+//                                            User user = new User(mName, mContact, mEmail, mPassword, mConfirmPassword);
+//                                            FirebaseDatabase.getInstance().getReference("Users")
 //                                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
 //                                                    .setValue(user);
 //                                            Toast.makeText(LoginActivity.this, "Registration Completed", Toast.LENGTH_LONG).show();
@@ -166,15 +285,15 @@ public class LoginActivity extends AppCompatActivity {
 //                }
 //            }
 //        });
-        dialog.show();
-
-
-        // Import database functions
-        DatabaseHelper databaseHelper = new DatabaseHelper(LoginActivity.this);
-
-        // FOR TESTING ONLY: Empty the database tables and start over
-        databaseHelper.deleteRecords();
-    }
+//        dialog.show();
+//
+//
+//        // Import database functions
+//        DatabaseHelper databaseHelper = new DatabaseHelper(LoginActivity.this);
+//
+//        // FOR TESTING ONLY: Empty the database tables and start over
+//        databaseHelper.deleteRecords();
+//    }
 
 //      Test Registration
 //        RegistrationForm registrationForm = new RegistrationForm("Teacher 1", "teacher1@huttkindergartens.org.nz", "0210727600", "password01", "password01");
@@ -253,27 +372,27 @@ public class LoginActivity extends AppCompatActivity {
 //
 //    }
 
-    public void logInUser(LoginForm loginForm) {
-
-        // Encrypt email to match to database
-        //String encEmail = encrypt(loginForm.getEmail());
-
-        // Get user ID matching the provided email
-        int id = databaseHelper.getUserIDFromEmail(loginForm.getEmail());
-
-        // Get and decrypt password matching the provided id
-        String correctPassword = databaseHelper.selectPassword(id);
-
-        // If correct password given, generate a UserModel with all of the user's data
-        if (loginForm.getPassword().equals(correctPassword)) {
-
-            userModel = databaseHelper.selectUser(id);
-
-//            Toast.makeText(MainActivity.this, "Logged in as " + userModel.getName(), Toast.LENGTH_SHORT).show();
-
-        } else {
-            Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-}
+//    public void logInUser(LoginForm loginForm) {
+//
+//        // Encrypt email to match to database
+//        //String encEmail = encrypt(loginForm.getEmail());
+//
+//        // Get user ID matching the provided email
+//        int id = databaseHelper.getUserIDFromEmail(loginForm.getEmail());
+//
+//        // Get and decrypt password matching the provided id
+//        String correctPassword = databaseHelper.selectPassword(id);
+//
+//        // If correct password given, generate a UserModel with all of the user's data
+//        if (loginForm.getPassword().equals(correctPassword)) {
+//
+//            userModel = databaseHelper.selectUser(id);
+//
+////            Toast.makeText(MainActivity.this, "Logged in as " + userModel.getName(), Toast.LENGTH_SHORT).show();
+//
+//        } else {
+//            Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+//
+//}
