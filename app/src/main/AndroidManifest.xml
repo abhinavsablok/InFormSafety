@@ -13,8 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.InFormSafety"
         tools:targetApi="31">
-        <activity android:name=".HomeActivity"
-            android:theme="@style/Theme.InFormSafety.NoActionBar"/>
+        <activity
+            android:name=".TestActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomeActivity"
+            android:theme="@style/Theme.InFormSafety.NoActionBar" />
         <activity android:name=".LoginActivity" />
         <activity
             android:name=".MainActivity"
