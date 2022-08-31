@@ -33,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
             name, contact, reg_email, confirmPassword, resetEmail;
 
     FirebaseAuth mAuth;
+    FirebaseHelper fbh;
 
     Button login, signUp, register, resetPassword, reset;
     TextInputLayout txtInLayoutUsername, txtInLayoutPassword;
@@ -67,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         resetPassword = findViewById(R.id.resetPassword);
         mAuth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.progressBar);
+        fbh = new FirebaseHelper();
 
         ClickLogin();
 
@@ -217,10 +219,15 @@ public class LoginActivity extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
-                                            RegistrationForm register = new RegistrationForm(mName, mContact, mEmail, mPassword, mConfirmPassword);
-                                            FirebaseDatabase.getInstance().getReference("User")
-                                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                                    .setValue(register);
+
+//                                            FirebaseDatabase.getInstance().getReference("User")
+//                                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+//                                                    .setValue(register);
+
+                                            // Create User object and store to Realtime Database
+                                            UserModel userModel = new UserModel(mName, mEmail, mContact);
+                                            fbh.insertUser(userModel);
+
                                             Toast.makeText(LoginActivity.this, "Registration Completed", Toast.LENGTH_LONG).show();
                                             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                                         } else {
