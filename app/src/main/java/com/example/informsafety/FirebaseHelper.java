@@ -51,6 +51,7 @@ public class FirebaseHelper {
 
 
 
+
         // Get key for a query
 //        Query query = ref.child("Guardian").orderByChild("Name").equalTo("Parent 1");
 //        String myKey_ = getKey(query);
@@ -80,10 +81,10 @@ public class FirebaseHelper {
 
 
 
-//    // Get a key for a query
+    // Get a key for a query
 //    public String getKey(Query query) {
 //
-//        final String[] myKey = new String[1];
+//        //final String[] myKey = new String[1];
 //
 //        query.addListenerForSingleValueEvent(new ValueEventListener() {
 //            @Override
@@ -91,6 +92,7 @@ public class FirebaseHelper {
 //
 //                DataSnapshot mySnapshot = dataSnapshot.getChildren().iterator().next();
 //                myKey[0] = mySnapshot.getKey();
+//
 //                System.out.println(myKey[0]);
 //
 //            }
@@ -107,9 +109,9 @@ public class FirebaseHelper {
 
 
     // Insert a User
-    public void insertUser(UserModel userModel) {
-        ref.child("User").push().updateChildren(userModel.toHashMap());
-    }
+//    public void insertUser(UserModel userModel) {
+//        ref.child("User").push().updateChildren(userModel.toHashMap());
+//    }
 
     // Insert a Teacher
     public void insertTeacher(String name, String email, String phone) {
@@ -128,7 +130,6 @@ public class FirebaseHelper {
         map.put("Phone", phone);
         ref.child("Guardian").push().updateChildren(map);
     }
-
 
     // Insert a Child with a reference to the ID of their Parent
     public void insertChild(String parentName, String name, String nickname) {
@@ -157,6 +158,11 @@ public class FirebaseHelper {
                 Log.e(TAG, "onCancelled", databaseError.toException());
             }
         });
+    }
+
+    // Insert an Incident Form
+    public void insertForm(IncidentForm incidentForm) {
+        ref.child("Minor Incident").push().updateChildren(incidentForm.toHashMap());
     }
 
 

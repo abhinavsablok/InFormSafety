@@ -11,11 +11,11 @@
         android:id="@+id/childSpinner"
         android:layout_width="285dp"
         android:layout_height="48dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:contentDescription="Dropdown list for Child name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textTestActivity" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
         android:id="@+id/teacherSpinner"
@@ -28,17 +28,17 @@
         app:layout_constraintTop_toBottomOf="@+id/childSpinner" />
 
 
-    <TextView
-        android:id="@+id/textTestActivity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:text="Test Activity"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+    <ListView
+        android:id="@+id/formListView"
+        android:layout_width="318dp"
+        android:layout_height="482dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/teacherSpinner" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

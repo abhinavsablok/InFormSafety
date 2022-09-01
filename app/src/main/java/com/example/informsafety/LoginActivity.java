@@ -219,15 +219,6 @@ public class LoginActivity extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
-
-//                                            FirebaseDatabase.getInstance().getReference("User")
-//                                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-//                                                    .setValue(register);
-
-                                            // Create User object and store to Realtime Database
-                                            UserModel userModel = new UserModel(mName, mEmail, mContact);
-                                            fbh.insertUser(userModel);
-
                                             Toast.makeText(LoginActivity.this, "Registration Completed", Toast.LENGTH_LONG).show();
                                             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                                         } else {
