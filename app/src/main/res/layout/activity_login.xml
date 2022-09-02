@@ -110,14 +110,6 @@
                 tools:layout_editor_absoluteX="199sp"
                 tools:layout_editor_absoluteY="1024sp" />
 
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyleLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="150sp"
-                android:visibility="gone" />
-
         </RelativeLayout>
 
     </LinearLayout>

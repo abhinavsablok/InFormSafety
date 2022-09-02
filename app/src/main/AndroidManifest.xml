@@ -14,6 +14,9 @@
         android:theme="@style/Theme.InFormSafety"
         tools:targetApi="31">
         <activity
+            android:name=".ProgressBarActivity"
+            android:exported="false" />
+         <activity
             android:name=".TestActivity"
             android:exported="false" />
         <activity

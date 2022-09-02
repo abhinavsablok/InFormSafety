@@ -29,6 +29,9 @@ public class UserModel {
 //        this.password = password;
     }
 
+    public UserModel(String mName, String mContact, String mEmail, String mPassword, String mConfirmPassword) {
+    }
+
 
     // toString - for printing
     @Override
