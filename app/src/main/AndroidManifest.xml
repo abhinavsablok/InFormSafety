@@ -16,6 +16,9 @@
         <activity
             android:name=".ProgressBarActivity"
             android:exported="false" />
+         <activity
+            android:name=".TestActivity"
+            android:exported="false" />
         <activity
             android:name=".HomeActivity"
             android:theme="@style/Theme.InFormSafety.NoActionBar" />

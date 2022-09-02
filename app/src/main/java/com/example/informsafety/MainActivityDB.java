@@ -1,4 +1,4 @@
-package com.example.informsafety;
+/*package com.example.informsafety;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -308,4 +308,4 @@ public class MainActivityDB extends AppCompatActivity {
 
 
 
-}
+}*/

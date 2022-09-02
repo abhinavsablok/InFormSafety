@@ -31,6 +31,9 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText email, password, reg_password, name, contact, reg_email, confirmPassword, resetEmail;
     FirebaseAuth mAuth;
+
+    FirebaseHelper fbh;
+
     Button login, signUp, register, resetPassword, reset;
     TextInputLayout txtInLayoutUsername, txtInLayoutPassword;
     CheckBox rememberMe;
@@ -61,6 +64,9 @@ public class LoginActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
         resetPassword = findViewById(R.id.resetPassword);
         mAuth = FirebaseAuth.getInstance();
+        progressBar = findViewById(R.id.progressBar);
+        fbh = new FirebaseHelper();
+
 
         ClickLogin();
 
