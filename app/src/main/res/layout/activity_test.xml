@@ -30,15 +30,29 @@
 
     <ListView
         android:id="@+id/formListView"
-        android:layout_width="318dp"
-        android:layout_height="482dp"
+        android:layout_width="310dp"
+        android:layout_height="221dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/teacherSpinner" />
+
+    <ListView
+        android:id="@+id/draftsListView"
+        android:layout_width="307dp"
+        android:layout_height="204dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.527"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/formListView"
+        app:layout_constraintVertical_bias="0.52" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

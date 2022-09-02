@@ -33,17 +33,17 @@ public class FirebaseHelper {
 //        map.put("World", 1);
 //        db.getReference().child("HelloWorldMap").push().updateChildren(map);
 
-//      Test delete all
-        ref.removeValue();
-
-//      Test insert a Teacher, Guardian and Child
-        insertTeacher("Teacher 1", "teacher1@huttkindergartens.org.nz", "0210727600");
-        insertTeacher("Teacher 2", "teacher2@huttkindergartens.org.nz", "0210727598");
-        insertGuardian("Parent 1", "imaparent@gmail.com", "0270727676");
-        insertGuardian("Parent 2", "imaparenttoo@gmail.com", "0220727622");
-        insertChild("Parent 1", "Robert", "Bobby Tables");
-        insertChild("Parent 1", "Timothy", "Little Timmy");
-        insertChild("Parent 2", "Jackson", "Jack Jack");
+////      Test delete all
+//        ref.removeValue();
+//
+////      Test insert a Teacher, Guardian and Child
+//        insertTeacher("Teacher 1", "teacher1@huttkindergartens.org.nz", "0210727600");
+//        insertTeacher("Teacher 2", "teacher2@huttkindergartens.org.nz", "0210727598");
+//        insertGuardian("Parent 1", "imaparent@gmail.com", "0270727676");
+//        insertGuardian("Parent 2", "imaparenttoo@gmail.com", "0220727622");
+//        insertChild("Parent 1", "Robert", "Bobby Tables");
+//        insertChild("Parent 1", "Timothy", "Little Timmy");
+//        insertChild("Parent 2", "Jackson", "Jack Jack");
 
 
 

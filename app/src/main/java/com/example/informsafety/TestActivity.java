@@ -4,9 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -16,6 +19,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 // Test page for developing Minor Incident Form
@@ -24,10 +28,6 @@ public class TestActivity extends AppCompatActivity {
     FirebaseHelper fbh = new FirebaseHelper();
     FirebaseDatabase db = FirebaseDatabase.getInstance("https://informsafetydb-default-rtdb.asia-southeast1.firebasedatabase.app/");
     DatabaseReference ref = db.getReference();
-    private Spinner childDropDown;
-    private Spinner teacherDropDown;
-    private ListView formListView;
-
 
 
     @Override
@@ -36,7 +36,7 @@ public class TestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_test);
 
         // Dropdown for Child
-        childDropDown = findViewById(R.id.childSpinner);
+        Spinner childDropDown = findViewById(R.id.childSpinner);
         ArrayList<String> childList = new ArrayList<>();
         ArrayAdapter childAdapter = new ArrayAdapter<String>(this, R.layout.list_item, childList);
         childDropDown.setAdapter(childAdapter);
@@ -59,7 +59,7 @@ public class TestActivity extends AppCompatActivity {
 
 
         // Dropdown for Teacher
-        teacherDropDown = findViewById(R.id.teacherSpinner);
+        Spinner teacherDropDown = findViewById(R.id.teacherSpinner);
         ArrayList<String> teacherList = new ArrayList<>();
         ArrayAdapter teacherAdapter = new ArrayAdapter<String>(this, R.layout.list_item, teacherList);
         teacherDropDown.setAdapter(teacherAdapter);
@@ -89,12 +89,12 @@ public class TestActivity extends AppCompatActivity {
         String mUserID = "user001";
 
         // Data from user input
-        String mChildName = "Bobby Tables";
-        String mDate = "01-09-2022";
-        String mTime = "12:53";
-        String mDescription = "Fell off the swing";
-        String mLocation = "Swings";
-        String mTreatment = "Icepack/cold flannel";
+        String mChildName = "Jack Jack";
+        String mDate = "02-09-2022";
+        String mTime = "08:46";
+        String mDescription = "Grazed his knee";
+        String mLocation = "Grass/safety surface";
+        String mTreatment = "Plaster/s";
         String mTeacherProvided = "Teacher 1";
         String mTeacherChecked = "Teacher 2";
         String mComments = "";
@@ -127,14 +127,14 @@ public class TestActivity extends AppCompatActivity {
         map.put("pdfFilename", mPdfFilename);
 
         // Insert to Realtime Database
-        ref.child("Minor Incident").push().updateChildren(map);
+//        ref.child("Minor Incident").push().updateChildren(map);
 
 
 
 
         // Display Form contents as a List View
         // This example uses the most recent form. TODO: Create a list of forms and select from it
-        formListView = findViewById(R.id.formListView);
+        ListView formListView = findViewById(R.id.formListView);
         ArrayList<String> formList = new ArrayList<>();
         ArrayAdapter formAdapter = new ArrayAdapter<String>(this, R.layout.list_item, formList);
         formListView.setAdapter(formAdapter);
@@ -183,6 +183,75 @@ public class TestActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError error) {
+            }
+        });
+
+
+
+        // Display a list of all forms in a ListView
+        ListView draftsListView = findViewById(R.id.draftsListView);
+        ArrayList<String> draftsList = new ArrayList<>();
+        ArrayList<String> draftsKeyList = new ArrayList<>();
+        ArrayAdapter draftsAdapter = new ArrayAdapter<String>(this, R.layout.list_item, draftsList);
+        draftsListView.setAdapter(draftsAdapter);
+        DatabaseReference draftsRef = ref.child("Minor Incident");
+        Query draftsQuery = draftsRef.orderByKey();
+
+        draftsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                draftsList.clear();
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+
+                    // Get each draft form in order and do something with it
+                    String qKey = snapshot.getKey();
+                    String qChildName = snapshot.child("childName").getValue().toString();
+                    String qIncidentDate = snapshot.child("incidentDate").getValue().toString();
+                    String qIncidentTime = snapshot.child("incidentTime").getValue().toString();
+
+                    // Add selected form data into one field in the ListView
+                    draftsList.add(qChildName + ", " + qIncidentDate + ", " + qIncidentTime);
+                    draftsKeyList.add(qKey);
+
+                }
+
+                // Reverse the list to get the latest incident at the top
+                Collections.reverse(draftsList);
+                Collections.reverse(draftsKeyList);
+                draftsAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+            }
+        });
+
+
+        // Click a form on the drafts list and do something with it
+        draftsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> draftsListView, View view, int position, long id) {
+                String myKey = draftsKeyList.get(position);
+//                Toast.makeText(TestActivity.this,"id" + id + ", position" + position + ", view" + view.toString(),Toast.LENGTH_SHORT).show();
+//                Toast.makeText(TestActivity.this,"You selected : " + item,Toast.LENGTH_SHORT).show();
+//                Toast.makeText(TestActivity.this, myKey ,Toast.LENGTH_SHORT).show();
+
+                // Query the database for the clicked record
+                Query myDraftQuery = draftsRef.orderByKey().equalTo(myKey);
+                myDraftQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                            // Do something with the selected draft form
+                            Toast.makeText(TestActivity.this, snapshot.toString() ,Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                    }
+                });
+
             }
         });
 
