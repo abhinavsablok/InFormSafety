@@ -37,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     Button login, signUp, register, resetPassword, reset;
     TextInputLayout txtInLayoutUsername, txtInLayoutPassword;
     CheckBox rememberMe;
+    ProgressBar progressBar;
 
     //    private DatabaseHelper databaseHelper;
 //    long userID;
@@ -224,10 +225,18 @@ public class LoginActivity extends AppCompatActivity {
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()) {
                                                         Toast.makeText(LoginActivity.this, "Registration Completed! Please check your email for verification.", Toast.LENGTH_SHORT).show();
-                                                        UserModel userModel = new UserModel(mName, mContact, mEmail, mPassword, mConfirmPassword);
-                                                        FirebaseDatabase.getInstance().getReference("User")
-                                                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                                                .setValue(userModel);
+
+                                                        // Get UID of new user
+                                                        String myUID = mAuth.getCurrentUser().getUid();
+
+                                                        // Check whether the user is a Teacher based on their email address
+
+
+
+                                                        // Insert into Teacher or Guardian list
+
+
+
                                                     } else {
                                                         Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                                     }

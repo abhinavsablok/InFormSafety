@@ -113,6 +113,13 @@ public class FirebaseHelper {
 //        ref.child("User").push().updateChildren(userModel.toHashMap());
 //    }
 
+    // Check whether the user is a Teacher based on their email address
+    public boolean isTeacherEmail(String email) {
+        String teacherDomains = "@huttkindergartens.org.nz";
+        return teacherDomains.contains(email);
+    }
+
+
     // Insert a Teacher
     public void insertTeacher(String name, String email, String phone) {
         HashMap<String, Object> map = new HashMap<>();
