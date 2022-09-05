@@ -10,7 +10,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class FirebaseHelper {
 
@@ -115,14 +117,25 @@ public class FirebaseHelper {
 
     // Check whether the user is a Teacher based on their email address
     public boolean isTeacherEmail(String email) {
-        String teacherDomains = "@huttkindergartens.org.nz";
-        return teacherDomains.contains(email);
+        List<String> teacherDomains = new ArrayList<>();
+        teacherDomains.add("@huttkindergartens.org.nz");
+        //String teacherDomains = "@huttkindergartens.org.nz";
+        //return teacherDomains.contains(email);
+
+        for (String domain : teacherDomains){
+            if (email.contains(domain)) {
+                return true;
+            }
+        }
+        return false;
+
     }
 
 
     // Insert a Teacher
-    public void insertTeacher(String name, String email, String phone) {
+    public void insertTeacher(String UID, String name, String email, String phone) {
         HashMap<String, Object> map = new HashMap<>();
+        map.put("UID", UID);
         map.put("Name", name);
         map.put("Email", email);
         map.put("Phone", phone);
@@ -130,8 +143,9 @@ public class FirebaseHelper {
     }
 
     // Insert a Guardian
-    public void insertGuardian(String name, String email, String phone) {
+    public void insertGuardian(String UID, String name, String email, String phone) {
         HashMap<String, Object> map = new HashMap<>();
+        map.put("UID", UID);
         map.put("Name", name);
         map.put("Email", email);
         map.put("Phone", phone);

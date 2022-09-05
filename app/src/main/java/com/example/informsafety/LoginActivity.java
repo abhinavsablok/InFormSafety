@@ -230,12 +230,13 @@ public class LoginActivity extends AppCompatActivity {
                                                         String myUID = mAuth.getCurrentUser().getUid();
 
                                                         // Check whether the user is a Teacher based on their email address
-
-
-
-                                                        // Insert into Teacher or Guardian list
-
-
+                                                        // Insert into Teacher or Guardian list accordingly
+                                                        if (fbh.isTeacherEmail(mEmail)) {
+                                                            fbh.insertTeacher(myUID, mName, mEmail, mContact);
+                                                        }
+                                                        else {
+                                                            fbh.insertGuardian(myUID, mName, mEmail, mContact);
+                                                        }
 
                                                     } else {
                                                         Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
