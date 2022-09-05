@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 // Test page for developing Minor Incident Form
 public class TestActivity extends AppCompatActivity {
@@ -30,10 +31,84 @@ public class TestActivity extends AppCompatActivity {
     DatabaseReference ref = db.getReference();
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+
+
+        // Dropdown list for incident locations
+        List<String> locationList = new ArrayList<>();
+        locationList.add("Swings");
+        locationList.add("Sandpit");
+        locationList.add("Challenge course");
+        locationList.add("Fixed equipment");
+        locationList.add("Pathway/tracks");
+        locationList.add("Grass/safety surface");
+        locationList.add("Water trough");
+        locationList.add("Shed/storage area");
+        locationList.add("Ride-on vehicles");
+        locationList.add("Carpentry area");
+        locationList.add("Indoor play area");
+        locationList.add("Bathroom/Toilets");
+        locationList.add("Kitchen");
+        locationList.add("Entry areas");
+        locationList.add("Children in conflict");
+        locationList.add("Natural play");
+        locationList.add("Excursion");
+        locationList.add("Unwell/ill");
+        locationList.add("Other");
+
+        // Dropdown list for incident treatments
+        List<String> treatmentList = new ArrayList<>();
+        treatmentList.add("Plaster/s");
+        treatmentList.add("Icepack/cold flannel");
+        treatmentList.add("Wiped clean");
+        treatmentList.add("Cuddle/TLC");
+        treatmentList.add("Monitored");
+        treatmentList.add("Cleaned/dressed");
+        treatmentList.add("Rest");
+        treatmentList.add("Sling/splint");
+        treatmentList.add("Elevation of limb");
+        treatmentList.add("Isolated from children");
+        treatmentList.add("Medication given");
+        treatmentList.add("Other");
+
+        // Dropdown list for injury types
+        List<String> injuryList = new ArrayList<>();
+        injuryList.add("Bruising");
+        injuryList.add("Insect bite/sting");
+        injuryList.add("Laceration/cut");
+        injuryList.add("Nose bleed");
+        injuryList.add("Choking");
+        injuryList.add("Foreign body");
+        injuryList.add("Dental/Mouth");
+        injuryList.add("Strain/sprain");
+        injuryList.add("Concussion/shock");
+        injuryList.add("Allergic reaction");
+        injuryList.add("Dislocation/Fracture");
+        injuryList.add("Burn/scald");
+        injuryList.add("Internal");
+        injuryList.add("Chemical reaction");
+        injuryList.add("Human bite");
+        injuryList.add("Other");
+
+        // Dropdown list for incident likelihood
+        List<String> likelihoodList = new ArrayList<>();
+        likelihoodList.add("Very likely");
+        likelihoodList.add("Likely");
+        likelihoodList.add("Rare");
+
+
+
+
+
+
+
+
+
 
         // Dropdown for Child
         Spinner childDropDown = findViewById(R.id.childSpinner);
@@ -80,6 +155,16 @@ public class TestActivity extends AppCompatActivity {
             }
         });
 
+
+        // Dropdown for Location
+        Spinner locationDropDown = findViewById(R.id.locationSpinner);
+        ArrayAdapter locationAdapter = new ArrayAdapter<String>(this, R.layout.list_item, locationList);
+        locationDropDown.setAdapter(locationAdapter);
+
+        // Dropdown for Treatment
+        Spinner treatmentDropDown = findViewById(R.id.treatmentSpinner);
+        ArrayAdapter treatmentAdapter = new ArrayAdapter<String>(this, R.layout.list_item, treatmentList);
+        treatmentDropDown.setAdapter(treatmentAdapter);
 
 
         // Create a Minor Incident Form

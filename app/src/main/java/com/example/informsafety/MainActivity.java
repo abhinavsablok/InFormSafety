@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
             super.handleMessage(msg);
             if (msg.what == 222) {
 //                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                Intent intent = new Intent(MainActivity.this, TestActivity.class);
                 startActivity(intent);
                 finish();
             }

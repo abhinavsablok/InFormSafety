@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
 //    long teacherID;
 //    long guardianID;
 //    com.example.informsafety.RegistrationForm registrationForm;
-    com.example.informsafety.UserModel userModel;
+//    com.example.informsafety.UserModel userModel;
 //    LoginForm loginForm;
 //    com.example.informsafety.ResetPasswordForm resetPasswordForm;
 //    ChangePasswordForm changePasswordForm;
