@@ -100,13 +100,14 @@ public class LoginActivity extends AppCompatActivity {
                             .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                 @Override
                                 public void onSuccess(AuthResult authResult) {
-                                    if (mAuth.getCurrentUser().isEmailVerified()) {
-                                        startActivity(new Intent(LoginActivity.this, ProgressBarActivity.class));
+//                                    if (mAuth.getCurrentUser().isEmailVerified()) {
+//                                        startActivity(new Intent(LoginActivity.this, ProgressBarActivity.class));
+                                        startActivity(new Intent(LoginActivity.this, MinorFormActivity.class));
                                         Toast.makeText(LoginActivity.this, "Logged In!", Toast.LENGTH_SHORT).show();
                                         finish();
-                                    } else {
-                                        Toast.makeText(LoginActivity.this, "Please Verify this email before login!", Toast.LENGTH_SHORT).show();
-                                    }
+//                                    } else {
+//                                        Toast.makeText(LoginActivity.this, "Please Verify this email before login!", Toast.LENGTH_SHORT).show();
+//                                    }
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
