@@ -10,7 +10,6 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -36,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
 
     Button login, signUp, register, resetPassword, reset;
     TextInputLayout txtInLayoutUsername, txtInLayoutPassword;
-    CheckBox rememberMe;
+    ProgressBar progressBar;
 
     //    private DatabaseHelper databaseHelper;
 //    long userID;
@@ -59,7 +58,6 @@ public class LoginActivity extends AppCompatActivity {
         login = findViewById(R.id.loginBtn);
         txtInLayoutUsername = findViewById(R.id.txtInLayoutEmail);
         txtInLayoutPassword = findViewById(R.id.txtInLayoutPassword);
-        rememberMe = findViewById(R.id.rememberMe);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         resetPassword = findViewById(R.id.resetPassword);
@@ -130,12 +128,6 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     txtInLayoutUsername.setError("Entered email or password is incorrect");
                     txtInLayoutPassword.setError("Entered email or password is incorrect");
-                }
-
-                if (rememberMe.isChecked()) {
-
-                } else {
-
                 }
             }
         });
@@ -224,10 +216,6 @@ public class LoginActivity extends AppCompatActivity {
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()) {
                                                         Toast.makeText(LoginActivity.this, "Registration Completed! Please check your email for verification.", Toast.LENGTH_SHORT).show();
-                                                        UserModel userModel = new UserModel(mName, mContact, mEmail, mPassword, mConfirmPassword);
-                                                        FirebaseDatabase.getInstance().getReference("User")
-                                                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                                                .setValue(userModel);
                                                     } else {
                                                         Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                                     }

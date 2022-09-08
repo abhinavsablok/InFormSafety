@@ -52,17 +52,6 @@
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
-
-        <CheckBox
-            android:id="@+id/rememberMe"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:text="Remember Me"
-            tools:layout_editor_absoluteX="199dp"
-            tools:layout_editor_absoluteY="1024dp" />
-
-
         <Button
             android:id="@+id/loginBtn"
             android:layout_width="match_parent"
