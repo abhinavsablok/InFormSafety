@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             if (msg.what == 222) {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-//                Intent intent = new Intent(MainActivity.this, MinorFormActivity.class);
+//                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                Intent intent = new Intent(MainActivity.this, DraftsActivity.class);
                 startActivity(intent);
                 finish();
             }

@@ -223,7 +223,7 @@ public class TestActivity extends AppCompatActivity {
         ArrayList<String> formList = new ArrayList<>();
         ArrayAdapter formAdapter = new ArrayAdapter<String>(this, R.layout.list_item, formList);
         formListView.setAdapter(formAdapter);
-        DatabaseReference formRef = ref.child("Minor Incident");
+        DatabaseReference formRef = ref.child("Incident");
         Query query = formRef.limitToLast(1);
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -279,7 +279,7 @@ public class TestActivity extends AppCompatActivity {
         ArrayList<String> draftsKeyList = new ArrayList<>();
         ArrayAdapter draftsAdapter = new ArrayAdapter<String>(this, R.layout.list_item, draftsList);
         draftsListView.setAdapter(draftsAdapter);
-        DatabaseReference draftsRef = ref.child("Minor Incident");
+        DatabaseReference draftsRef = ref.child("Incident");
         Query draftsQuery = draftsRef.orderByKey();
 
         draftsQuery.addListenerForSingleValueEvent(new ValueEventListener() {

@@ -163,10 +163,18 @@ public class MinorFormActivity extends AppCompatActivity {
             }
         });
 
+
+        // If user opened a saved form, populate the form with the saved values
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String value = extras.getString("Contents");
+            Toast.makeText(MinorFormActivity.this, value, Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 
-    // When user clicks Send, add the entered information into Firebase Realtime Database
+    // When user clicks Save, add the entered information into Firebase Realtime Database
     private void ClickSave() {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,6 +195,7 @@ public class MinorFormActivity extends AppCompatActivity {
                 String myComments = comments.getText().toString();
 
                 // Additional data for form status
+                String formType = "Minor Incident";
                 boolean mSentToGuardian = false;
                 boolean mSignedByGuardian = false;
                 String mPdfFilename = "";
@@ -203,12 +212,13 @@ public class MinorFormActivity extends AppCompatActivity {
                 map.put("teacherProvided", myTeacherProvided);
                 map.put("teacherChecked", myTeacherChecked);
                 map.put("comments", myComments);
+                map.put("Form Type", formType);
                 map.put("sentToGuardian", mSentToGuardian);
                 map.put("signedByGuardian", mSignedByGuardian);
                 map.put("pdfFilename", mPdfFilename);
 
                 // Insert to Realtime Database
-                ref.child("Minor Incident").push().updateChildren(map);
+                ref.child("Incident").push().updateChildren(map);
 
                 Toast.makeText(MinorFormActivity.this, "Saved", Toast.LENGTH_SHORT).show();
 
