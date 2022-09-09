@@ -23,6 +23,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -167,8 +168,66 @@ public class MinorFormActivity extends AppCompatActivity {
         // If user opened a saved form, populate the form with the saved values
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            String value = extras.getString("Contents");
-            Toast.makeText(MinorFormActivity.this, value, Toast.LENGTH_SHORT).show();
+            String myKey = extras.getString("Key");
+//            Toast.makeText(MinorFormActivity.this, myKey, Toast.LENGTH_SHORT).show();
+
+            // Query the database for the clicked record
+            DatabaseReference draftsRef = ref.child("Incident");
+            Query myDraftQuery = draftsRef.orderByKey().equalTo(myKey);
+            myDraftQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                        // Do something with the selected draft form
+//                        Toast.makeText(MinorFormActivity.this, snapshot.toString() ,Toast.LENGTH_SHORT).show();
+
+                        // Set form elements to show the saved values
+                        String qChildName = snapshot.child("childName").getValue().toString();
+                        if (qChildName != null) {
+                            int spinnerPosition = childAdapter.getPosition(qChildName);
+                            child.setSelection(spinnerPosition);
+                        }
+
+                        date.setText(snapshot.child("incidentDate").getValue().toString());
+                        time.setText(snapshot.child("incidentTime").getValue().toString());
+                        description.setText(snapshot.child("description").getValue().toString());
+
+                        String qLocation = snapshot.child("location").getValue().toString();
+                        if (qLocation != null) {
+                            int spinnerPosition = locationAdapter.getPosition(qLocation);
+                            location.setSelection(spinnerPosition);
+                        }
+
+                        String qTreatment = snapshot.child("treatment").getValue().toString();
+                        if (qTreatment != null) {
+                            int spinnerPosition = treatmentAdapter.getPosition(qTreatment);
+                            treatment.setSelection(spinnerPosition);
+                        }
+
+                        String qTeacherProvided = snapshot.child("teacherProvided").getValue().toString();
+                        if (qTeacherProvided != null) {
+                            int spinnerPosition = teacherAdapter.getPosition(qTeacherProvided);
+                            teacherProvided.setSelection(spinnerPosition);
+                        }
+
+                        String qTeacherChecked = snapshot.child("teacherChecked").getValue().toString();
+                        if (qTeacherChecked != null) {
+                            int spinnerPosition = teacherAdapter.getPosition(qTeacherChecked);
+                            teacherChecked.setSelection(spinnerPosition);
+                        }
+
+                        comments.setText(snapshot.child("comments").getValue().toString());
+
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                }
+            });
+
+
         }
 
     }

@@ -76,29 +76,18 @@ public class DraftsActivity extends AppCompatActivity {
         draftsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> draftsListView, View view, int position, long id) {
+                // Get the unique key for the clicked form
                 String myKey = draftsKeyList.get(position);
 //                Toast.makeText(TestActivity.this,"id" + id + ", position" + position + ", view" + view.toString(),Toast.LENGTH_SHORT).show();
 //                Toast.makeText(TestActivity.this,"You selected : " + item,Toast.LENGTH_SHORT).show();
 //                Toast.makeText(TestActivity.this, myKey ,Toast.LENGTH_SHORT).show();
 
-                // Query the database for the clicked record
-                Query myDraftQuery = draftsRef.orderByKey().equalTo(myKey);
-                myDraftQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                            // Do something with the selected draft form
-//                            Toast.makeText(DraftsActivity.this, snapshot.toString() ,Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(DraftsActivity.this, MinorFormActivity.class);
-                            intent.putExtra("Contents", snapshot.toString());
-                            startActivity(intent);
-                        }
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError error) {
-                    }
-                });
+                // Open the Form and pass the key to query form contents
+                Intent intent = new Intent(DraftsActivity.this, MinorFormActivity.class);
+                intent.putExtra("Key", myKey);
+                startActivity(intent);
+
 
             }
         });
