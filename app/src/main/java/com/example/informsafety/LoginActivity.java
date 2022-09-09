@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
 //    long teacherID;
 //    long guardianID;
 //    com.example.informsafety.RegistrationForm registrationForm;
-    com.example.informsafety.UserModel userModel;
+//    com.example.informsafety.UserModel userModel;
 //    LoginForm loginForm;
 //    com.example.informsafety.ResetPasswordForm resetPasswordForm;
 //    ChangePasswordForm changePasswordForm;
@@ -97,13 +97,14 @@ public class LoginActivity extends AppCompatActivity {
                             .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                 @Override
                                 public void onSuccess(AuthResult authResult) {
-                                    if (mAuth.getCurrentUser().isEmailVerified()) {
-                                        startActivity(new Intent(LoginActivity.this, ProgressBarActivity.class));
+//                                    if (mAuth.getCurrentUser().isEmailVerified()) {
+//                                        startActivity(new Intent(LoginActivity.this, ProgressBarActivity.class));
+                                        startActivity(new Intent(LoginActivity.this, MinorFormActivity.class));
                                         Toast.makeText(LoginActivity.this, "Logged In!", Toast.LENGTH_SHORT).show();
                                         finish();
-                                    } else {
-                                        Toast.makeText(LoginActivity.this, "Please Verify this email before login!", Toast.LENGTH_SHORT).show();
-                                    }
+//                                    } else {
+//                                        Toast.makeText(LoginActivity.this, "Please Verify this email before login!", Toast.LENGTH_SHORT).show();
+//                                    }
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
@@ -216,6 +217,16 @@ public class LoginActivity extends AppCompatActivity {
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()) {
                                                         Toast.makeText(LoginActivity.this, "Registration Completed! Please check your email for verification.", Toast.LENGTH_SHORT).show();
+                                                        // Get UID of new user
+                                                        String myUID = mAuth.getCurrentUser().getUid();
+                                                        // Check whether the user is a Teacher based on their email address
+                                                        // Insert into Teacher or Guardian list accordingly
+                                                        if (fbh.isTeacherEmail(mEmail)) {
+                                                            fbh.insertTeacher(myUID, mName, mEmail, mContact);
+                                                        }
+                                                        else {
+                                                            fbh.insertGuardian(myUID, mName, mEmail, mContact);
+                                                        }
                                                     } else {
                                                         Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                                     }

@@ -11,48 +11,61 @@
         android:id="@+id/childSpinner"
         android:layout_width="285dp"
         android:layout_height="48dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:contentDescription="Dropdown list for Child name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <Spinner
         android:id="@+id/teacherSpinner"
         android:layout_width="285dp"
         android:layout_height="48dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:contentDescription="Dropdown list for Teacher name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/childSpinner" />
 
-
-    <ListView
-        android:id="@+id/formListView"
-        android:layout_width="310dp"
-        android:layout_height="221dp"
-        android:layout_marginStart="16dp"
+    <Spinner
+        android:id="@+id/locationSpinner"
+        android:layout_width="285dp"
+        android:layout_height="48dp"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
+        android:contentDescription="Dropdown list for incident location"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/teacherSpinner" />
 
+    <Spinner
+        android:id="@+id/treatmentSpinner"
+        android:layout_width="285dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="32dp"
+        android:contentDescription="Dropdown list for incident treatment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/locationSpinner" />
+
+    <ListView
+        android:id="@+id/formListView"
+        android:layout_width="316dp"
+        android:layout_height="244dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/treatmentSpinner" />
+
     <ListView
         android:id="@+id/draftsListView"
-        android:layout_width="307dp"
-        android:layout_height="204dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="332dp"
+        android:layout_height="418dp"
+        android:layout_marginStart="43dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="36dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.527"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/formListView"
-        app:layout_constraintVertical_bias="0.52" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
