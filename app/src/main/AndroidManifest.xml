@@ -18,6 +18,9 @@
             android:exported="false" />
         <activity
             android:name=".MinorFormActivity"
+             android:exported="false" />
+        <activity
+            android:name=".MinorIncidentFormActivity"
             android:exported="false" />
         <activity
             android:name=".ProgressBarActivity"
