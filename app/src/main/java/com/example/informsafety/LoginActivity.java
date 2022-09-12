@@ -97,14 +97,16 @@ public class LoginActivity extends AppCompatActivity {
                             .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                 @Override
                                 public void onSuccess(AuthResult authResult) {
-                                    if (mAuth.getCurrentUser().isEmailVerified()) {
-                                        startActivity(new Intent(LoginActivity.this, ProgressBarActivity.class));
+//                                    if (mAuth.getCurrentUser().isEmailVerified()) {
+//                                        startActivity(new Intent(LoginActivity.this, ProgressBarActivity.class));
 //                                        startActivity(new Intent(LoginActivity.this, MinorFormActivity.class));
+//                                        startActivity(new Intent(LoginActivity.this, IllnessFormActivity.class));
+                                        startActivity(new Intent(LoginActivity.this, DraftsActivity.class));
                                         Toast.makeText(LoginActivity.this, "Logged In!", Toast.LENGTH_SHORT).show();
                                         finish();
-                                    } else {
-                                        Toast.makeText(LoginActivity.this, "Please Verify this email before login!", Toast.LENGTH_SHORT).show();
-                                    }
+//                                    } else {
+//                                        Toast.makeText(LoginActivity.this, "Please Verify this email before login!", Toast.LENGTH_SHORT).show();
+//                                    }
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
@@ -220,13 +222,9 @@ public class LoginActivity extends AppCompatActivity {
                                                         // Get UID of new user
                                                         String myUID = mAuth.getCurrentUser().getUid();
                                                         // Check whether the user is a Teacher based on their email address
-                                                        // Insert into Teacher or Guardian list accordingly
-                                                        if (fbh.isTeacherEmail(mEmail)) {
-                                                            fbh.insertTeacher(myUID, mName, mEmail, mContact);
-                                                        }
-                                                        else {
-                                                            fbh.insertGuardian(myUID, mName, mEmail, mContact);
-                                                        }
+                                                        boolean isTeacher = fbh.isTeacherEmail(mEmail);
+                                                        // Insert into User list
+                                                        fbh.insertUser(myUID, mName, mEmail, mContact, mPassword, isTeacher);
                                                     } else {
                                                         Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                                     }

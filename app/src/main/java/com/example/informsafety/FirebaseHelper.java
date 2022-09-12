@@ -1,5 +1,7 @@
 package com.example.informsafety;
 
+import static com.example.informsafety.EncryptDecrypt.*;
+
 import android.util.Log;
 import android.widget.Toast;
 
@@ -13,6 +15,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+
 
 public class FirebaseHelper {
 
@@ -41,11 +45,12 @@ public class FirebaseHelper {
 ////      Test insert a Teacher, Guardian and Child
 //        insertTeacher("Teacher 1", "teacher1@huttkindergartens.org.nz", "0210727600");
 //        insertTeacher("Teacher 2", "teacher2@huttkindergartens.org.nz", "0210727598");
-//        insertGuardian("Parent 1", "imaparent@gmail.com", "0270727676");
-//        insertGuardian("Parent 2", "imaparenttoo@gmail.com", "0220727622");
-//        insertChild("Parent 1", "Robert", "Bobby Tables");
-//        insertChild("Parent 1", "Timothy", "Little Timmy");
-//        insertChild("Parent 2", "Jackson", "Jack Jack");
+//        insertTeacher("A Teacher", "donoterase@huttkindergartens.org.nz", "0210727598");
+//        insertGuardian("Guardian 1", "imaparent@gmail.com", "0270727676");
+//        insertGuardian("Guardian 2", "imaparenttoo@gmail.com", "0220727622");
+//        insertChild("Guardian 1", "Robert", "Bobby Tables");
+//        insertChild("Guardian 1", "Timothy", "Little Timmy");
+//        insertChild("Guardian 2", "Jackson", "Jack Jack");
 
 
 
@@ -132,31 +137,35 @@ public class FirebaseHelper {
     }
 
 
-    // Insert a Teacher
-    public void insertTeacher(String UID, String name, String email, String phone) {
+    // Insert a User
+    public void insertUser(String UID, String name, String email, String phone, String password, boolean isTeacher) {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("UID", UID);
-        map.put("Name", name);
-        map.put("Email", email);
-        map.put("Phone", phone);
-        ref.child("Teacher").push().updateChildren(map);
+//        map.put("UID", UID);
+        map.put("Name", encrypt(name));
+        map.put("Email", encrypt(email));
+        map.put("Phone", encrypt(phone));
+        map.put("Password", encrypt(password));
+        map.put("isTeacher", isTeacher);
+//        ref.child("User").push().updateChildren(map);
+        ref.child("User").child(UID).setValue(map);
     }
 
-    // Insert a Guardian
-    public void insertGuardian(String UID, String name, String email, String phone) {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("UID", UID);
-        map.put("Name", name);
-        map.put("Email", email);
-        map.put("Phone", phone);
-        ref.child("Guardian").push().updateChildren(map);
-    }
+//    // Insert a Guardian
+//    public void insertGuardian(String UID, String name, String email, String phone, String password) {
+//        HashMap<String, Object> map = new HashMap<>();
+//        map.put("UID", UID);
+//        map.put("Name", encrypt(name));
+//        map.put("Email", encrypt(email));
+//        map.put("Phone", encrypt(phone));
+//        map.put("Password", encrypt(password));
+//        ref.child("Guardian").push().updateChildren(map);
+//    }
 
     // Insert a Child with a reference to the ID of their Parent
     public void insertChild(String parentName, String name, String nickname) {
 
         // Query to get the parent given their name
-        Query parentQuery = ref.child("Guardian").orderByChild("Name").equalTo(parentName);
+        Query parentQuery = ref.child("Guardian").orderByChild("Name").equalTo(encrypt(parentName));
         parentQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -169,8 +178,8 @@ public class FirebaseHelper {
                 // Create a hashmap for Child data including Parent's key
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("ParentKey", parentKey);
-                map.put("Name", name);
-                map.put("Nickname", nickname);
+                map.put("Name", encrypt(name));
+                map.put("Nickname", encrypt(nickname));
                 ref.child("Child").push().updateChildren(map);
             }
 
@@ -185,6 +194,10 @@ public class FirebaseHelper {
     public void insertForm(IncidentForm incidentForm) {
         ref.child("Minor Incident").push().updateChildren(incidentForm.toHashMap());
     }
+
+
+
+//    WriIxDqDYeY=
 
 
 }

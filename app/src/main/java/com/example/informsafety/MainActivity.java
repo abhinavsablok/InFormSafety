@@ -41,8 +41,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             } else if (msg.what == 222){
-//                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                Intent intent = new Intent(MainActivity.this, DraftsActivity.class);
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+//                Intent intent = new Intent(MainActivity.this, MinorFormActivity.class);
+//                Intent intent = new Intent(MainActivity.this, IllnessFormActivity.class);
+//                Intent intent = new Intent(MainActivity.this, DraftsActivity.class);
                 startActivity(intent);
                 finish();
             }

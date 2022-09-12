@@ -32,10 +32,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MinorFormActivity extends AppCompatActivity {
+public class IllnessFormActivity extends AppCompatActivity {
 
-    Spinner child, teacherProvided, teacherChecked, location, treatment;
-    EditText date, time, description, comments;
+    Spinner child, teacherProvided, teacherChecked, treatment;
+    EditText date, incidentTime, guardianArrivedTime, observation, notes;
     Button save, send;
     FirebaseAuth mAuth;
     FirebaseHelper fbh;
@@ -44,10 +44,11 @@ public class MinorFormActivity extends AppCompatActivity {
     String myKey;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_minor_form);
+        setContentView(R.layout.activity_illness_form);
 
         fbh = new FirebaseHelper();
         db = FirebaseDatabase.getInstance("https://informsafetydb-default-rtdb.asia-southeast1.firebasedatabase.app/");
@@ -58,39 +59,18 @@ public class MinorFormActivity extends AppCompatActivity {
         child = findViewById(R.id.child);
         teacherProvided = findViewById(R.id.teacherProvided);
         teacherChecked = findViewById(R.id.teacherChecked);
-        location = findViewById(R.id.location);
         treatment = findViewById(R.id.treatment);
         date = findViewById(R.id.date);
-        time = findViewById(R.id.time);
-        description = findViewById(R.id.description);
-        comments = findViewById(R.id.comments);
+        incidentTime = findViewById(R.id.incidentTime);
+        guardianArrivedTime = findViewById(R.id.guardianArrivedTime);
+        observation = findViewById(R.id.observation);
+        notes = findViewById(R.id.notes);
         save = findViewById(R.id.save);
         send = findViewById(R.id.send);
 
         ClickSave();
 
 
-        // Dropdown list for incident locations
-        List<String> locationList = new ArrayList<>();
-        locationList.add("Swings");
-        locationList.add("Sandpit");
-        locationList.add("Challenge course");
-        locationList.add("Fixed equipment");
-        locationList.add("Pathway/tracks");
-        locationList.add("Grass/safety surface");
-        locationList.add("Water trough");
-        locationList.add("Shed/storage area");
-        locationList.add("Ride-on vehicles");
-        locationList.add("Carpentry area");
-        locationList.add("Indoor play area");
-        locationList.add("Bathroom/Toilets");
-        locationList.add("Kitchen");
-        locationList.add("Entry areas");
-        locationList.add("Children in conflict");
-        locationList.add("Natural play");
-        locationList.add("Excursion");
-        locationList.add("Unwell/ill");
-        locationList.add("Other");
 
         // Dropdown list for incident treatments
         List<String> treatmentList = new ArrayList<>();
@@ -108,7 +88,6 @@ public class MinorFormActivity extends AppCompatActivity {
         treatmentList.add("Other");
 
 
-
         // Dropdown for Child
         ArrayList<String> childList = new ArrayList<>();
         ArrayAdapter childAdapter = new ArrayAdapter<String>(this, R.layout.list_item, childList);
@@ -123,6 +102,7 @@ public class MinorFormActivity extends AppCompatActivity {
                     // TODO: Add encrypted child names and decrypt here
 //                    childList.add(decrypt(snapshot.child("Name").getValue().toString()));
                     childList.add(snapshot.child("Name").getValue().toString());
+
                 }
                 childAdapter.notifyDataSetChanged();
             }
@@ -132,10 +112,6 @@ public class MinorFormActivity extends AppCompatActivity {
             }
         });
 
-
-        // Dropdown for Location
-        ArrayAdapter locationAdapter = new ArrayAdapter<String>(this, R.layout.list_item, locationList);
-        location.setAdapter(locationAdapter);
 
         // Dropdown for Treatment
         ArrayAdapter treatmentAdapter = new ArrayAdapter<String>(this, R.layout.list_item, treatmentList);
@@ -165,28 +141,11 @@ public class MinorFormActivity extends AppCompatActivity {
             }
         });
 
-//        DatabaseReference teacherRef = ref.child("Teacher");
-//        teacherRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                teacherList.clear();
-//                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-//                    teacherList.add(decrypt(snapshot.child("Name").getValue().toString()));
-//                }
-//                teacherAdapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//            }
-//        });
-
 
         // If user opened a saved form, populate the form with the saved values
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             myKey = extras.getString("Key");
-//            Toast.makeText(MinorFormActivity.this, myKey, Toast.LENGTH_SHORT).show();
 
             // Query the database for the clicked record
             DatabaseReference draftsRef = ref.child("Incident");
@@ -195,8 +154,6 @@ public class MinorFormActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                        // Do something with the selected draft form
-//                        Toast.makeText(MinorFormActivity.this, snapshot.toString() ,Toast.LENGTH_SHORT).show();
 
                         // Set form elements to show the saved values
                         String qChildName = decrypt(snapshot.child("childName").getValue().toString());
@@ -206,20 +163,17 @@ public class MinorFormActivity extends AppCompatActivity {
                         }
 
                         date.setText(snapshot.child("incidentDate").getValue().toString());
-                        time.setText(snapshot.child("incidentTime").getValue().toString());
-                        description.setText(decrypt(snapshot.child("description").getValue().toString()));
-
-                        String qLocation = snapshot.child("location").getValue().toString();
-                        if (qLocation != null) {
-                            int spinnerPosition = locationAdapter.getPosition(qLocation);
-                            location.setSelection(spinnerPosition);
-                        }
+                        observation.setText(decrypt(snapshot.child("observation").getValue().toString()));
 
                         String qTreatment = snapshot.child("treatment").getValue().toString();
                         if (qTreatment != null) {
                             int spinnerPosition = treatmentAdapter.getPosition(qTreatment);
                             treatment.setSelection(spinnerPosition);
                         }
+
+                        notes.setText(decrypt(snapshot.child("notes").getValue().toString()));
+                        incidentTime.setText(snapshot.child("incidentTime").getValue().toString());
+                        guardianArrivedTime.setText(snapshot.child("guardianArrivedTime").getValue().toString());
 
                         String qTeacherProvided = decrypt(snapshot.child("teacherProvided").getValue().toString());
                         if (qTeacherProvided != null) {
@@ -233,9 +187,6 @@ public class MinorFormActivity extends AppCompatActivity {
                             teacherChecked.setSelection(spinnerPosition);
                         }
 
-                        comments.setText(decrypt(snapshot.child("comments").getValue().toString()));
-
-
                     }
                 }
 
@@ -246,7 +197,6 @@ public class MinorFormActivity extends AppCompatActivity {
 
 
         }
-
     }
 
 
@@ -262,16 +212,16 @@ public class MinorFormActivity extends AppCompatActivity {
                 // Get text from form elements
                 String myChild = child.getSelectedItem().toString();
                 String myDate = date.getText().toString();
-                String myTime = time.getText().toString();
-                String myDescription = description.getText().toString();
-                String myLocation = location.getSelectedItem().toString();
+                String myObservation = observation.getText().toString();
                 String myTreatment = treatment.getSelectedItem().toString();
+                String myNotes = notes.getText().toString();
+                String myIncidentTime = incidentTime.getText().toString();
+                String myGuardianArrivedTime = guardianArrivedTime.getText().toString();
                 String myTeacherProvided = teacherProvided.getSelectedItem().toString();
                 String myTeacherChecked = teacherChecked.getSelectedItem().toString();
-                String myComments = comments.getText().toString();
 
                 // Additional data for form status
-                String formType = "Minor Incident";
+                String formType = "Illness";
                 boolean mSentToGuardian = false;
                 boolean mSignedByGuardian = false;
                 String mPdfFilename = "";
@@ -281,13 +231,13 @@ public class MinorFormActivity extends AppCompatActivity {
                 map.put("userID", myUID);
                 map.put("childName", encrypt(myChild));
                 map.put("incidentDate", myDate);
-                map.put("incidentTime", myTime);
-                map.put("description", encrypt(myDescription));
-                map.put("location", myLocation);
+                map.put("observation", encrypt(myObservation));
                 map.put("treatment", myTreatment);
+                map.put("notes", encrypt(myNotes));
+                map.put("incidentTime", myIncidentTime);
+                map.put("guardianArrivedTime", myGuardianArrivedTime);
                 map.put("teacherProvided", encrypt(myTeacherProvided));
                 map.put("teacherChecked", encrypt(myTeacherChecked));
-                map.put("comments", encrypt(myComments));
                 map.put("formType", formType);
                 map.put("sentToGuardian", mSentToGuardian);
                 map.put("signedByGuardian", mSignedByGuardian);
@@ -302,10 +252,9 @@ public class MinorFormActivity extends AppCompatActivity {
                     ref.child("Incident").child(myKey).setValue(map);
                 }
 
-                Toast.makeText(MinorFormActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                Toast.makeText(IllnessFormActivity.this, "Saved", Toast.LENGTH_SHORT).show();
 
             }
         });
     }
-
 }
