@@ -48,9 +48,12 @@ public class FirebaseHelper {
 //        insertTeacher("A Teacher", "donoterase@huttkindergartens.org.nz", "0210727598");
 //        insertGuardian("Guardian 1", "imaparent@gmail.com", "0270727676");
 //        insertGuardian("Guardian 2", "imaparenttoo@gmail.com", "0220727622");
-//        insertChild("Guardian 1", "Robert", "Bobby Tables");
-//        insertChild("Guardian 1", "Timothy", "Little Timmy");
-//        insertChild("Guardian 2", "Jackson", "Jack Jack");
+//        insertUser("test123", "test name", "test email", "123", "test", false);
+
+        // Test insert child: Get parents UID from Firebase Authentication
+//        insertChild("PhVaPsq6QpZH3ykYMCgH1PT1xeS2", "Bart Simpson");
+//        insertChild("PhVaPsq6QpZH3ykYMCgH1PT1xeS2", "Lisa Simpson");
+//        insertChild("jfwOV5GCXNQi1q6vLobVxKyySqD3", "Ralph Wiggum");
 
 
 
@@ -141,6 +144,8 @@ public class FirebaseHelper {
     public void insertUser(String UID, String name, String email, String phone, String password, boolean isTeacher) {
         HashMap<String, Object> map = new HashMap<>();
 //        map.put("UID", UID);
+//        String encName = encrypt(name);
+//        String plainName = decrypt(encName);
         map.put("Name", encrypt(name));
         map.put("Email", encrypt(email));
         map.put("Phone", encrypt(phone));
@@ -162,32 +167,38 @@ public class FirebaseHelper {
 //    }
 
     // Insert a Child with a reference to the ID of their Parent
-    public void insertChild(String parentName, String name, String nickname) {
+    public void insertChild(String parentKey, String name) {
+
+    // Create a hashmap for Child data including Parent's key
+    HashMap<String, Object> map = new HashMap<>();
+    map.put("ParentKey", parentKey);
+    map.put("Name", encrypt(name));
+    ref.child("Child").push().updateChildren(map);
 
         // Query to get the parent given their name
-        Query parentQuery = ref.child("Guardian").orderByChild("Name").equalTo(encrypt(parentName));
-        parentQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                // Get the key for the Parent
-                DataSnapshot mySnapshot = dataSnapshot.getChildren().iterator().next();
-                String parentKey = mySnapshot.getKey();
-                System.out.println(parentKey);
-
-                // Create a hashmap for Child data including Parent's key
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("ParentKey", parentKey);
-                map.put("Name", encrypt(name));
-                map.put("Nickname", encrypt(nickname));
-                ref.child("Child").push().updateChildren(map);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e(TAG, "onCancelled", databaseError.toException());
-            }
-        });
+//        String encParentName = encrypt(parentName);
+//        Query parentQuery = ref.child("User").orderByChild("Name").equalTo(encParentName);
+//        parentQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//                // Get the key for the Parent
+//                DataSnapshot mySnapshot = dataSnapshot.getChildren().iterator().next();
+//                String parentKey = mySnapshot.getKey();
+//                System.out.println(parentKey);
+//
+//                // Create a hashmap for Child data including Parent's key
+//                HashMap<String, Object> map = new HashMap<>();
+//                map.put("ParentKey", parentKey);
+//                map.put("Name", encrypt(name));
+//                ref.child("Child").push().updateChildren(map);
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                Log.e(TAG, "onCancelled", databaseError.toException());
+//            }
+//        });
     }
 
     // Insert an Incident Form
@@ -197,7 +208,6 @@ public class FirebaseHelper {
 
 
 
-//    WriIxDqDYeY=
 
 
 }

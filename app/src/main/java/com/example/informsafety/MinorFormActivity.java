@@ -120,9 +120,7 @@ public class MinorFormActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 childList.clear();
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                    // TODO: Add encrypted child names and decrypt here
-//                    childList.add(decrypt(snapshot.child("Name").getValue().toString()));
-                    childList.add(snapshot.child("Name").getValue().toString());
+                    childList.add(decrypt(snapshot.child("Name").getValue().toString()));
                 }
                 childAdapter.notifyDataSetChanged();
             }

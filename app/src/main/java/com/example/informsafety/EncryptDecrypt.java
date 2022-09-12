@@ -44,7 +44,7 @@ public class EncryptDecrypt {
             Cipher cipher = Cipher.getInstance(MODE);
             cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, new IvParameterSpec(IV.getBytes()));
             byte[] values = cipher.doFinal(value.getBytes());
-            output = Base64.encodeToString(values, Base64.DEFAULT);
+            output = Base64.encodeToString(values, Base64.DEFAULT).trim();
         } catch (NoSuchPaddingException e) {
             e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {
