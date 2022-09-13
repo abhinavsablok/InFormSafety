@@ -59,12 +59,21 @@
         android:inputType="text" />
 
     <EditText
+        android:id="@+id/confirmNewPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginVertical="8dp"
+        android:hint="Confirm New Password"
+        android:inputType="text" />
+
+    <EditText
         android:id="@+id/currentPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="8dp"
         android:layout_marginVertical="8dp"
-        android:hint="Confirm Current Password"
+        android:hint="Current Password"
         android:inputType="text" />
 
     <Button
