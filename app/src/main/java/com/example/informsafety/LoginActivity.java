@@ -65,6 +65,12 @@ public class LoginActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         fbh = new FirebaseHelper();
 
+        // TESTING: enter test users details on start
+//        email.setText("teacher1@huttkindergartens.org.nz");
+//        password.setText("Teacher1");
+//        email.setText("imaparent@gmail.com");
+//        password.setText("Guardian1");
+
 
         ClickLogin();
 
@@ -202,6 +208,9 @@ public class LoginActivity extends AppCompatActivity {
                     reg_password.setError("Please fill out this field");
                 } else if (confirmPassword.getText().toString().trim().isEmpty()) {
                     confirmPassword.setError("Please fill out this field");
+                } else if (!confirmPassword.getText().toString().equals(reg_password.getText().toString())) {
+                    confirmPassword.setError("Confirm Password must match Password");
+
                 } else {
                     String mName = name.getText().toString();
                     String mContact = contact.getText().toString();
