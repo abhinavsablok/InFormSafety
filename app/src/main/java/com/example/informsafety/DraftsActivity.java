@@ -104,9 +104,9 @@ public class DraftsActivity extends AppCompatActivity {
                 else if (myFormType.equals("Illness")) {
                     intent = new Intent(DraftsActivity.this, IllnessFormActivity.class);
                 }
-//                else if (myFormType == "Serious Incident") {
-//                    intent = new Intent(DraftsActivity.this, SeriousFormActivity.class);
-//                }
+                else if (myFormType.equals("Serious Incident")) {
+                    intent = new Intent(DraftsActivity.this, SeriousFormActivity.class);
+                }
 
                 // Open the Form and pass the key to query form contents
                 intent.putExtra("Key", myKey);

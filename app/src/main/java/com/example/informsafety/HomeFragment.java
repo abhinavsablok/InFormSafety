@@ -41,13 +41,13 @@ public class HomeFragment extends Fragment implements AdapterView.OnItemClickLis
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
         if (i == 0) {
-            Intent intent = new Intent(getActivity().getApplication(), MinorIncidentFormActivity.class);
+            Intent intent = new Intent(getActivity().getApplication(), MinorFormActivity.class);
             startActivity(intent);
         } if (i == 1) {
-            Intent intent = new Intent(getActivity().getApplication(), TestActivity.class);
+            Intent intent = new Intent(getActivity().getApplication(), SeriousFormActivity.class);
             startActivity(intent);
         } if (i == 2) {
-            Intent intent = new Intent(getActivity().getApplication(), TestActivity.class);
+            Intent intent = new Intent(getActivity().getApplication(), IllnessFormActivity.class);
             startActivity(intent);
         }
     }

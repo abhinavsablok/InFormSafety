@@ -35,8 +35,11 @@ import java.util.List;
 
 public class SeriousFormActivity extends AppCompatActivity {
 
-    Spinner child, teacherProvided, teacherChecked, location, treatment;
-    EditText date, time, description, comments;
+    Spinner child, injury, location, treatment, ambulanceDoctorCalled, likelihood,
+            teacherActionsRequiredBy, seniorTeacherInvestigationRequired, worksafeMoeAdvised,
+            adviseRph, followUpWithGuardian, teacherProvided, teacherChecked;
+    EditText date, time, description, ambulanceDoctorCalledTime, guardianContactedTime,
+            guardianArrivedTime, actionsRequired, dateActionsRequired, comments;
     Button save, send;
     FirebaseAuth mAuth;
     FirebaseHelper fbh;
@@ -57,19 +60,52 @@ public class SeriousFormActivity extends AppCompatActivity {
 
         // Get references for form elements
         child = findViewById(R.id.child);
-        teacherProvided = findViewById(R.id.teacherProvided);
-        teacherChecked = findViewById(R.id.teacherChecked);
-        location = findViewById(R.id.location);
-        treatment = findViewById(R.id.treatment);
         date = findViewById(R.id.date);
         time = findViewById(R.id.time);
         description = findViewById(R.id.description);
+        injury = findViewById(R.id.injury);
+        location = findViewById(R.id.location);
+        treatment = findViewById(R.id.treatment);
+        ambulanceDoctorCalled = findViewById(R.id.ambulanceDoctorCalled);
+        ambulanceDoctorCalledTime = findViewById(R.id.ambulanceDoctorCalledTime);
+        guardianContactedTime = findViewById(R.id.guardianContactedTime);
+        guardianArrivedTime = findViewById(R.id.guardianArrivedTime);
+        likelihood = findViewById(R.id.likelihood);
+        actionsRequired = findViewById(R.id.actionsRequired);
+        teacherActionsRequiredBy = findViewById(R.id.teacherActionsRequiredBy);
+        dateActionsRequired = findViewById(R.id.dateActionsRequired);
+        seniorTeacherInvestigationRequired = findViewById(R.id.seniorTeacherInvestigationRequired);
+        worksafeMoeAdvised = findViewById(R.id.worksafeMoeAdvised);
+        adviseRph = findViewById(R.id.adviseRph);
+        followUpWithGuardian = findViewById(R.id.followUpWithGuardian);
+        teacherProvided = findViewById(R.id.teacherProvided);
+        teacherChecked = findViewById(R.id.teacherChecked);
         comments = findViewById(R.id.comments);
         save = findViewById(R.id.save);
         send = findViewById(R.id.send);
 
         ClickSave();
+//        ClickSend();
 
+
+        // Dropdown list for injury types
+        List<String> injuryList = new ArrayList<>();
+        injuryList.add("Bruising");
+        injuryList.add("Insect bite/sting");
+        injuryList.add("Laceration/cut");
+        injuryList.add("Nose bleed");
+        injuryList.add("Choking");
+        injuryList.add("Foreign body");
+        injuryList.add("Dental/Mouth");
+        injuryList.add("Strain/sprain");
+        injuryList.add("Concussion/shock");
+        injuryList.add("Allergic reaction");
+        injuryList.add("Dislocation/Fracture");
+        injuryList.add("Burn/scald");
+        injuryList.add("Internal");
+        injuryList.add("Chemical reaction");
+        injuryList.add("Human bite");
+        injuryList.add("Other");
 
         // Dropdown list for incident locations
         List<String> locationList = new ArrayList<>();
@@ -108,6 +144,41 @@ public class SeriousFormActivity extends AppCompatActivity {
         treatmentList.add("Medication given");
         treatmentList.add("Other");
 
+        // Dropdown list for incident likelihood
+        List<String> likelihoodList = new ArrayList<>();
+        likelihoodList.add("Very likely");
+        likelihoodList.add("Likely");
+        likelihoodList.add("Rare");
+
+        // List for Yes/No dropdowns
+        List<String> yesNo = new ArrayList<>();
+        yesNo.add("Yes");
+        yesNo.add("No");
+
+
+        // Dropdown for Injury Type
+        ArrayAdapter injuryAdapter = new ArrayAdapter<String>(this, R.layout.list_item, injuryList);
+        injury.setAdapter(injuryAdapter);
+
+        // Dropdown for Location
+        ArrayAdapter locationAdapter = new ArrayAdapter<String>(this, R.layout.list_item, locationList);
+        location.setAdapter(locationAdapter);
+
+        // Dropdown for Treatment
+        ArrayAdapter treatmentAdapter = new ArrayAdapter<String>(this, R.layout.list_item, treatmentList);
+        treatment.setAdapter(treatmentAdapter);
+
+        // Dropdown for Likelihood
+        ArrayAdapter likelihoodAdapter = new ArrayAdapter<String>(this, R.layout.list_item, likelihoodList);
+        likelihood.setAdapter(likelihoodAdapter);
+
+        // Yes/No dropdowns
+        ArrayAdapter yesNoAdapter = new ArrayAdapter<String>(this, R.layout.list_item, yesNo);
+        ambulanceDoctorCalled.setAdapter(yesNoAdapter);
+        seniorTeacherInvestigationRequired.setAdapter(yesNoAdapter);
+        worksafeMoeAdvised.setAdapter(yesNoAdapter);
+        adviseRph.setAdapter(yesNoAdapter);
+        followUpWithGuardian.setAdapter(yesNoAdapter);
 
 
         // Dropdown for Child
@@ -132,18 +203,10 @@ public class SeriousFormActivity extends AppCompatActivity {
         });
 
 
-        // Dropdown for Location
-        ArrayAdapter locationAdapter = new ArrayAdapter<String>(this, R.layout.list_item, locationList);
-        location.setAdapter(locationAdapter);
-
-        // Dropdown for Treatment
-        ArrayAdapter treatmentAdapter = new ArrayAdapter<String>(this, R.layout.list_item, treatmentList);
-        treatment.setAdapter(treatmentAdapter);
-
-
         // Dropdowns for Teachers
         ArrayList<String> teacherList = new ArrayList<>();
         ArrayAdapter teacherAdapter = new ArrayAdapter<String>(this, R.layout.list_item, teacherList);
+        teacherActionsRequiredBy.setAdapter(teacherAdapter);
         teacherProvided.setAdapter(teacherAdapter);
         teacherChecked.setAdapter(teacherAdapter);
 
@@ -184,26 +247,28 @@ public class SeriousFormActivity extends AppCompatActivity {
 //                        Toast.makeText(MinorFormActivity.this, snapshot.toString() ,Toast.LENGTH_SHORT).show();
 
                         // Set form elements to show the saved values
+                        // Text/date/time fields
+                        date.setText(snapshot.child("incidentDate").getValue().toString());
+                        time.setText(snapshot.child("incidentTime").getValue().toString());
+                        description.setText(decrypt(snapshot.child("description").getValue().toString()));
+                        ambulanceDoctorCalledTime.setText(snapshot.child("ambulanceDoctorCalledTime").getValue().toString());
+                        guardianContactedTime.setText(snapshot.child("guardianContactedTime").getValue().toString());
+                        guardianArrivedTime.setText(snapshot.child("guardianArrivedTime").getValue().toString());
+                        actionsRequired.setText(decrypt(snapshot.child("actionsRequired").getValue().toString()));
+                        dateActionsRequired.setText(snapshot.child("dateActionsRequired").getValue().toString());
+                        comments.setText(decrypt(snapshot.child("comments").getValue().toString()));
+
+                        // Child and Teachers
                         String qChildName = decrypt(snapshot.child("childName").getValue().toString());
                         if (qChildName != null) {
                             int spinnerPosition = childAdapter.getPosition(qChildName);
                             child.setSelection(spinnerPosition);
                         }
 
-                        date.setText(snapshot.child("incidentDate").getValue().toString());
-                        time.setText(snapshot.child("incidentTime").getValue().toString());
-                        description.setText(decrypt(snapshot.child("description").getValue().toString()));
-
-                        String qLocation = snapshot.child("location").getValue().toString();
-                        if (qLocation != null) {
-                            int spinnerPosition = locationAdapter.getPosition(qLocation);
-                            location.setSelection(spinnerPosition);
-                        }
-
-                        String qTreatment = snapshot.child("treatment").getValue().toString();
-                        if (qTreatment != null) {
-                            int spinnerPosition = treatmentAdapter.getPosition(qTreatment);
-                            treatment.setSelection(spinnerPosition);
+                        String qTeacherActionsRequiredBy = decrypt(snapshot.child("teacherActionsRequiredBy").getValue().toString());
+                        if (qTeacherActionsRequiredBy != null) {
+                            int spinnerPosition = teacherAdapter.getPosition(qTeacherActionsRequiredBy);
+                            teacherActionsRequiredBy.setSelection(spinnerPosition);
                         }
 
                         String qTeacherProvided = decrypt(snapshot.child("teacherProvided").getValue().toString());
@@ -218,8 +283,61 @@ public class SeriousFormActivity extends AppCompatActivity {
                             teacherChecked.setSelection(spinnerPosition);
                         }
 
-                        comments.setText(decrypt(snapshot.child("comments").getValue().toString()));
+                        // Incident categories
+                        String qInjury = snapshot.child("injury").getValue().toString();
+                        if (qInjury != null) {
+                            int spinnerPosition = injuryAdapter.getPosition(qInjury);
+                            injury.setSelection(spinnerPosition);
+                        }
 
+                        String qLocation = snapshot.child("location").getValue().toString();
+                        if (qLocation != null) {
+                            int spinnerPosition = locationAdapter.getPosition(qLocation);
+                            location.setSelection(spinnerPosition);
+                        }
+
+                        String qTreatment = snapshot.child("treatment").getValue().toString();
+                        if (qTreatment != null) {
+                            int spinnerPosition = treatmentAdapter.getPosition(qTreatment);
+                            treatment.setSelection(spinnerPosition);
+                        }
+
+                        String qLikelihood = snapshot.child("likelihood").getValue().toString();
+                        if (qLikelihood != null) {
+                            int spinnerPosition = likelihoodAdapter.getPosition(qLikelihood);
+                            likelihood.setSelection(spinnerPosition);
+                        }
+
+                        // Yes/No fields
+                        String qAmbulanceDoctorCalled = snapshot.child("ambulanceDoctorCalled").getValue().toString();
+                        if (qAmbulanceDoctorCalled != null) {
+                            int spinnerPosition = yesNoAdapter.getPosition(qAmbulanceDoctorCalled);
+                            ambulanceDoctorCalled.setSelection(spinnerPosition);
+                        }
+
+                        String qSeniorTeacherInvestigationRequired = snapshot.child("seniorTeacherInvestigationRequired").getValue().toString();
+                        if (qSeniorTeacherInvestigationRequired != null) {
+                            int spinnerPosition = yesNoAdapter.getPosition(qSeniorTeacherInvestigationRequired);
+                            seniorTeacherInvestigationRequired.setSelection(spinnerPosition);
+                        }
+
+                        String qWorksafeMoeAdvised = snapshot.child("worksafeMoeAdvised").getValue().toString();
+                        if (qWorksafeMoeAdvised != null) {
+                            int spinnerPosition = yesNoAdapter.getPosition(qWorksafeMoeAdvised);
+                            worksafeMoeAdvised.setSelection(spinnerPosition);
+                        }
+
+                        String qAdviseRph = snapshot.child("adviseRph").getValue().toString();
+                        if (qAdviseRph != null) {
+                            int spinnerPosition = yesNoAdapter.getPosition(qAdviseRph);
+                            adviseRph.setSelection(spinnerPosition);
+                        }
+
+                        String qFollowUpWithGuardian = snapshot.child("followUpWithGuardian").getValue().toString();
+                        if (qFollowUpWithGuardian != null) {
+                            int spinnerPosition = yesNoAdapter.getPosition(qFollowUpWithGuardian);
+                            followUpWithGuardian.setSelection(spinnerPosition);
+                        }
 
                     }
                 }
@@ -250,14 +368,27 @@ public class SeriousFormActivity extends AppCompatActivity {
                 String myDate = date.getText().toString();
                 String myTime = time.getText().toString();
                 String myDescription = description.getText().toString();
+                String myInjury = injury.getSelectedItem().toString();
                 String myLocation = location.getSelectedItem().toString();
                 String myTreatment = treatment.getSelectedItem().toString();
+                String myAmbulanceDoctorCalled = ambulanceDoctorCalled.getSelectedItem().toString();
+                String myAmbulanceDoctorCalledTime = ambulanceDoctorCalledTime.getText().toString();
+                String myGuardianContactedTime = guardianContactedTime.getText().toString();
+                String myGuardianArrivedTime = guardianArrivedTime.getText().toString();
+                String myLikelihood = likelihood.getSelectedItem().toString();
+                String myActionsRequired = actionsRequired.getText().toString();
+                String myTeacherActionsRequiredBy = teacherActionsRequiredBy.getSelectedItem().toString();
+                String myDateActionsRequired = dateActionsRequired.getText().toString();
+                String mySeniorTeacherInvestigationRequired = seniorTeacherInvestigationRequired.getSelectedItem().toString();
+                String myWorksafeMoeAdvised = worksafeMoeAdvised.getSelectedItem().toString();
+                String myAdviseRph = adviseRph.getSelectedItem().toString();
+                String myFollowUpWithGuardian = followUpWithGuardian.getSelectedItem().toString();
                 String myTeacherProvided = teacherProvided.getSelectedItem().toString();
                 String myTeacherChecked = teacherChecked.getSelectedItem().toString();
                 String myComments = comments.getText().toString();
 
                 // Additional data for form status
-                String formType = "Minor Incident";
+                String formType = "Serious Incident";
                 boolean mSentToGuardian = false;
                 boolean mSignedByGuardian = false;
                 String mPdfFilename = "";
@@ -269,8 +400,21 @@ public class SeriousFormActivity extends AppCompatActivity {
                 map.put("incidentDate", myDate);
                 map.put("incidentTime", myTime);
                 map.put("description", encrypt(myDescription));
+                map.put("injury", myInjury);
                 map.put("location", myLocation);
                 map.put("treatment", myTreatment);
+                map.put("ambulanceDoctorCalled", myAmbulanceDoctorCalled);
+                map.put("ambulanceDoctorCalledTime", myAmbulanceDoctorCalledTime);
+                map.put("guardianContactedTime", myGuardianContactedTime);
+                map.put("guardianArrivedTime", myGuardianArrivedTime);
+                map.put("likelihood", myLikelihood);
+                map.put("actionsRequired", encrypt(myActionsRequired));
+                map.put("teacherActionsRequiredBy", encrypt(myTeacherActionsRequiredBy));
+                map.put("dateActionsRequired", myDateActionsRequired);
+                map.put("seniorTeacherInvestigationRequired", mySeniorTeacherInvestigationRequired);
+                map.put("worksafeMoeAdvised", myWorksafeMoeAdvised);
+                map.put("adviseRph", myAdviseRph);
+                map.put("followUpWithGuardian", myFollowUpWithGuardian);
                 map.put("teacherProvided", encrypt(myTeacherProvided));
                 map.put("teacherChecked", encrypt(myTeacherChecked));
                 map.put("comments", encrypt(myComments));
