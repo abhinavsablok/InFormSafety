@@ -66,8 +66,8 @@ public class LoginActivity extends AppCompatActivity {
         fbh = new FirebaseHelper();
 
         // TESTING: enter test users details on start
-//        email.setText("teacher1@huttkindergartens.org.nz");
-//        password.setText("Teacher1");
+        email.setText("teacher1@huttkindergartens.org.nz");
+        password.setText("Teacher1");
 //        email.setText("imaparent@gmail.com");
 //        password.setText("Guardian1");
 
