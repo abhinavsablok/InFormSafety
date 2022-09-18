@@ -45,7 +45,7 @@
     <item android:title="Services">
         <menu>
             <item
-                android:id="@+id/navigation_about_us"
+                android:id="@+id/navigation_about"
                 android:icon="@drawable/ic_about"
                 android:title="About" />
 

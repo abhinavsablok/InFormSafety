@@ -24,13 +24,10 @@
         <entry key="..\:/Users/abhin/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/drawer_nav_header.xml" value="0.2658514492753623" />
         <entry key="..\:/Users/abhin/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/fragment_home.xml" value="0.2658514492753623" />
         <entry key="..\:/Users/abhin/AndroidStudioProjects/InFormSafety/app/src/main/res/menu/drawer_menu.xml" value="0.3223958333333333" />
-        <entry key="..\:/Users/rajiv.anand/AndroidStudioProjects/InFormSafetyDB/InFormSafety/app/src/main/res/layout/activity_home.xml" value="0.1328125" />
-        <entry key="..\:/Users/rajiv.anand/AndroidStudioProjects/InFormSafetyDB/InFormSafety/app/src/main/res/layout/activity_login.xml" value="0.1328125" />
-        <entry key="..\:/Users/rajiv.anand/AndroidStudioProjects/InFormSafetyDB/InFormSafety/app/src/main/res/layout/activity_main.xml" value="0.1328125" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

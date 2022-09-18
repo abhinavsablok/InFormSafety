@@ -10,7 +10,6 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -29,22 +28,20 @@ import com.google.firebase.firestore.auth.User;
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText email, password, reg_password,
-            name, contact, reg_email, confirmPassword, resetEmail;
-
+    EditText email, password, reg_password, name, contact, reg_email, confirmPassword, resetEmail;
     FirebaseAuth mAuth;
+
+    FirebaseHelper fbh;
 
     Button login, signUp, register, resetPassword, reset;
     TextInputLayout txtInLayoutUsername, txtInLayoutPassword;
-    CheckBox rememberMe;
-
     ProgressBar progressBar;
 
     //    private DatabaseHelper databaseHelper;
 //    long userID;
 //    long teacherID;
 //    long guardianID;
-    com.example.informsafety.RegistrationForm registrationForm;
+//    com.example.informsafety.RegistrationForm registrationForm;
 //    com.example.informsafety.UserModel userModel;
 //    LoginForm loginForm;
 //    com.example.informsafety.ResetPasswordForm resetPasswordForm;
@@ -61,12 +58,13 @@ public class LoginActivity extends AppCompatActivity {
         login = findViewById(R.id.loginBtn);
         txtInLayoutUsername = findViewById(R.id.txtInLayoutEmail);
         txtInLayoutPassword = findViewById(R.id.txtInLayoutPassword);
-        rememberMe = findViewById(R.id.rememberMe);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         resetPassword = findViewById(R.id.resetPassword);
         mAuth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.progressBar);
+        fbh = new FirebaseHelper();
+
 
         ClickLogin();
 
@@ -99,14 +97,22 @@ public class LoginActivity extends AppCompatActivity {
                             .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                 @Override
                                 public void onSuccess(AuthResult authResult) {
-                                    Toast.makeText(LoginActivity.this, "Logged In!", Toast.LENGTH_LONG).show();
-                                    startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-                                    finish();
+//                                    if (mAuth.getCurrentUser().isEmailVerified()) {
+                                        startActivity(new Intent(LoginActivity.this, ProgressBarActivity.class));
+//                                        startActivity(new Intent(LoginActivity.this, MinorFormActivity.class));
+//                                        startActivity(new Intent(LoginActivity.this, IllnessFormActivity.class));
+//                                        startActivity(new Intent(LoginActivity.this, DraftsActivity.class));
+//                                        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                                        Toast.makeText(LoginActivity.this, "Logged In!", Toast.LENGTH_SHORT).show();
+                                        finish();
+//                                    } else {
+//                                        Toast.makeText(LoginActivity.this, "Please Verify this email before login!", Toast.LENGTH_SHORT).show();
+//                                    }
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(LoginActivity.this, "Login Failed! Please Try Again!", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(LoginActivity.this, "Login Failed! Please Try Again!", Toast.LENGTH_SHORT).show();
                                 }
                             });
                 } else if (email.getText().toString().trim().isEmpty()) {
@@ -126,12 +132,6 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     txtInLayoutUsername.setError("Entered email or password is incorrect");
                     txtInLayoutPassword.setError("Entered email or password is incorrect");
-                }
-
-                if (rememberMe.isChecked()) {
-
-                } else {
-
                 }
             }
         });
@@ -160,12 +160,10 @@ public class LoginActivity extends AppCompatActivity {
                     mAuth.sendPasswordResetEmail(mEmail).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-
                             if (task.isSuccessful()) {
-                                Toast.makeText(LoginActivity.this, "Check your email to reset your password!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(LoginActivity.this, "Check your email to reset your password!", Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(LoginActivity.this, "Something went wrong! Please Try again!", Toast.LENGTH_LONG).show();
-
+                                Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -217,14 +215,24 @@ public class LoginActivity extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
-                                            RegistrationForm register = new RegistrationForm(mName, mContact, mEmail, mPassword, mConfirmPassword);
-                                            FirebaseDatabase.getInstance().getReference("User")
-                                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                                    .setValue(register);
-                                            Toast.makeText(LoginActivity.this, "Registration Completed", Toast.LENGTH_LONG).show();
-                                            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                                            mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Toast.makeText(LoginActivity.this, "Registration Completed! Please check your email for verification.", Toast.LENGTH_SHORT).show();
+                                                        // Get UID of new user
+                                                        String myUID = mAuth.getCurrentUser().getUid();
+                                                        // Check whether the user is a Teacher based on their email address
+                                                        boolean isTeacher = fbh.isTeacherEmail(mEmail);
+                                                        // Insert into User list
+                                                        fbh.insertUser(myUID, mName, mEmail, mContact, mPassword, isTeacher);
+                                                    } else {
+                                                        Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
                                         } else {
-                                            Toast.makeText(LoginActivity.this, "Failed to register the user. Please Try Again!", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });

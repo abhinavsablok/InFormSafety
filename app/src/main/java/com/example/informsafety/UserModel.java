@@ -2,27 +2,34 @@ package com.example.informsafety;
 
 // UserModel object holds data of the logged in user.
 
+import java.util.HashMap;
+
 public class UserModel {
 
-    private int userID;
-    private int teacherID;
-    private int guardianID;
+//    private int userID;
+//    private int teacherID;
+//    private int guardianID;
     public boolean isTeacher;
     private String name;
     private String email;
     private String phone;
-    private String password;
+//    private String password;
 
 
-    public UserModel(int userID, int teacherID, int guardianID, boolean isTeacher, String name, String email, String phone, String password) {
-        this.userID = userID;
-        this.teacherID = teacherID;
-        this.guardianID = guardianID;
-        this.isTeacher = isTeacher;
+//    public UserModel(int userID, int teacherID, int guardianID, boolean isTeacher, String name, String email, String phone, String password) {}
+
+    public UserModel(String name, String email, String phone) {
+//        this.userID = userID;
+//        this.teacherID = teacherID;
+//        this.guardianID = guardianID;
+        this.isTeacher = true;
         this.name = name;
         this.email = email;
         this.phone = phone;
-        this.password = password;
+//        this.password = password;
+    }
+
+    public UserModel(String mName, String mContact, String mEmail, String mPassword, String mConfirmPassword) {
     }
 
 
@@ -30,46 +37,55 @@ public class UserModel {
     @Override
     public String toString() {
         return "userModel{" +
-                "id=" + userID +
-                ", teacherID='" + teacherID + '\'' +
-                ", guardianID='" + guardianID + '\'' +
+//                "id=" + userID +
+//                ", teacherID='" + teacherID + '\'' +
+//                ", guardianID='" + guardianID + '\'' +
                 ", isTeacher=" + isTeacher + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
-                ", password='" + password +
+//                ", password='" + password +
                 '}';
     }
 
+    // toHashMap - for entering into Firebase
+    public HashMap<String, Object> toHashMap() {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("Name", name);
+        map.put("Phone", phone);
+        map.put("Email", email);
+        map.put("isTeacher", isTeacher);
+        return map;
+    }
 
     // Getters and setters
 
     public UserModel() {
     }
 
-    public int getUserID() {
-        return userID;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
-    }
-
-    public int getTeacherID() {
-        return teacherID;
-    }
-
-    public void setTeacherID(int teacherID) {
-        this.teacherID = teacherID;
-    }
-
-    public int getGuardianID() {
-        return guardianID;
-    }
-
-    public void setGuardianID(int guardianID) {
-        this.guardianID = guardianID;
-    }
+//    public int getUserID() {
+//        return userID;
+//    }
+//
+//    public void setUserID(int userID) {
+//        this.userID = userID;
+//    }
+//
+//    public int getTeacherID() {
+//        return teacherID;
+//    }
+//
+//    public void setTeacherID(int teacherID) {
+//        this.teacherID = teacherID;
+//    }
+//
+//    public int getGuardianID() {
+//        return guardianID;
+//    }
+//
+//    public void setGuardianID(int guardianID) {
+//        this.guardianID = guardianID;
+//    }
 
     public String getName() {
         return name;
@@ -95,13 +111,13 @@ public class UserModel {
         this.phone = phone;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+//    public String getPassword() {
+//        return password;
+//    }
+//
+//    public void setPassword(String password) {
+//        this.password = password;
+//    }
 
     public boolean isTeacher() {
         return isTeacher;
