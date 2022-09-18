@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -34,7 +35,8 @@ import java.util.List;
 
 public class MinorFormActivity extends AppCompatActivity {
 
-    Spinner child, teacherProvided, teacherChecked, location, treatment;
+    AutoCompleteTextView child;
+    Spinner teacherProvided, teacherChecked, location, treatment;
     EditText date, time, description, comments;
     Button save, send;
     FirebaseAuth mAuth;
@@ -109,12 +111,14 @@ public class MinorFormActivity extends AppCompatActivity {
 
 
 
-        // Dropdown for Child
+        // Autocomplete text + dropdown for Child
         ArrayList<String> childList = new ArrayList<>();
         ArrayAdapter childAdapter = new ArrayAdapter<String>(this, R.layout.list_item, childList);
         child.setAdapter(childAdapter);
-        DatabaseReference childRef = ref.child("Child");
+        child.setThreshold(1);
 
+        // Get child names
+        DatabaseReference childRef = ref.child("Child");
         childRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -127,6 +131,14 @@ public class MinorFormActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+        // Add a dropdown when clicked
+        child.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View arg0) {
+                child.showDropDown();
             }
         });
 
@@ -258,7 +270,7 @@ public class MinorFormActivity extends AppCompatActivity {
                 String myUID = mAuth.getCurrentUser().getUid();
 
                 // Get text from form elements
-                String myChild = child.getSelectedItem().toString();
+                String myChild = child.getText().toString();
                 String myDate = date.getText().toString();
                 String myTime = time.getText().toString();
                 String myDescription = description.getText().toString();
