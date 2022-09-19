@@ -260,6 +260,7 @@ public class SeriousFormActivity extends AppCompatActivity {
 
                         // Set form elements to show the saved values
                         // Text/date/time fields
+                        child.setText(decrypt(snapshot.child("childName").getValue().toString()));
                         date.setText(snapshot.child("incidentDate").getValue().toString());
                         time.setText(snapshot.child("incidentTime").getValue().toString());
                         description.setText(decrypt(snapshot.child("description").getValue().toString()));
@@ -270,12 +271,12 @@ public class SeriousFormActivity extends AppCompatActivity {
                         dateActionsRequired.setText(snapshot.child("dateActionsRequired").getValue().toString());
                         comments.setText(decrypt(snapshot.child("comments").getValue().toString()));
 
-                        // Child and Teachers
-                        String qChildName = decrypt(snapshot.child("childName").getValue().toString());
-                        if (qChildName != null) {
-                            int spinnerPosition = childAdapter.getPosition(qChildName);
-                            child.setSelection(spinnerPosition);
-                        }
+                        // Teachers
+//                        String qChildName = decrypt(snapshot.child("childName").getValue().toString());
+//                        if (qChildName != null) {
+//                            int spinnerPosition = childAdapter.getPosition(qChildName);
+//                            child.setSelection(spinnerPosition);
+//                        }
 
                         String qTeacherActionsRequiredBy = decrypt(snapshot.child("teacherActionsRequiredBy").getValue().toString());
                         if (qTeacherActionsRequiredBy != null) {

@@ -165,12 +165,13 @@ public class IllnessFormActivity extends AppCompatActivity {
                     for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
 
                         // Set form elements to show the saved values
-                        String qChildName = decrypt(snapshot.child("childName").getValue().toString());
-                        if (qChildName != null) {
-                            int spinnerPosition = childAdapter.getPosition(qChildName);
-                            child.setSelection(spinnerPosition);
-                        }
+//                        String qChildName = decrypt(snapshot.child("childName").getValue().toString());
+//                        if (qChildName != null) {
+//                            int spinnerPosition = childAdapter.getPosition(qChildName);
+//                            child.setSelection(spinnerPosition);
+//                        }
 
+                        child.setText(decrypt(snapshot.child("childName").getValue().toString()));
                         date.setText(snapshot.child("incidentDate").getValue().toString());
                         observation.setText(decrypt(snapshot.child("observation").getValue().toString()));
 

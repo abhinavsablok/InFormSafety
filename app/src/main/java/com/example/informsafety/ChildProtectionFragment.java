@@ -108,23 +108,10 @@ public class ChildProtectionFragment extends Fragment {
                 // Get the unique key and form type for the clicked form
                 String myKey = notesKeyList.get(position);
 
-                // Open the note in the Notes fragment
-//                Intent intent = new Intent(DraftsActivity.this, DraftsActivity.class);
-//                if (myFormType.equals("Minor Incident")) {
-//                    intent = new Intent(DraftsActivity.this, MinorFormActivity.class);
-//                }
-//                else if (myFormType.equals("Illness")) {
-//                    intent = new Intent(DraftsActivity.this, IllnessFormActivity.class);
-//                }
-//                else if (myFormType.equals("Serious Incident")) {
-//                    intent = new Intent(DraftsActivity.this, SeriousFormActivity.class);
-//                }
-
-//                // Open the Form and pass the key to query form contents
-//                intent.putExtra("Key", myKey);
-//                startActivity(intent);
-
-
+                // Open the note in the Notes Activity and pass the key to query note contents
+                Intent intent = new Intent(getActivity(), ChildProtectionNoteActivity.class);
+                intent.putExtra("Key", myKey);
+                startActivity(intent);
             }
         });
 
@@ -132,11 +119,11 @@ public class ChildProtectionFragment extends Fragment {
     }
 
 
-
-
-
     // When the user clicks Add Note, open Child Protection Note
     private void ClickAddNote() {
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ChildProtectionNoteFragment()).commit();
+//        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ChildProtectionNoteFragment()).commit();
+        Intent intent = new Intent(getActivity(), ChildProtectionNoteActivity.class);
+        startActivity(intent);
+
     }
 }

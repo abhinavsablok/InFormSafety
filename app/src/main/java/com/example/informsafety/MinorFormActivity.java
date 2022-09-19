@@ -209,12 +209,13 @@ public class MinorFormActivity extends AppCompatActivity {
 //                        Toast.makeText(MinorFormActivity.this, snapshot.toString() ,Toast.LENGTH_SHORT).show();
 
                         // Set form elements to show the saved values
-                        String qChildName = decrypt(snapshot.child("childName").getValue().toString());
-                        if (qChildName != null) {
-                            int spinnerPosition = childAdapter.getPosition(qChildName);
-                            child.setSelection(spinnerPosition);
-                        }
+//                        String qChildName = decrypt(snapshot.child("childName").getValue().toString());
+//                        if (qChildName != null) {
+//                            int spinnerPosition = childAdapter.getPosition(qChildName);
+//                            child.setSelection(spinnerPosition);
+//                        }
 
+                        child.setText(decrypt(snapshot.child("childName").getValue().toString()));
                         date.setText(snapshot.child("incidentDate").getValue().toString());
                         time.setText(snapshot.child("incidentTime").getValue().toString());
                         description.setText(decrypt(snapshot.child("description").getValue().toString()));

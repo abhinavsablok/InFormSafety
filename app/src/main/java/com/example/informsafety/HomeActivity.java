@@ -51,10 +51,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
                 break;
             case R.id.navigation_draft_forms:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NotificationsFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DraftsFragment()).commit();
 //                Toast.makeText(this, "Sorry, this part of the application is still under production.", Toast.LENGTH_LONG).show();
-                // TODO: change this to Fragment
-                startActivity(new Intent(HomeActivity.this, DraftsActivity.class));
+//                startActivity(new Intent(HomeActivity.this, DraftsActivity.class));
                 break;
             case R.id.navigation_sent_forms:
 //                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutUsFragment()).commit();
