@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -35,7 +36,8 @@ import java.util.List;
 
 public class SeriousFormActivity extends AppCompatActivity {
 
-    Spinner child, injury, location, treatment, ambulanceDoctorCalled, likelihood,
+    AutoCompleteTextView child;
+    Spinner injury, location, treatment, ambulanceDoctorCalled, likelihood,
             teacherActionsRequiredBy, seniorTeacherInvestigationRequired, worksafeMoeAdvised,
             adviseRph, followUpWithGuardian, teacherProvided, teacherChecked;
     EditText date, time, description, ambulanceDoctorCalledTime, guardianContactedTime,
@@ -181,12 +183,14 @@ public class SeriousFormActivity extends AppCompatActivity {
         followUpWithGuardian.setAdapter(yesNoAdapter);
 
 
-        // Dropdown for Child
+        // Autocomplete text + dropdown for Child
         ArrayList<String> childList = new ArrayList<>();
         ArrayAdapter childAdapter = new ArrayAdapter<String>(this, R.layout.list_item, childList);
         child.setAdapter(childAdapter);
-        DatabaseReference childRef = ref.child("Child");
+        child.setThreshold(1);
 
+        // Get child names
+        DatabaseReference childRef = ref.child("Child");
         childRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -199,6 +203,14 @@ public class SeriousFormActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+        // Add a dropdown when clicked
+        child.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View arg0) {
+                child.showDropDown();
             }
         });
 
@@ -364,7 +376,7 @@ public class SeriousFormActivity extends AppCompatActivity {
                 String myUID = mAuth.getCurrentUser().getUid();
 
                 // Get text from form elements
-                String myChild = child.getSelectedItem().toString();
+                String myChild = child.getText().toString();
                 String myDate = date.getText().toString();
                 String myTime = time.getText().toString();
                 String myDescription = description.getText().toString();

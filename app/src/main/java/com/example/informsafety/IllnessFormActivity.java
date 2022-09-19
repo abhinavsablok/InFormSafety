@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -34,7 +35,8 @@ import java.util.List;
 
 public class IllnessFormActivity extends AppCompatActivity {
 
-    Spinner child, teacherProvided, teacherChecked, treatment;
+    AutoCompleteTextView child;
+    Spinner teacherProvided, teacherChecked, treatment;
     EditText date, incidentTime, guardianArrivedTime, observation, notes;
     Button save, send;
     FirebaseAuth mAuth;
@@ -88,25 +90,34 @@ public class IllnessFormActivity extends AppCompatActivity {
         treatmentList.add("Other");
 
 
-        // Dropdown for Child
+        // Autocomplete text + dropdown for Child
         ArrayList<String> childList = new ArrayList<>();
         ArrayAdapter childAdapter = new ArrayAdapter<String>(this, R.layout.list_item, childList);
         child.setAdapter(childAdapter);
-        DatabaseReference childRef = ref.child("Child");
+        child.setThreshold(1);
 
+        // Get child names
+        DatabaseReference childRef = ref.child("Child");
         childRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 childList.clear();
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
                     childList.add(decrypt(snapshot.child("Name").getValue().toString()));
-
                 }
                 childAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+        // Add a dropdown when clicked
+        child.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View arg0) {
+                child.showDropDown();
             }
         });
 
@@ -208,7 +219,7 @@ public class IllnessFormActivity extends AppCompatActivity {
                 String myUID = mAuth.getCurrentUser().getUid();
 
                 // Get text from form elements
-                String myChild = child.getSelectedItem().toString();
+                String myChild = child.getText().toString();
                 String myDate = date.getText().toString();
                 String myObservation = observation.getText().toString();
                 String myTreatment = treatment.getSelectedItem().toString();

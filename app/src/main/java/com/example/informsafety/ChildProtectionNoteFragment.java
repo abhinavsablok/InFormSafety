@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -36,7 +37,7 @@ import javax.annotation.Nullable;
 
 public class ChildProtectionNoteFragment extends Fragment {
 
-    Spinner child;
+    AutoCompleteTextView child;
     EditText date, note;
     Button save;
     FirebaseAuth mAuth;
@@ -65,12 +66,14 @@ public class ChildProtectionNoteFragment extends Fragment {
         save.setOnClickListener(v -> ClickSave());
 
 
-        // Dropdown for Child
+        // Autocomplete text + dropdown for Child
         ArrayList<String> childList = new ArrayList<>();
         ArrayAdapter childAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item, childList);
         child.setAdapter(childAdapter);
-        DatabaseReference childRef = ref.child("Child");
+        child.setThreshold(1);
 
+        // Get child names
+        DatabaseReference childRef = ref.child("Child");
         childRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -83,6 +86,14 @@ public class ChildProtectionNoteFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+        // Add a dropdown when clicked
+        child.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View arg0) {
+                child.showDropDown();
             }
         });
 
@@ -101,7 +112,7 @@ public class ChildProtectionNoteFragment extends Fragment {
                 String myUID = mAuth.getCurrentUser().getUid();
 
                 // Get text from form elements
-                String myChild = child.getSelectedItem().toString();
+                String myChild = child.getText().toString();
                 String myDate = date.getText().toString();
                 String myNote = note.getText().toString();
 
