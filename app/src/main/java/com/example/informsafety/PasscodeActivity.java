@@ -2,25 +2,31 @@ package com.example.informsafety;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class PasscodeActivity extends AppCompatActivity implements View.OnClickListener {
 
-
+    TextView instruction;
     View view_01,view_02,view_03,view_04;
     Button btn_01,btn_02,btn_03,btn_04,btn_05,btn_06,btn_07,btn_08,btn_09,btn_clear,btn_00;
 
     ArrayList<String> numbers_list = new ArrayList<>();
     String passCode="";
+    String checkPasscode = "";
     String num_01,num_02,num_03,num_04;
+
+    // Is the user here to create a passcode?
+    boolean isCreatingPasscode = false;
 
 
     @Override
@@ -29,17 +35,28 @@ public class PasscodeActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_passcode);
         initializeComponents();
 
-        // Set a passcode
-        // TODO: Retrieve from the database ("User")
-        savePassCode("0125");
+        // Get the required passcode task from the previous Activity
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            isCreatingPasscode = extras.getBoolean("isCreatingPasscode");
+        }
+
+        // Set instruction text based on task
+        if (isCreatingPasscode) {
+            instruction.setText("Select a four-digit Passcode");
+        }
+        else {
+            instruction.setText("Enter Passcode");
+        }
     }
 
     private void initializeComponents() {
+        instruction=findViewById(R.id.instruction);
+
         view_01=findViewById(R.id.view_01);
         view_02=findViewById(R.id.view_02);
         view_03=findViewById(R.id.view_03);
         view_04=findViewById(R.id.view_04);
-
 
         btn_01=findViewById(R.id.btn_o1);
         btn_02=findViewById(R.id.btn_o2);
@@ -142,26 +159,50 @@ public class PasscodeActivity extends AppCompatActivity implements View.OnClickL
                 case 4:
                     num_04=numbers_list.get(3);
                     view_04.setBackgroundResource(R.drawable.bg_view_blue_oval);
-                    passCode = num_01 + num_02 +num_03 +num_04;
-                    if (getPassCode().length()== 0){
-                        savePassCode(passCode);
-                    }else {
-                        matchPasscode();
-                    }
+                    passCode = num_01 + num_02 + num_03 + num_04;
+
+                    // Resolve passcode as required for the current action
+                    matchPasscode();
                     break;
             }
         }
     }
+
+    // Resolve passcode as required for the current action
     private void matchPasscode(){
-        if (getPassCode().equals(passCode)){
-            startActivity(new Intent(this, HomeActivity.class));
-//            finish();
-        }else{
-            numbers_list.clear();
-            passNumber(numbers_list);
-            Toast.makeText(this,"Passcode doesn't match please retry again:::",Toast.LENGTH_SHORT).show();
+        if (isCreatingPasscode) {
+            if (checkPasscode.equals("")) {
+                // Set passcode - first entry
+                checkPasscode = passCode;
+                numbers_list.clear();
+                passNumber(numbers_list);
+                instruction.setText("Confirm Passcode");
+            }
+            else {
+                // Set passcode - second entry
+                if (checkPasscode.equals(passCode)){
+                    savePassCode(passCode);
+                    finish();
+                } else {
+                    numbers_list.clear();
+                    passNumber(numbers_list);
+                    Toast.makeText(this,"Passcode doesn't match, please try again",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        }
+        else {
+            // Enter correct passcode to continue
+            if (getPassCode().equals(passCode)){
+                finish();
+            } else {
+                numbers_list.clear();
+                passNumber(numbers_list);
+                Toast.makeText(this,"Passcode doesn't match, please try again",Toast.LENGTH_SHORT).show();
+            }
         }
     }
+
     private SharedPreferences.Editor savePassCode(String passCode){
         SharedPreferences preferences= getSharedPreferences("passcode_pref", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor= preferences.edit();
@@ -169,6 +210,7 @@ public class PasscodeActivity extends AppCompatActivity implements View.OnClickL
         editor.commit();
         return editor;
     }
+
     private String getPassCode(){
         SharedPreferences preferences=getSharedPreferences("passcode_pref",Context.MODE_PRIVATE);
         return preferences.getString("passcode","");
