@@ -28,6 +28,10 @@ public class PasscodeActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_passcode);
         initializeComponents();
+
+        // Set a passcode
+        // TODO: Retrieve from the database ("User")
+        savePassCode("0125");
     }
 
     private void initializeComponents() {
@@ -76,7 +80,7 @@ public class PasscodeActivity extends AppCompatActivity implements View.OnClickL
                 passNumber(numbers_list);
                 break;
             case R.id.btn_o3:
-                numbers_list.add("2");
+                numbers_list.add("3");
                 passNumber(numbers_list);
                 break;
             case R.id.btn_o4:
