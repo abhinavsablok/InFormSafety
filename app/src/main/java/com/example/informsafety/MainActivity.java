@@ -46,7 +46,9 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
 //                Intent intent = new Intent(MainActivity.this, MinorFormActivity.class);
 //                Intent intent = new Intent(MainActivity.this, IllnessFormActivity.class);
+//                Intent intent = new Intent(MainActivity.this, SeriousFormActivity.class);
 //                Intent intent = new Intent(MainActivity.this, DraftsActivity.class);
+//                Intent intent = new Intent(MainActivity.this, TestAutoCompleteActivity.class);
                 startActivity(intent);
                 finish();
             }

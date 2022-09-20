@@ -25,6 +25,15 @@
         android:theme="@style/Theme.InFormSafety"
         tools:targetApi="31">
         <activity
+            android:name=".ChildProtectionNoteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TestAutoCompleteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SeriousFormActivity"
+            android:exported="false" />
+      <activity
             android:name=".PasscodeActivity"
             android:exported="false" />
         <activity

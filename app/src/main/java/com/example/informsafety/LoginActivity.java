@@ -60,6 +60,7 @@ public class LoginActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         fbh = new FirebaseHelper();
 
+
         PERMISSIONS = new String[]{
 
                 Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -232,6 +233,9 @@ public class LoginActivity extends AppCompatActivity {
                     reg_password.setError("Please fill out this field");
                 } else if (confirmPassword.getText().toString().trim().isEmpty()) {
                     confirmPassword.setError("Please fill out this field");
+                } else if (!confirmPassword.getText().toString().equals(reg_password.getText().toString())) {
+                    confirmPassword.setError("Confirm Password must match Password");
+
                 } else {
                     String mName = name.getText().toString();
                     String mContact = contact.getText().toString();

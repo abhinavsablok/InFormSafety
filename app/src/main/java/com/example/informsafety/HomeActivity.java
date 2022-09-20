@@ -57,12 +57,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
                 break;
             case R.id.navigation_draft_forms:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NotificationsFragment()).commit();
-                Toast.makeText(this, "Sorry, this part of the application is still under production.", Toast.LENGTH_LONG).show();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new DraftsFragment()).commit();
+//                Toast.makeText(this, "Sorry, this part of the application is still under production.", Toast.LENGTH_LONG).show();
+//                startActivity(new Intent(HomeActivity.this, DraftsActivity.class));
                 break;
             case R.id.navigation_sent_forms:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutUsFragment()).commit();
-                Toast.makeText(this, "Sorry, this part of the application is still under production.", Toast.LENGTH_LONG).show();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SentFormsFragment()).commit();
+//                Toast.makeText(this, "Sorry, this part of the application is still under production.", Toast.LENGTH_LONG).show();
                 break;
             case R.id.navigation_completed_forms:
 //                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NotificationsFragment()).commit();
@@ -73,8 +74,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(this, "Sorry, this part of the application is still under production.", Toast.LENGTH_LONG).show();
                 break;
             case R.id.navigation_child_protection:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NotificationsFragment()).commit();
-                Toast.makeText(this, "Sorry, this part of the application is still under production.", Toast.LENGTH_LONG).show();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ChildProtectionFragment()).commit();
+//                Toast.makeText(this, "Sorry, this part of the application is still under production.", Toast.LENGTH_LONG).show();
                 break;
             case R.id.navigation_about:
 //                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutUsFragment()).commit();
