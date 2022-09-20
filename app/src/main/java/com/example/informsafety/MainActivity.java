@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
-        handler.sendEmptyMessageDelayed(222, 400);
+        handler.sendEmptyMessageDelayed(222, 250);
 
 
     }
@@ -39,16 +39,11 @@ public class MainActivity extends AppCompatActivity {
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             if (msg.what == 222 && mUser != null && mUser.isEmailVerified()) {
-                Intent intent = new Intent(MainActivity.this, PasscodeActivity.class);
+                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                 startActivity(intent);
                 finish();
             } else if (msg.what == 222){
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-//                Intent intent = new Intent(MainActivity.this, MinorFormActivity.class);
-//                Intent intent = new Intent(MainActivity.this, IllnessFormActivity.class);
-//                Intent intent = new Intent(MainActivity.this, SeriousFormActivity.class);
-//                Intent intent = new Intent(MainActivity.this, DraftsActivity.class);
-//                Intent intent = new Intent(MainActivity.this, TestAutoCompleteActivity.class);
                 startActivity(intent);
                 finish();
             }

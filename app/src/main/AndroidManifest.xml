@@ -28,9 +28,6 @@
             android:name=".ChildProtectionNoteActivity"
             android:exported="false" />
         <activity
-            android:name=".TestAutoCompleteActivity"
-            android:exported="false" />
-        <activity
             android:name=".SeriousFormActivity"
             android:exported="false" />
       <activity
@@ -40,19 +37,7 @@
             android:name=".IllnessFormActivity"
             android:exported="false" />
         <activity
-            android:name=".DraftsActivity"
-            android:exported="false" />
-        <activity
             android:name=".MinorFormActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MinorIncidentFormActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ProgressBarActivity"
-            android:exported="false" />
-        <activity
-            android:name=".TestActivity"
             android:exported="false" />
         <activity
             android:name=".HomeActivity"

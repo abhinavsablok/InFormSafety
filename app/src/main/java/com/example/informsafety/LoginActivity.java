@@ -39,7 +39,6 @@ public class LoginActivity extends AppCompatActivity {
 
     Button login, signUp, register, resetPassword, reset;
     TextInputLayout txtInLayoutUsername, txtInLayoutPassword;
-//    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +56,6 @@ public class LoginActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
         resetPassword = findViewById(R.id.resetPassword);
         mAuth = FirebaseAuth.getInstance();
-//        progressBar = findViewById(R.id.progressBar);
         fbh = new FirebaseHelper();
 
         // Testing: Set username and password
@@ -133,7 +131,7 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(AuthResult authResult) {
 //                                    if (mAuth.getCurrentUser().isEmailVerified()) {
-                                        startActivity(new Intent(LoginActivity.this, ProgressBarActivity.class));
+                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
 //                                        startActivity(new Intent(LoginActivity.this, MinorFormActivity.class));
 //                                        startActivity(new Intent(LoginActivity.this, IllnessFormActivity.class));
 //                                        startActivity(new Intent(LoginActivity.this, DraftsActivity.class));
