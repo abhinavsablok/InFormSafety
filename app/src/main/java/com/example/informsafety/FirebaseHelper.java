@@ -202,9 +202,9 @@ public class FirebaseHelper {
     }
 
     // Insert an Incident Form
-    public void insertForm(IncidentForm incidentForm) {
-        ref.child("Minor Incident").push().updateChildren(incidentForm.toHashMap());
-    }
+//    public void insertForm(IncidentForm incidentForm) {
+//        ref.child("Minor Incident").push().updateChildren(incidentForm.toHashMap());
+//    }
 
 
 
