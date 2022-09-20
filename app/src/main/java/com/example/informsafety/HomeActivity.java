@@ -8,6 +8,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -40,6 +41,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
             navigationView.setCheckedItem(R.id.navigation_home);
         }
+    }
+
+    @Override
+    protected void onRestart(){
+        super.onRestart();
+        startActivity(new Intent(this,MainActivity.class));
     }
 
     @SuppressLint("NonConstantResourceId")

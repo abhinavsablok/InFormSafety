@@ -27,7 +27,9 @@ public class MainActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
+
         handler.sendEmptyMessageDelayed(222, 400);
+
 
     }
 
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             if (msg.what == 222 && mUser != null && mUser.isEmailVerified()) {
-                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                Intent intent = new Intent(MainActivity.this, PasscodeActivity.class);
                 startActivity(intent);
                 finish();
             } else if (msg.what == 222){
