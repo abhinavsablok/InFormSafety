@@ -9,10 +9,22 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:textAlignment="center">
+        android:orientation="vertical">
 
+        <AutoCompleteTextView
+            android:id="@+id/childName"
+            android:layout_width="match_parent"
+            android:layout_height="60sp"
+            android:layout_marginHorizontal="8dp"
+            android:padding="10sp"
+            android:layout_marginTop="8dp"
+            android:hint="Name" />
 
+        <ListView
+            android:id="@+id/listNames"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/childName"/>
 
 
     </RelativeLayout>

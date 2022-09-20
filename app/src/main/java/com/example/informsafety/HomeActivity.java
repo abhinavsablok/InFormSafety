@@ -43,6 +43,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    @Override
+    protected void onRestart(){
+        super.onRestart();
+        startActivity(new Intent(this,MainActivity.class));
+    }
+
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
