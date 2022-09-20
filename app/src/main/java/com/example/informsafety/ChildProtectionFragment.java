@@ -108,7 +108,7 @@ public class ChildProtectionFragment extends Fragment {
                 // Get the unique key and form type for the clicked form
                 String myKey = notesKeyList.get(position);
 
-                // Open the note in the Notes Activity and pass the key to query note contents
+                // Open the note in Note Activity and pass the key to query note contents
                 Intent intent = new Intent(getActivity(), ChildProtectionNoteActivity.class);
                 intent.putExtra("Key", myKey);
                 startActivity(intent);

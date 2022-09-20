@@ -52,6 +52,7 @@ public class SeriousFormActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setTitle("SERIOUS INCIDENT FORM");
         setContentView(R.layout.activity_serious_form);
 
 
@@ -402,8 +403,9 @@ public class SeriousFormActivity extends AppCompatActivity {
 
                 // Additional data for form status
                 String formType = "Serious Incident";
-                boolean mSentToGuardian = false;
-                boolean mSignedByGuardian = false;
+//                boolean mSentToGuardian = false;
+//                boolean mSignedByGuardian = false;
+                String mFormStatus = "Draft";
                 String mPdfFilename = "";
 
                 // Create a HashMap of incident form contents
@@ -432,8 +434,9 @@ public class SeriousFormActivity extends AppCompatActivity {
                 map.put("teacherChecked", encrypt(myTeacherChecked));
                 map.put("comments", encrypt(myComments));
                 map.put("formType", formType);
-                map.put("sentToGuardian", mSentToGuardian);
-                map.put("signedByGuardian", mSignedByGuardian);
+//                map.put("sentToGuardian", mSentToGuardian);
+//                map.put("signedByGuardian", mSignedByGuardian);
+                map.put("formStatus", mFormStatus);
                 map.put("pdfFilename", mPdfFilename);
 
                 // Insert to Realtime Database

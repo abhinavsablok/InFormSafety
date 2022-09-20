@@ -49,6 +49,7 @@ public class ChildProtectionNoteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setTitle("CHILD PROTECTION NOTE");
         setContentView(R.layout.activity_child_protection_note);
 
         // Get user and database refs

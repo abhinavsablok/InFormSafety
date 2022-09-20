@@ -50,6 +50,7 @@ public class IllnessFormActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setTitle("ILLNESS FORM");
         setContentView(R.layout.activity_illness_form);
 
         fbh = new FirebaseHelper();
@@ -232,8 +233,9 @@ public class IllnessFormActivity extends AppCompatActivity {
 
                 // Additional data for form status
                 String formType = "Illness";
-                boolean mSentToGuardian = false;
-                boolean mSignedByGuardian = false;
+//                boolean mSentToGuardian = false;
+//                boolean mSignedByGuardian = false;
+                String mFormStatus = "Draft";
                 String mPdfFilename = "";
 
                 // Create a HashMap of incident form contents
@@ -249,8 +251,9 @@ public class IllnessFormActivity extends AppCompatActivity {
                 map.put("teacherProvided", encrypt(myTeacherProvided));
                 map.put("teacherChecked", encrypt(myTeacherChecked));
                 map.put("formType", formType);
-                map.put("sentToGuardian", mSentToGuardian);
-                map.put("signedByGuardian", mSignedByGuardian);
+//                map.put("sentToGuardian", mSentToGuardian);
+//                map.put("signedByGuardian", mSignedByGuardian);
+                map.put("formStatus", mFormStatus);
                 map.put("pdfFilename", mPdfFilename);
 
                 // Insert to Realtime Database

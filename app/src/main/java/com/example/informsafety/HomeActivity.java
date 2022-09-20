@@ -56,8 +56,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 //                startActivity(new Intent(HomeActivity.this, DraftsActivity.class));
                 break;
             case R.id.navigation_sent_forms:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutUsFragment()).commit();
-                Toast.makeText(this, "Sorry, this part of the application is still under production.", Toast.LENGTH_LONG).show();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SentFormsFragment()).commit();
+//                Toast.makeText(this, "Sorry, this part of the application is still under production.", Toast.LENGTH_LONG).show();
                 break;
             case R.id.navigation_completed_forms:
 //                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new NotificationsFragment()).commit();
