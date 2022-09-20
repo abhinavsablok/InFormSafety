@@ -151,6 +151,7 @@ public class PasscodeActivity extends AppCompatActivity implements View.OnClickL
     private void matchPasscode(){
         if (getPassCode().equals(passCode)){
             startActivity(new Intent(this, HomeActivity.class));
+//            finish();
         }else{
             numbers_list.clear();
             passNumber(numbers_list);

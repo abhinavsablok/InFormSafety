@@ -58,6 +58,10 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         fbh = new FirebaseHelper();
 
+        // Testing: Set username and password
+        email.setText("teacher1@huttkindergartens.org.nz");
+        password.setText("Teacher1");
+
 
         PERMISSIONS = new String[]{
 
