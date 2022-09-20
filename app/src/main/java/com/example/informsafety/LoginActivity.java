@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
 
     Button login, signUp, register, resetPassword, reset;
     TextInputLayout txtInLayoutUsername, txtInLayoutPassword;
-    ProgressBar progressBar;
+//    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +57,12 @@ public class LoginActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
         resetPassword = findViewById(R.id.resetPassword);
         mAuth = FirebaseAuth.getInstance();
-        progressBar = findViewById(R.id.progressBar);
+//        progressBar = findViewById(R.id.progressBar);
         fbh = new FirebaseHelper();
+
+        // Testing: Set username and password
+        email.setText("teacher1@huttkindergartens.org.nz");
+        password.setText("Teacher1");
 
 
         PERMISSIONS = new String[]{

@@ -301,6 +301,10 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemClic
     // When the user clicks Password, pop up the Change Password dialog
     private void ClickUpdatePassword() {
 
+        // Prompt the user to enter their Passcode
+        startActivity(new Intent(getActivity(),PasscodeActivity.class));
+
+        // Pop up the Reset Password dialog
         AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.activity_update_password, null);

@@ -3,12 +3,14 @@ package com.example.informsafety;
 import static com.example.informsafety.EncryptDecrypt.*;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -49,7 +51,13 @@ public class MinorFormActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setTitle("MINOR INCIDENT FORM");
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Minor Incident Form");
+
+        // Add Back button in action bar
+        // TODO: Code Back button to go to Home or Drafts depending where the form was opened from
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         setContentView(R.layout.activity_minor_form);
 
         fbh = new FirebaseHelper();
@@ -260,6 +268,7 @@ public class MinorFormActivity extends AppCompatActivity {
         }
 
     }
+
 
 
     // When user clicks Save, add the entered information into Firebase Realtime Database
