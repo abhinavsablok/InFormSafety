@@ -27,7 +27,9 @@ public class MainActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
+
         handler.sendEmptyMessageDelayed(222, 400);
+
 
     }
 

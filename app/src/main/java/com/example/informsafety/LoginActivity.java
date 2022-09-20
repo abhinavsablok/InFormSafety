@@ -3,8 +3,12 @@ package com.example.informsafety;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -37,22 +41,13 @@ public class LoginActivity extends AppCompatActivity {
     TextInputLayout txtInLayoutUsername, txtInLayoutPassword;
     ProgressBar progressBar;
 
-    //    private DatabaseHelper databaseHelper;
-//    long userID;
-//    long teacherID;
-//    long guardianID;
-//    com.example.informsafety.RegistrationForm registrationForm;
-//    com.example.informsafety.UserModel userModel;
-//    LoginForm loginForm;
-//    com.example.informsafety.ResetPasswordForm resetPasswordForm;
-//    ChangePasswordForm changePasswordForm;
-//    ChangeUserDetailsForm changeUserDetailsForm;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setTitle("LOGIN");
         setContentView(R.layout.activity_login);
+
+        String[] PERMISSIONS;
 
         signUp = findViewById(R.id.signUp);
         login = findViewById(R.id.loginBtn);
@@ -65,6 +60,21 @@ public class LoginActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         fbh = new FirebaseHelper();
 
+        PERMISSIONS = new String[]{
+
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_NOTIFICATION_POLICY,
+                Manifest.permission.INTERNET,
+                Manifest.permission.SEND_SMS,
+                Manifest.permission.MANAGE_EXTERNAL_STORAGE,
+                Manifest.permission.MANAGE_MEDIA
+        };
+
+        if (!hasPermissions(LoginActivity.this,PERMISSIONS)) {
+
+            ActivityCompat.requestPermissions(LoginActivity.this,PERMISSIONS,1);
+        }
 
         ClickLogin();
 
@@ -83,6 +93,26 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+    private boolean hasPermissions(Context context, String... PERMISSIONS) {
+
+        if (context != null && PERMISSIONS != null) {
+
+            for (String permission: PERMISSIONS){
+
+                if (ActivityCompat.checkSelfPermission(context,permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+
+
+
+
+
 
     private void ClickLogin() {
         login.setOnClickListener(new View.OnClickListener() {
