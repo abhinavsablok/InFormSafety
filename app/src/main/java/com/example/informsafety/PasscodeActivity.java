@@ -13,6 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 
 public class PasscodeActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -28,6 +34,15 @@ public class PasscodeActivity extends AppCompatActivity implements View.OnClickL
     // Is the user here to create a passcode?
     boolean isCreatingPasscode = false;
 
+    // Is the user here to send a form?
+    boolean isSendingForm = false;
+
+    FirebaseDatabase db;
+    DatabaseReference ref;
+
+    // Initialise fields from forms to be sent
+    String formKey, childName, guardianEmail;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,20 +50,28 @@ public class PasscodeActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_passcode);
         initializeComponents();
 
+        db = FirebaseDatabase.getInstance("https://informsafetydb-default-rtdb.asia-southeast1.firebasedatabase.app/");
+        ref = db.getReference();
+
         // Get the required passcode task from the previous Activity
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             isCreatingPasscode = extras.getBoolean("isCreatingPasscode");
+            isSendingForm = extras.getBoolean("isSendingForm");
+            formKey = extras.getString("formKey");
+            childName = extras.getString("childName");
+            guardianEmail = extras.getString("guardianEmail");
         }
 
         // Set instruction text based on task
         if (isCreatingPasscode) {
             instruction.setText("Select a four-digit Passcode");
         }
-        else {
-            instruction.setText("Enter Passcode");
+        else if (isSendingForm) {
+            instruction.setText("Enter Passcode to attach your signature and send the form");
         }
     }
+
 
     private void initializeComponents() {
         instruction=findViewById(R.id.instruction);
@@ -191,10 +214,21 @@ public class PasscodeActivity extends AppCompatActivity implements View.OnClickL
             }
 
         }
-        else {
-            // Enter correct passcode to continue
+        else if (isSendingForm) {
+            // Enter correct passcode to continue sending form
             if (getPassCode().equals(passCode)){
+
+                // TODO: Attach Teacher's signature to form
+
+                // TODO: Notify the Guardian that they have a form to sign
+
+                // Mark the form as Sent
+                ref.child("Incident").child(formKey).child("formStatus").setValue("Sent");
+                // Notify user of success
+                Toast.makeText(PasscodeActivity.this, "Sent to " + guardianEmail, Toast.LENGTH_LONG).show();
+                // Exit from Passcode
                 finish();
+
             } else {
                 numbers_list.clear();
                 passNumber(numbers_list);
