@@ -3,12 +3,14 @@ package com.example.informsafety;
 import static com.example.informsafety.EncryptDecrypt.*;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -37,8 +39,8 @@ public class IllnessFormActivity extends AppCompatActivity {
 
     AutoCompleteTextView child;
     Spinner teacherProvided, teacherChecked, treatment;
-    EditText date, incidentTime, guardianArrivedTime, observation, notes;
-    Button save, send;
+    EditText incidentTime, guardianArrivedTime, observation, notes;
+    Button save, send, date;
     FirebaseAuth mAuth;
     FirebaseHelper fbh;
     FirebaseDatabase db;
@@ -208,7 +210,21 @@ public class IllnessFormActivity extends AppCompatActivity {
 
 
         }
+
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(IllnessFormActivity.this);
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.activity_date, null);
+                dialog.setView(dialogView);
+                dialog.show();
+            }
+        });
+
     }
+
+
 
 
     // When user clicks Save, add the entered information into Firebase Realtime Database

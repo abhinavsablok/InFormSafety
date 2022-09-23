@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
@@ -38,8 +39,8 @@ import javax.annotation.Nullable;
 public class ChildProtectionNoteActivity extends AppCompatActivity {
 
     AutoCompleteTextView child;
-    EditText date, note;
-    Button save;
+    EditText note;
+    Button save, date;
     FirebaseAuth mAuth;
     FirebaseDatabase db;
     DatabaseReference ref;
@@ -49,7 +50,7 @@ public class ChildProtectionNoteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setTitle("CHILD PROTECTION NOTE");
+        getSupportActionBar().setTitle("Child Protection Note");
         setContentView(R.layout.activity_child_protection_note);
 
         // Get user and database refs
@@ -97,6 +98,19 @@ public class ChildProtectionNoteActivity extends AppCompatActivity {
                 child.showDropDown();
             }
         });
+
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(ChildProtectionNoteActivity.this);
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.activity_date, null);
+                dialog.setView(dialogView);
+                dialog.show();
+            }
+        });
+
+
 
 
         // If user opened a saved form, populate the form with the saved values

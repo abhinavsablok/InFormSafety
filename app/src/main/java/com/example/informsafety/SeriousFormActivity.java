@@ -8,6 +8,7 @@ import androidx.fragment.app.DialogFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -15,6 +16,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -40,8 +42,9 @@ public class SeriousFormActivity extends AppCompatActivity {
     Spinner injury, location, treatment, ambulanceDoctorCalled, likelihood,
             teacherActionsRequiredBy, seniorTeacherInvestigationRequired, worksafeMoeAdvised,
             adviseRph, followUpWithGuardian, teacherProvided, teacherChecked;
-    EditText date, time, description, ambulanceDoctorCalledTime, guardianContactedTime,
+    EditText date, description, ambulanceDoctorCalledTime, guardianContactedTime,
             guardianArrivedTime, actionsRequired, dateActionsRequired, comments;
+    TimePicker time;
     Button save, send;
     FirebaseAuth mAuth;
     FirebaseHelper fbh;
@@ -63,7 +66,7 @@ public class SeriousFormActivity extends AppCompatActivity {
 
         // Get references for form elements
         child = findViewById(R.id.child);
-        date = findViewById(R.id.date);
+//        date = findViewById(R.id.date);
         time = findViewById(R.id.time);
         description = findViewById(R.id.description);
         injury = findViewById(R.id.injury);
@@ -263,7 +266,7 @@ public class SeriousFormActivity extends AppCompatActivity {
                         // Text/date/time fields
                         child.setText(decrypt(snapshot.child("childName").getValue().toString()));
                         date.setText(snapshot.child("incidentDate").getValue().toString());
-                        time.setText(snapshot.child("incidentTime").getValue().toString());
+//                        time.setText(snapshot.child("incidentTime").getValue().toString());
                         description.setText(decrypt(snapshot.child("description").getValue().toString()));
                         ambulanceDoctorCalledTime.setText(snapshot.child("ambulanceDoctorCalledTime").getValue().toString());
                         guardianContactedTime.setText(snapshot.child("guardianContactedTime").getValue().toString());
@@ -379,8 +382,8 @@ public class SeriousFormActivity extends AppCompatActivity {
 
                 // Get text from form elements
                 String myChild = child.getText().toString();
-                String myDate = date.getText().toString();
-                String myTime = time.getText().toString();
+//                String myDate = date.getText().toString();
+//                String myTime = time.getText().toString();
                 String myDescription = description.getText().toString();
                 String myInjury = injury.getSelectedItem().toString();
                 String myLocation = location.getSelectedItem().toString();
@@ -412,8 +415,8 @@ public class SeriousFormActivity extends AppCompatActivity {
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("userID", myUID);
                 map.put("childName", encrypt(myChild));
-                map.put("incidentDate", myDate);
-                map.put("incidentTime", myTime);
+//                map.put("incidentDate", myDate);
+//                map.put("incidentTime", myTime);
                 map.put("description", encrypt(myDescription));
                 map.put("injury", myInjury);
                 map.put("location", myLocation);
