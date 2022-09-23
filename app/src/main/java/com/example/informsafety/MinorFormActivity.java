@@ -3,14 +3,17 @@ package com.example.informsafety;
 import static com.example.informsafety.EncryptDecrypt.*;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -34,7 +37,8 @@ import java.util.List;
 
 public class MinorFormActivity extends AppCompatActivity {
 
-    Spinner child, teacherProvided, teacherChecked, location, treatment;
+    AutoCompleteTextView child;
+    Spinner teacherProvided, teacherChecked, location, treatment;
     EditText date, time, description, comments;
     Button save, send;
     FirebaseAuth mAuth;
@@ -47,6 +51,13 @@ public class MinorFormActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Minor Incident Form");
+
+        // Add Back button in action bar
+        // TODO: Code Back button to go to Home or Drafts depending where the form was opened from
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         setContentView(R.layout.activity_minor_form);
 
         fbh = new FirebaseHelper();
@@ -68,6 +79,7 @@ public class MinorFormActivity extends AppCompatActivity {
         send = findViewById(R.id.send);
 
         ClickSave();
+        ClickSend();
 
 
         // Dropdown list for incident locations
@@ -109,12 +121,14 @@ public class MinorFormActivity extends AppCompatActivity {
 
 
 
-        // Dropdown for Child
+        // Autocomplete text + dropdown for Child
         ArrayList<String> childList = new ArrayList<>();
         ArrayAdapter childAdapter = new ArrayAdapter<String>(this, R.layout.list_item, childList);
         child.setAdapter(childAdapter);
-        DatabaseReference childRef = ref.child("Child");
+        child.setThreshold(1);
 
+        // Get child names
+        DatabaseReference childRef = ref.child("Child");
         childRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -127,6 +141,14 @@ public class MinorFormActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+        // Add a dropdown when clicked
+        child.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View arg0) {
+                child.showDropDown();
             }
         });
 
@@ -197,12 +219,13 @@ public class MinorFormActivity extends AppCompatActivity {
 //                        Toast.makeText(MinorFormActivity.this, snapshot.toString() ,Toast.LENGTH_SHORT).show();
 
                         // Set form elements to show the saved values
-                        String qChildName = decrypt(snapshot.child("childName").getValue().toString());
-                        if (qChildName != null) {
-                            int spinnerPosition = childAdapter.getPosition(qChildName);
-                            child.setSelection(spinnerPosition);
-                        }
+//                        String qChildName = decrypt(snapshot.child("childName").getValue().toString());
+//                        if (qChildName != null) {
+//                            int spinnerPosition = childAdapter.getPosition(qChildName);
+//                            child.setSelection(spinnerPosition);
+//                        }
 
+                        child.setText(decrypt(snapshot.child("childName").getValue().toString()));
                         date.setText(snapshot.child("incidentDate").getValue().toString());
                         time.setText(snapshot.child("incidentTime").getValue().toString());
                         description.setText(decrypt(snapshot.child("description").getValue().toString()));
@@ -248,60 +271,115 @@ public class MinorFormActivity extends AppCompatActivity {
     }
 
 
+    // Function to save a  Minor Incident form to Firebase
+    private void saveMinorIncidentForm() {
+        // Get UID of logged in user
+        String myUID = mAuth.getCurrentUser().getUid();
+
+        // Get text from form elements
+        String myChild = child.getText().toString();
+        String myDate = date.getText().toString();
+        String myTime = time.getText().toString();
+        String myDescription = description.getText().toString();
+        String myLocation = location.getSelectedItem().toString();
+        String myTreatment = treatment.getSelectedItem().toString();
+        String myTeacherProvided = teacherProvided.getSelectedItem().toString();
+        String myTeacherChecked = teacherChecked.getSelectedItem().toString();
+        String myComments = comments.getText().toString();
+
+        // Additional data for form status
+        String formType = "Minor Incident";
+        String mFormStatus = "Draft";
+        String mPdfFilename = "";
+
+        // Create a HashMap of incident form contents
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("userID", myUID);
+        map.put("childName", encrypt(myChild));
+        map.put("incidentDate", myDate);
+        map.put("incidentTime", myTime);
+        map.put("description", encrypt(myDescription));
+        map.put("location", myLocation);
+        map.put("treatment", myTreatment);
+        map.put("teacherProvided", encrypt(myTeacherProvided));
+        map.put("teacherChecked", encrypt(myTeacherChecked));
+        map.put("comments", encrypt(myComments));
+        map.put("formType", formType);
+        map.put("formStatus", mFormStatus);
+        map.put("pdfFilename", mPdfFilename);
+
+        // Insert to Realtime Database
+        // If already created, update values instead
+        if (myKey != null) {
+            ref.child("Incident").child(myKey).setValue(map);
+        } else {
+            myKey = ref.child("Incident").push().getKey();
+            ref.child("Incident").child(myKey).setValue(map);
+        }
+    }
+
+
     // When user clicks Save, add the entered information into Firebase Realtime Database
     private void ClickSave() {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                // Get UID of logged in user
-                String myUID = mAuth.getCurrentUser().getUid();
-
-                // Get text from form elements
-                String myChild = child.getSelectedItem().toString();
-                String myDate = date.getText().toString();
-                String myTime = time.getText().toString();
-                String myDescription = description.getText().toString();
-                String myLocation = location.getSelectedItem().toString();
-                String myTreatment = treatment.getSelectedItem().toString();
-                String myTeacherProvided = teacherProvided.getSelectedItem().toString();
-                String myTeacherChecked = teacherChecked.getSelectedItem().toString();
-                String myComments = comments.getText().toString();
-
-                // Additional data for form status
-                String formType = "Minor Incident";
-                boolean mSentToGuardian = false;
-                boolean mSignedByGuardian = false;
-                String mPdfFilename = "";
-
-                // Create a HashMap of incident form contents
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("userID", myUID);
-                map.put("childName", encrypt(myChild));
-                map.put("incidentDate", myDate);
-                map.put("incidentTime", myTime);
-                map.put("description", encrypt(myDescription));
-                map.put("location", myLocation);
-                map.put("treatment", myTreatment);
-                map.put("teacherProvided", encrypt(myTeacherProvided));
-                map.put("teacherChecked", encrypt(myTeacherChecked));
-                map.put("comments", encrypt(myComments));
-                map.put("formType", formType);
-                map.put("sentToGuardian", mSentToGuardian);
-                map.put("signedByGuardian", mSignedByGuardian);
-                map.put("pdfFilename", mPdfFilename);
-
-                // Insert to Realtime Database
-                // If already created, update values instead
-                if (myKey != null) {
-                    ref.child("Incident").child(myKey).setValue(map);
-                } else {
-                    myKey = ref.child("Incident").push().getKey();
-                    ref.child("Incident").child(myKey).setValue(map);
-                }
-
+                saveMinorIncidentForm();
                 Toast.makeText(MinorFormActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
+
+    // When user clicks Save, add the teacher's signature and send a notification to the Guardian
+    private void ClickSend() {
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Save the form before sending
+                saveMinorIncidentForm();
+
+                // Get Guardian's ID by querying on Child's name
+                String myChild = child.getText().toString();
+                Query guardianQuery = ref.child("Child").orderByChild("Name").equalTo(encrypt(myChild));
+                guardianQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+
+                            // Get the associated key for Guardian
+                            String myGuardianID = snapshot.child("ParentKey").getValue().toString();
+
+                            // Query the database for guardian's email
+                            DatabaseReference userRef = ref.child("User");
+                            Query myUserQuery = userRef.orderByKey().equalTo(myGuardianID);
+                            myUserQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                                        // Set form elements to show the saved values
+                                        String myGuardianEmail = decrypt(snapshot.child("Email").getValue().toString());
+
+                                        // Go to Passcode to continue
+                                        Intent intent = new Intent(MinorFormActivity.this, PasscodeActivity.class);
+                                        intent.putExtra("isSendingForm", true);
+                                        intent.putExtra("formKey", myKey);
+                                        intent.putExtra("childName", myChild);
+                                        intent.putExtra("guardianEmail", myGuardianEmail);
+                                        startActivity(intent);
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(DatabaseError error) {
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                    }
+                });
             }
         });
     }

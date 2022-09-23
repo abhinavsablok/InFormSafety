@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SignatureActivity">
+
+    <com.github.gcacace.signaturepad.views.SignaturePad
+        android:id="@+id/sign"
+        android:layout_width="match_parent"
+        android:layout_height="200sp"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginVertical="8dp"
+        app:penColor="@color/black" />
+
+    <Button
+        android:id="@+id/checkSign"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sign"
+        android:layout_alignParentEnd="true"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginVertical="8dp"
+        android:text="Check" />
+
+    <ImageView
+        android:id="@+id/signImage"
+        android:layout_width="match_parent"
+        android:layout_height="200sp"
+        android:layout_below="@+id/checkSign"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginVertical="8dp" />
+
+    <Button
+        android:id="@+id/confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/signImage"
+        android:layout_alignParentEnd="true"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginVertical="8dp"
+        android:text="confirm" />
+
+
+</RelativeLayout>

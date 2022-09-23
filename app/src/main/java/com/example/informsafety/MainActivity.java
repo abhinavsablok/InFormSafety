@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
-        handler.sendEmptyMessageDelayed(222, 400);
+        handler.sendEmptyMessageDelayed(222, 250);
 
 
     }
@@ -44,9 +44,6 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             } else if (msg.what == 222){
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-//                Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-//                Intent intent = new Intent(MainActivity.this, IllnessFormActivity.class);
-//                Intent intent = new Intent(MainActivity.this, DraftsActivity.class);
                 startActivity(intent);
                 finish();
             }

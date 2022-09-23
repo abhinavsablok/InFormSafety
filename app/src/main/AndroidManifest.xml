@@ -2,17 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.informsafety">
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"></uses-permission>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
-    <uses-permission android:name="android.permission.SEND_SMS"/>
-    <uses-permission android:name="android.permission.MANAGE_MEDIA"
+
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission
+        android:name="android.permission.MANAGE_MEDIA"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
-
-
-
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
 
     <application
         android:allowBackup="true"
@@ -25,25 +24,25 @@
         android:theme="@style/Theme.InFormSafety"
         tools:targetApi="31">
         <activity
+            android:name=".ViewSignatureActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SignatureActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChildProtectionNoteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SeriousFormActivity"
+            android:exported="false" />
+        <activity
             android:name=".PasscodeActivity"
             android:exported="false" />
         <activity
             android:name=".IllnessFormActivity"
             android:exported="false" />
         <activity
-            android:name=".DraftsActivity"
-            android:exported="false" />
-        <activity
             android:name=".MinorFormActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MinorIncidentFormActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ProgressBarActivity"
-            android:exported="false" />
-        <activity
-            android:name=".TestActivity"
             android:exported="false" />
         <activity
             android:name=".HomeActivity"

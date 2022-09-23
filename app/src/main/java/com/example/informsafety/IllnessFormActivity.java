@@ -3,14 +3,17 @@ package com.example.informsafety;
 import static com.example.informsafety.EncryptDecrypt.*;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -34,9 +37,10 @@ import java.util.List;
 
 public class IllnessFormActivity extends AppCompatActivity {
 
-    Spinner child, teacherProvided, teacherChecked, treatment;
-    EditText date, incidentTime, guardianArrivedTime, observation, notes;
-    Button save, send;
+    AutoCompleteTextView child;
+    Spinner teacherProvided, teacherChecked, treatment;
+    EditText incidentTime, guardianArrivedTime, observation, notes;
+    Button save, send, date;
     FirebaseAuth mAuth;
     FirebaseHelper fbh;
     FirebaseDatabase db;
@@ -44,10 +48,10 @@ public class IllnessFormActivity extends AppCompatActivity {
     String myKey;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setTitle("ILLNESS FORM");
         setContentView(R.layout.activity_illness_form);
 
         fbh = new FirebaseHelper();
@@ -69,7 +73,7 @@ public class IllnessFormActivity extends AppCompatActivity {
         send = findViewById(R.id.send);
 
         ClickSave();
-
+        ClickSend();
 
 
         // Dropdown list for incident treatments
@@ -88,25 +92,34 @@ public class IllnessFormActivity extends AppCompatActivity {
         treatmentList.add("Other");
 
 
-        // Dropdown for Child
+        // Autocomplete text + dropdown for Child
         ArrayList<String> childList = new ArrayList<>();
         ArrayAdapter childAdapter = new ArrayAdapter<String>(this, R.layout.list_item, childList);
         child.setAdapter(childAdapter);
-        DatabaseReference childRef = ref.child("Child");
+        child.setThreshold(1);
 
+        // Get child names
+        DatabaseReference childRef = ref.child("Child");
         childRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 childList.clear();
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
                     childList.add(decrypt(snapshot.child("Name").getValue().toString()));
-
                 }
                 childAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+        // Add a dropdown when clicked
+        child.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View arg0) {
+                child.showDropDown();
             }
         });
 
@@ -154,12 +167,13 @@ public class IllnessFormActivity extends AppCompatActivity {
                     for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
 
                         // Set form elements to show the saved values
-                        String qChildName = decrypt(snapshot.child("childName").getValue().toString());
-                        if (qChildName != null) {
-                            int spinnerPosition = childAdapter.getPosition(qChildName);
-                            child.setSelection(spinnerPosition);
-                        }
+//                        String qChildName = decrypt(snapshot.child("childName").getValue().toString());
+//                        if (qChildName != null) {
+//                            int spinnerPosition = childAdapter.getPosition(qChildName);
+//                            child.setSelection(spinnerPosition);
+//                        }
 
+                        child.setText(decrypt(snapshot.child("childName").getValue().toString()));
                         date.setText(snapshot.child("incidentDate").getValue().toString());
                         observation.setText(decrypt(snapshot.child("observation").getValue().toString()));
 
@@ -195,7 +209,69 @@ public class IllnessFormActivity extends AppCompatActivity {
 
 
         }
+
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(IllnessFormActivity.this);
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.activity_date, null);
+                dialog.setView(dialogView);
+                dialog.show();
+            }
+        });
+
     }
+
+
+    // Function to save an Illness form to Firebase
+    private void saveIllnessForm() {
+        // Get UID of logged in user
+        String myUID = mAuth.getCurrentUser().getUid();
+
+        // Get text from form elements
+        String myChild = child.getText().toString();
+        String myDate = date.getText().toString();
+        String myObservation = observation.getText().toString();
+        String myTreatment = treatment.getSelectedItem().toString();
+        String myNotes = notes.getText().toString();
+        String myIncidentTime = incidentTime.getText().toString();
+        String myGuardianArrivedTime = guardianArrivedTime.getText().toString();
+        String myTeacherProvided = teacherProvided.getSelectedItem().toString();
+        String myTeacherChecked = teacherChecked.getSelectedItem().toString();
+
+        // Additional data for form status
+        String formType = "Illness";
+        String mFormStatus = "Draft";
+        String mPdfFilename = "";
+
+        // Create a HashMap of incident form contents
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("userID", myUID);
+        map.put("childName", encrypt(myChild));
+        map.put("incidentDate", myDate);
+        map.put("observation", encrypt(myObservation));
+        map.put("treatment", myTreatment);
+        map.put("notes", encrypt(myNotes));
+        map.put("incidentTime", myIncidentTime);
+        map.put("guardianArrivedTime", myGuardianArrivedTime);
+        map.put("teacherProvided", encrypt(myTeacherProvided));
+        map.put("teacherChecked", encrypt(myTeacherChecked));
+        map.put("formType", formType);
+        map.put("formStatus", mFormStatus);
+        map.put("pdfFilename", mPdfFilename);
+
+        // Insert to Realtime Database
+        // If already created, update values instead
+        if (myKey != null) {
+            ref.child("Incident").child(myKey).setValue(map);
+        } else {
+            myKey = ref.child("Incident").push().getKey();
+            ref.child("Incident").child(myKey).setValue(map);
+        }
+    }
+
+
 
 
     // When user clicks Save, add the entered information into Firebase Realtime Database
@@ -203,55 +279,63 @@ public class IllnessFormActivity extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                // Get UID of logged in user
-                String myUID = mAuth.getCurrentUser().getUid();
-
-                // Get text from form elements
-                String myChild = child.getSelectedItem().toString();
-                String myDate = date.getText().toString();
-                String myObservation = observation.getText().toString();
-                String myTreatment = treatment.getSelectedItem().toString();
-                String myNotes = notes.getText().toString();
-                String myIncidentTime = incidentTime.getText().toString();
-                String myGuardianArrivedTime = guardianArrivedTime.getText().toString();
-                String myTeacherProvided = teacherProvided.getSelectedItem().toString();
-                String myTeacherChecked = teacherChecked.getSelectedItem().toString();
-
-                // Additional data for form status
-                String formType = "Illness";
-                boolean mSentToGuardian = false;
-                boolean mSignedByGuardian = false;
-                String mPdfFilename = "";
-
-                // Create a HashMap of incident form contents
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("userID", myUID);
-                map.put("childName", encrypt(myChild));
-                map.put("incidentDate", myDate);
-                map.put("observation", encrypt(myObservation));
-                map.put("treatment", myTreatment);
-                map.put("notes", encrypt(myNotes));
-                map.put("incidentTime", myIncidentTime);
-                map.put("guardianArrivedTime", myGuardianArrivedTime);
-                map.put("teacherProvided", encrypt(myTeacherProvided));
-                map.put("teacherChecked", encrypt(myTeacherChecked));
-                map.put("formType", formType);
-                map.put("sentToGuardian", mSentToGuardian);
-                map.put("signedByGuardian", mSignedByGuardian);
-                map.put("pdfFilename", mPdfFilename);
-
-                // Insert to Realtime Database
-                // If already created, update values instead
-                if (myKey != null) {
-                    ref.child("Incident").child(myKey).setValue(map);
-                } else {
-                    myKey = ref.child("Incident").push().getKey();
-                    ref.child("Incident").child(myKey).setValue(map);
-                }
-
+                saveIllnessForm();
                 Toast.makeText(IllnessFormActivity.this, "Saved", Toast.LENGTH_SHORT).show();
 
+            }
+        });
+    }
+
+
+    // When user clicks Save, add the teacher's signature and send a notification to the Guardian
+    private void ClickSend() {
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Save the form before sending
+                saveIllnessForm();
+
+                // Get Guardian's ID by querying on Child's name
+                String myChild = child.getText().toString();
+                Query guardianQuery = ref.child("Child").orderByChild("Name").equalTo(encrypt(myChild));
+                guardianQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+
+                            // Get the associated key for Guardian
+                            String myGuardianID = snapshot.child("ParentKey").getValue().toString();
+
+                            // Query the database for guardian's email
+                            DatabaseReference userRef = ref.child("User");
+                            Query myUserQuery = userRef.orderByKey().equalTo(myGuardianID);
+                            myUserQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                                        // Set form elements to show the saved values
+                                        String myGuardianEmail = decrypt(snapshot.child("Email").getValue().toString());
+
+                                        // Go to Passcode to continue
+                                        Intent intent = new Intent(IllnessFormActivity.this, PasscodeActivity.class);
+                                        intent.putExtra("isSendingForm", true);
+                                        intent.putExtra("formKey", myKey);
+                                        intent.putExtra("childName", myChild);
+                                        intent.putExtra("guardianEmail", myGuardianEmail);
+                                        startActivity(intent);
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(DatabaseError error) {
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                    }
+                });
             }
         });
     }

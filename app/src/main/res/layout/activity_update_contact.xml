@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,16 +16,17 @@
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Reset Password"
+            android:textAlignment="center"
+            android:text="Contact Information"
             android:textColor="@color/blue"
             android:textSize="36sp"
             android:layout_gravity="center" />
 
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txtInLayoutEmail"
+            android:id="@+id/txtInLayoutName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:layout_editor_absoluteX="199dp"
@@ -33,20 +35,36 @@
             android:layout_marginHorizontal="8dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/resetEmail"
+                android:id="@+id/updateName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter Your Email"
-                android:inputType="textEmailAddress"/>
+                android:hint="Name"
+                android:inputType="textPersonName"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtInLayoutPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:layout_editor_absoluteX="199dp"
+            tools:layout_editor_absoluteY="1024dp"
+            android:layout_marginVertical="8dp"
+            android:layout_marginHorizontal="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/updatePhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Phone Number"
+                android:inputType="phone"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/reset"
+            android:id="@+id/update"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingVertical="8sp"
-            android:text="Reset"
+            android:text="Update"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:layout_marginHorizontal="8dp"
