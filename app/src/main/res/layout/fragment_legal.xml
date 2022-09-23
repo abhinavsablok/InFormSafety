@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LegalFragment">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="198dp"
+        android:layout_height="97dp"
+        android:layout_marginLeft="150sp"
+        android:layout_marginTop="60sp"
+        android:fontFamily="sans-serif-black"
+        android:text="About Us "
+        android:textAlignment="center"
+        android:textColor="@color/teal_700"
+        android:textSize="30sp" />
+
+    <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15sp"
+            android:layout_marginTop="30sp"
+            android:fontFamily="sans-serif-condensed"
+            android:textColor="@color/blue"
+            android:text="InformSaftey is a Early Child Education Health and Safety App Which
+helps Kindergarten Centers to have fast track coummication between the Staff and the gaurdain.
+It is an Android based software which runs only on android tablets and phones.
+"
+            android:textAlignment="gravity"
+            android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15sp"
+        android:layout_marginTop="2dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="InformSaftey Provides Extra Layer of Security for the Senstive inforamtion for the Kindergarten.App uses the encryption and decryption
+feature to store the data and Provides extra layer of security by using Passcode 4 digit features to access the child incident forms once it is signed by the Gardain or parent.
+InforamSafety has Implemented Two factor authentication for the Staff and Guardain to access their Account."
+        android:textAlignment="gravity"
+        android:textColor="@color/blue"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15sp"
+        android:layout_marginTop="2dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="InFormSafety task is to reduce the number of injuries happend very day in the Kindergarter centers .The App have Different forms for different incidents Serious Incident and Minor incident,It also has location feature where the inicident happned.which gives center to work on that loaction where the incident happens.it also had a feature type of inicident occurs
+        and treatment given by the staff for those incidents.
+        "
+        android:textAlignment="gravity"
+        android:textColor="@color/blue"
+        android:textSize="15sp" />
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15sp"
+        android:layout_marginTop="2dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="In version two InformSafety will build a feature where kindergarten can generate a weekly or monthly inicident report with loaction ,incident type and treatment given for the incident."
+        android:textAlignment="gravity"
+        android:textColor="@color/blue"
+        android:textSize="15sp" />
+
+
+</LinearLayout>
+
+
+</ScrollView>
