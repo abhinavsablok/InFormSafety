@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
-            if (msg.what == 222 && mUser != null /*&& mUser.isEmailVerified()*/) {
+            if (msg.what == 222 && mUser != null && mUser.isEmailVerified()) {
                 Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                 startActivity(intent);
                 finish();
