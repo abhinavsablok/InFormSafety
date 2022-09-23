@@ -75,7 +75,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.navigation_child_protection:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ChildProtectionFragment()).commit();
-//                Toast.makeText(this, "Sorry, this part of the application is still under production.", Toast.LENGTH_LONG).show();
                 break;
             case R.id.navigation_about:
 //                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutUsFragment()).commit();

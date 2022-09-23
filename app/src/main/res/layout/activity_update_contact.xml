@@ -16,12 +16,12 @@
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             android:text="Contact Information"
             android:textColor="@color/blue"
             android:textSize="36sp"
-            android:layout_marginTop="24dp"
             android:layout_gravity="center" />
 
 
@@ -38,7 +38,7 @@
                 android:id="@+id/updateName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter Your Name"
+                android:hint="Name"
                 android:inputType="textPersonName"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -55,7 +55,7 @@
                 android:id="@+id/updatePhone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter Phone Number"
+                android:hint="Phone Number"
                 android:inputType="phone"/>
         </com.google.android.material.textfield.TextInputLayout>
 

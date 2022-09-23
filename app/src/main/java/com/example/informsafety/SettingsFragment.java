@@ -3,6 +3,7 @@ package com.example.informsafety;
 import static com.example.informsafety.EncryptDecrypt.decrypt;
 import static com.example.informsafety.EncryptDecrypt.encrypt;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -20,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -44,8 +46,9 @@ import java.util.HashMap;
 public class SettingsFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     EditText updateEmail, updateName, updatePhone, currentPassword, newPassword, confirmPassword;
-    Button update, addChild;
+    Button update, addChild, updateSign;
     ListView childListView;
+    ImageView viewSign;
 
     FirebaseHelper fbh;
     FirebaseAuth mAuth;
@@ -73,7 +76,8 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemClic
         user = FirebaseAuth.getInstance().getCurrentUser();
 
 
-        String[] setting = {"Email", "Contact Information", "Child Information", "Password", "Set Passcode", "Logout"};
+
+        String[] setting = {"Email", "Contact Information", "Child Information", "Change Password", "Set Passcode", "View Signature", "Save Signature", "Logout"};
 
         ListView listView = (ListView)view.findViewById(R.id.list);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, setting);
@@ -106,9 +110,44 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemClic
             ClickUpdatePassword();
         } if (i == 4) {  // Set Passcode
             ClickSetPasscode();
-        } if (i == 5) {  // Logout
+        } if (i == 5) {  // View Sign
+            ClickViewSign();
+        } if (i == 6) {  // Save Sign
+            ClickSaveSign();
+        } if (i == 7) {  // Logout
             ClickLogout();
         }
+    }
+
+    private void ClickViewSign() {
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.activity_view_signature, null);
+        dialog.setView(dialogView);
+
+        updateSign = dialogView.findViewById(R.id.updateSign);
+        viewSign = dialogView.findViewById(R.id.viewImage);
+
+        updateSign.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), SignatureActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        dialog.show();
+
+
+    }
+
+    private void ClickSaveSign() {
+
+        Intent intent = new Intent(getActivity(), SignatureActivity.class);
+        startActivity(intent);
+
     }
 
 
@@ -380,11 +419,52 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemClic
 
     // When the user clicks Logout, return to home screen
     private void ClickLogout() {
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseAuth.getInstance().signOut();
-        mAuth.signOut();
-        Toast.makeText(getActivity(), "Logged Out", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(getActivity().getApplication(), LoginActivity.class);
-        startActivity(intent);
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("Are you sure you want to logout from your account. Your login details will not be saved.")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                        FirebaseAuth.getInstance().signOut();
+                        mAuth.signOut();
+                        Toast.makeText(getActivity(), "Logged Out", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getActivity().getApplication(), LoginActivity.class);
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+
+        builder.show();
+
+//        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+//        LayoutInflater inflater = getLayoutInflater();
+//        View dialogView = inflater.inflate(R.layout.fragment_confirm_logout, null);
+//        dialog.setView(dialogView);
+//        yes = dialogView.findViewById(R.id.yes);
+//        cancel = dialogView.findViewById(R.id.cancel);
+//
+//        yes.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+//                FirebaseAuth.getInstance().signOut();
+//                mAuth.signOut();
+//                Toast.makeText(getActivity(), "Logged Out", Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(getActivity().getApplication(), LoginActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        cancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//            }
+//        });
     }
 }

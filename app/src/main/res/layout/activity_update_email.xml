@@ -21,7 +21,6 @@ android:layout_height="match_parent">
         android:text="Email"
         android:textColor="@color/blue"
         android:textSize="36sp"
-        android:layout_marginTop="24dp"
         android:layout_gravity="center" />
 
 
@@ -38,7 +37,7 @@ android:layout_height="match_parent">
             android:id="@+id/updateEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Your Email"
+            android:hint="Email"
             android:inputType="textEmailAddress"/>
     </com.google.android.material.textfield.TextInputLayout>
 
