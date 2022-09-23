@@ -366,8 +366,8 @@ public class SeriousFormActivity extends AppCompatActivity {
 
         // Get text from form elements
         String myChild = child.getText().toString();
-        String myDate = date.getText().toString();
-        String myTime = time.getText().toString();
+//        String myDate = date.getText().toString();
+//        String myTime = time.getText().toString();
         String myDescription = description.getText().toString();
         String myInjury = injury.getSelectedItem().toString();
         String myLocation = location.getSelectedItem().toString();
@@ -397,8 +397,8 @@ public class SeriousFormActivity extends AppCompatActivity {
         HashMap<String, Object> map = new HashMap<>();
         map.put("userID", myUID);
         map.put("childName", encrypt(myChild));
-        map.put("incidentDate", myDate);
-        map.put("incidentTime", myTime);
+//        map.put("incidentDate", myDate);
+//        map.put("incidentTime", myTime);
         map.put("description", encrypt(myDescription));
         map.put("injury", myInjury);
         map.put("location", myLocation);
@@ -453,76 +453,6 @@ public class SeriousFormActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // Save the form before sending
                 saveSeriousIncidentForm();
-                // Get text from form elements
-                String myChild = child.getText().toString();
-//                String myDate = date.getText().toString();
-//                String myTime = time.getText().toString();
-                String myDescription = description.getText().toString();
-                String myInjury = injury.getSelectedItem().toString();
-                String myLocation = location.getSelectedItem().toString();
-                String myTreatment = treatment.getSelectedItem().toString();
-                String myAmbulanceDoctorCalled = ambulanceDoctorCalled.getSelectedItem().toString();
-                String myAmbulanceDoctorCalledTime = ambulanceDoctorCalledTime.getText().toString();
-                String myGuardianContactedTime = guardianContactedTime.getText().toString();
-                String myGuardianArrivedTime = guardianArrivedTime.getText().toString();
-                String myLikelihood = likelihood.getSelectedItem().toString();
-                String myActionsRequired = actionsRequired.getText().toString();
-                String myTeacherActionsRequiredBy = teacherActionsRequiredBy.getSelectedItem().toString();
-                String myDateActionsRequired = dateActionsRequired.getText().toString();
-                String mySeniorTeacherInvestigationRequired = seniorTeacherInvestigationRequired.getSelectedItem().toString();
-                String myWorksafeMoeAdvised = worksafeMoeAdvised.getSelectedItem().toString();
-                String myAdviseRph = adviseRph.getSelectedItem().toString();
-                String myFollowUpWithGuardian = followUpWithGuardian.getSelectedItem().toString();
-                String myTeacherProvided = teacherProvided.getSelectedItem().toString();
-                String myTeacherChecked = teacherChecked.getSelectedItem().toString();
-                String myComments = comments.getText().toString();
-
-                // Additional data for form status
-                String formType = "Serious Incident";
-//                boolean mSentToGuardian = false;
-//                boolean mSignedByGuardian = false;
-                String mFormStatus = "Draft";
-                String mPdfFilename = "";
-
-                // Create a HashMap of incident form contents
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("userID", myUID);
-                map.put("childName", encrypt(myChild));
-//                map.put("incidentDate", myDate);
-//                map.put("incidentTime", myTime);
-                map.put("description", encrypt(myDescription));
-                map.put("injury", myInjury);
-                map.put("location", myLocation);
-                map.put("treatment", myTreatment);
-                map.put("ambulanceDoctorCalled", myAmbulanceDoctorCalled);
-                map.put("ambulanceDoctorCalledTime", myAmbulanceDoctorCalledTime);
-                map.put("guardianContactedTime", myGuardianContactedTime);
-                map.put("guardianArrivedTime", myGuardianArrivedTime);
-                map.put("likelihood", myLikelihood);
-                map.put("actionsRequired", encrypt(myActionsRequired));
-                map.put("teacherActionsRequiredBy", encrypt(myTeacherActionsRequiredBy));
-                map.put("dateActionsRequired", myDateActionsRequired);
-                map.put("seniorTeacherInvestigationRequired", mySeniorTeacherInvestigationRequired);
-                map.put("worksafeMoeAdvised", myWorksafeMoeAdvised);
-                map.put("adviseRph", myAdviseRph);
-                map.put("followUpWithGuardian", myFollowUpWithGuardian);
-                map.put("teacherProvided", encrypt(myTeacherProvided));
-                map.put("teacherChecked", encrypt(myTeacherChecked));
-                map.put("comments", encrypt(myComments));
-                map.put("formType", formType);
-//                map.put("sentToGuardian", mSentToGuardian);
-//                map.put("signedByGuardian", mSignedByGuardian);
-                map.put("formStatus", mFormStatus);
-                map.put("pdfFilename", mPdfFilename);
-
-                // Insert to Realtime Database
-                // If already created, update values instead
-                if (myKey != null) {
-                    ref.child("Incident").child(myKey).setValue(map);
-                } else {
-                    myKey = ref.child("Incident").push().getKey();
-                    ref.child("Incident").child(myKey).setValue(map);
-                }
 
                 // Get Guardian's ID by querying on Child's name
                 String myChild = child.getText().toString();
