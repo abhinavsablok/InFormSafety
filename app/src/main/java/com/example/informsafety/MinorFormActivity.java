@@ -79,6 +79,7 @@ public class MinorFormActivity extends AppCompatActivity {
         send = findViewById(R.id.send);
 
         ClickSave();
+        ClickSend();
 
 
         // Dropdown list for incident locations
@@ -270,63 +271,115 @@ public class MinorFormActivity extends AppCompatActivity {
     }
 
 
+    // Function to save a  Minor Incident form to Firebase
+    private void saveMinorIncidentForm() {
+        // Get UID of logged in user
+        String myUID = mAuth.getCurrentUser().getUid();
+
+        // Get text from form elements
+        String myChild = child.getText().toString();
+        String myDate = date.getText().toString();
+        String myTime = time.getText().toString();
+        String myDescription = description.getText().toString();
+        String myLocation = location.getSelectedItem().toString();
+        String myTreatment = treatment.getSelectedItem().toString();
+        String myTeacherProvided = teacherProvided.getSelectedItem().toString();
+        String myTeacherChecked = teacherChecked.getSelectedItem().toString();
+        String myComments = comments.getText().toString();
+
+        // Additional data for form status
+        String formType = "Minor Incident";
+        String mFormStatus = "Draft";
+        String mPdfFilename = "";
+
+        // Create a HashMap of incident form contents
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("userID", myUID);
+        map.put("childName", encrypt(myChild));
+        map.put("incidentDate", myDate);
+        map.put("incidentTime", myTime);
+        map.put("description", encrypt(myDescription));
+        map.put("location", myLocation);
+        map.put("treatment", myTreatment);
+        map.put("teacherProvided", encrypt(myTeacherProvided));
+        map.put("teacherChecked", encrypt(myTeacherChecked));
+        map.put("comments", encrypt(myComments));
+        map.put("formType", formType);
+        map.put("formStatus", mFormStatus);
+        map.put("pdfFilename", mPdfFilename);
+
+        // Insert to Realtime Database
+        // If already created, update values instead
+        if (myKey != null) {
+            ref.child("Incident").child(myKey).setValue(map);
+        } else {
+            myKey = ref.child("Incident").push().getKey();
+            ref.child("Incident").child(myKey).setValue(map);
+        }
+    }
+
 
     // When user clicks Save, add the entered information into Firebase Realtime Database
     private void ClickSave() {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                // Get UID of logged in user
-                String myUID = mAuth.getCurrentUser().getUid();
-
-                // Get text from form elements
-                String myChild = child.getText().toString();
-                String myDate = date.getText().toString();
-                String myTime = time.getText().toString();
-                String myDescription = description.getText().toString();
-                String myLocation = location.getSelectedItem().toString();
-                String myTreatment = treatment.getSelectedItem().toString();
-                String myTeacherProvided = teacherProvided.getSelectedItem().toString();
-                String myTeacherChecked = teacherChecked.getSelectedItem().toString();
-                String myComments = comments.getText().toString();
-
-                // Additional data for form status
-                String formType = "Minor Incident";
-//                boolean mSentToGuardian = false;
-//                boolean mSignedByGuardian = false;
-                String mFormStatus = "Draft";
-                String mPdfFilename = "";
-
-                // Create a HashMap of incident form contents
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("userID", myUID);
-                map.put("childName", encrypt(myChild));
-                map.put("incidentDate", myDate);
-                map.put("incidentTime", myTime);
-                map.put("description", encrypt(myDescription));
-                map.put("location", myLocation);
-                map.put("treatment", myTreatment);
-                map.put("teacherProvided", encrypt(myTeacherProvided));
-                map.put("teacherChecked", encrypt(myTeacherChecked));
-                map.put("comments", encrypt(myComments));
-                map.put("formType", formType);
-//                map.put("sentToGuardian", mSentToGuardian);
-//                map.put("signedByGuardian", mSignedByGuardian);
-                map.put("formStatus", mFormStatus);
-                map.put("pdfFilename", mPdfFilename);
-
-                // Insert to Realtime Database
-                // If already created, update values instead
-                if (myKey != null) {
-                    ref.child("Incident").child(myKey).setValue(map);
-                } else {
-                    myKey = ref.child("Incident").push().getKey();
-                    ref.child("Incident").child(myKey).setValue(map);
-                }
-
+                saveMinorIncidentForm();
                 Toast.makeText(MinorFormActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
+
+    // When user clicks Save, add the teacher's signature and send a notification to the Guardian
+    private void ClickSend() {
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Save the form before sending
+                saveMinorIncidentForm();
+
+                // Get Guardian's ID by querying on Child's name
+                String myChild = child.getText().toString();
+                Query guardianQuery = ref.child("Child").orderByChild("Name").equalTo(encrypt(myChild));
+                guardianQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+
+                            // Get the associated key for Guardian
+                            String myGuardianID = snapshot.child("ParentKey").getValue().toString();
+
+                            // Query the database for guardian's email
+                            DatabaseReference userRef = ref.child("User");
+                            Query myUserQuery = userRef.orderByKey().equalTo(myGuardianID);
+                            myUserQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                                        // Set form elements to show the saved values
+                                        String myGuardianEmail = decrypt(snapshot.child("Email").getValue().toString());
+
+                                        // Go to Passcode to continue
+                                        Intent intent = new Intent(MinorFormActivity.this, PasscodeActivity.class);
+                                        intent.putExtra("isSendingForm", true);
+                                        intent.putExtra("formKey", myKey);
+                                        intent.putExtra("childName", myChild);
+                                        intent.putExtra("guardianEmail", myGuardianEmail);
+                                        startActivity(intent);
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(DatabaseError error) {
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                    }
+                });
             }
         });
     }

@@ -76,7 +76,8 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemClic
         user = FirebaseAuth.getInstance().getCurrentUser();
 
 
-        String[] setting = {"Email", "Contact Information", "Child Information", "Change Password", "View Signature", "Save Signature", "Logout"};
+
+        String[] setting = {"Email", "Contact Information", "Child Information", "Change Password", "Set Passcode", "View Signature", "Save Signature", "Logout"};
 
         ListView listView = (ListView)view.findViewById(R.id.list);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, setting);
@@ -107,11 +108,13 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemClic
             ClickChildInformation();
         } if (i == 3) {  //  Password
             ClickUpdatePassword();
-        } if (i == 4) {  // View Sign
+        } if (i == 4) {  // Set Passcode
+            ClickSetPasscode();
+        } if (i == 5) {  // View Sign
             ClickViewSign();
-        } if (i == 5) {  // Save Sign
+        } if (i == 6) {  // Save Sign
             ClickSaveSign();
-        }if (i == 6) {  // Logout
+        } if (i == 7) {  // Logout
             ClickLogout();
         }
     }
@@ -339,9 +342,6 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemClic
     // When the user clicks Password, pop up the Change Password dialog
     private void ClickUpdatePassword() {
 
-        // Prompt the user to enter their Passcode
-        startActivity(new Intent(getActivity(),PasscodeActivity.class));
-
         // Pop up the Reset Password dialog
         AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getLayoutInflater();
@@ -406,6 +406,14 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemClic
         dialog.show();
 
 
+    }
+
+
+    // When the user clicks Set Passcode, go to Passcode activity
+    private void ClickSetPasscode() {
+        Intent intent = new Intent(getActivity(), PasscodeActivity.class);
+        intent.putExtra("isCreatingPasscode", true);
+        startActivity(intent);
     }
 
 

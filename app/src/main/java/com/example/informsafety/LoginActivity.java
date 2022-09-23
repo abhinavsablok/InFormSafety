@@ -251,6 +251,9 @@ public class LoginActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()) {
+
+                                                        // TODO: Set a Passcode
+
                                                         Toast.makeText(LoginActivity.this, "Registration Completed! Please check your email for verification.", Toast.LENGTH_SHORT).show();
                                                         // Get UID of new user
                                                         String myUID = mAuth.getCurrentUser().getUid();

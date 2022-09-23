@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
             android:layout_marginVertical="8dp"
-            android:hint="Note Description"
+            android:hint="Describe what you have noticed and the situation when you noticed it. Who have you informed about this?"
             android:inputType="textMultiLine" />
 
         <Button
