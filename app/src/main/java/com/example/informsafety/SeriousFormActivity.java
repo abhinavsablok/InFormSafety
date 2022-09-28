@@ -3,6 +3,7 @@ package com.example.informsafety;
 import static com.example.informsafety.EncryptDecrypt.*;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
@@ -14,6 +15,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.util.Patterns;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -65,7 +67,11 @@ public class SeriousFormActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setTitle("SERIOUS INCIDENT FORM");
+        // Action bar with page title and back button
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Serious Incident Form");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         setContentView(R.layout.activity_serious_form);
 
 
@@ -540,6 +546,19 @@ public class SeriousFormActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+
+    // Implement Back button in action bar
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            onBackPressed();  return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 

@@ -8,11 +8,13 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -53,7 +55,11 @@ public class ChildProtectionNoteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setTitle("Child Protection Note");
+        // Action bar with page title and back button
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Child Protection Note");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         setContentView(R.layout.activity_child_protection_note);
 
         // Get user and database refs
@@ -149,6 +155,19 @@ public class ChildProtectionNoteActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+
+    // Implement Back button in action bar
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            onBackPressed();  return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 

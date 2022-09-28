@@ -73,11 +73,11 @@ public class DraftsFragment extends Fragment {
                     String qKey = snapshot.getKey();
                     String qFormType = snapshot.child("formType").getValue().toString();
                     String qChildName = decrypt(snapshot.child("childName").getValue().toString());
-//                    String qIncidentDate = snapshot.child("incidentDate").getValue().toString();
-//                    String qIncidentTime = snapshot.child("incidentTime").getValue().toString();
+                    String qIncidentDate = snapshot.child("incidentDate").getValue().toString();
+                    String qIncidentTime = snapshot.child("incidentTime").getValue().toString();
 
                     // Add selected form data into one field in the ListView
-                    draftsList.add(qChildName + ", " + qFormType /*+ ", " + qIncidentDate*/);
+                    draftsList.add(qChildName + ", " + qFormType + ", " + qIncidentDate);
 
                     // Populate lookup lists to open the clicked form in the correct view
                     draftsKeyList.add(qKey);

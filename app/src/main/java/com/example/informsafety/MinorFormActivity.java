@@ -62,11 +62,10 @@ public class MinorFormActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Action bar with page title and back button
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Minor Incident Form");
-
-        // Add Back button in action bar
-        // TODO: Code Back button to go to Home or Drafts depending where the form was opened from
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         setContentView(R.layout.activity_minor_form);
@@ -335,6 +334,19 @@ public class MinorFormActivity extends AppCompatActivity {
 
         }
 
+    }
+
+
+    // Implement Back button in action bar
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            onBackPressed();  return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 

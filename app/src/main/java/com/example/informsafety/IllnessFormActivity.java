@@ -3,6 +3,7 @@ package com.example.informsafety;
 import static com.example.informsafety.EncryptDecrypt.*;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -16,6 +17,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -65,7 +67,11 @@ public class IllnessFormActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setTitle("ILLNESS FORM");
+        // Action bar with page title and back button
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Illness Form");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         setContentView(R.layout.activity_illness_form);
 
         fbh = new FirebaseHelper();
@@ -314,6 +320,19 @@ public class IllnessFormActivity extends AppCompatActivity {
 
 
         }
+    }
+
+
+    // Implement Back button in action bar
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            onBackPressed();  return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 
