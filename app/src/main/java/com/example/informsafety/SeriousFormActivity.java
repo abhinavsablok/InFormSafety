@@ -6,7 +6,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.util.Patterns;
@@ -14,6 +18,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
@@ -31,7 +36,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -42,15 +51,16 @@ public class SeriousFormActivity extends AppCompatActivity {
     Spinner injury, location, treatment, ambulanceDoctorCalled, likelihood,
             teacherActionsRequiredBy, seniorTeacherInvestigationRequired, worksafeMoeAdvised,
             adviseRph, followUpWithGuardian, teacherProvided, teacherChecked;
-    EditText date, description, ambulanceDoctorCalledTime, guardianContactedTime,
+    EditText incidentTime, date, description, ambulanceDoctorCalledTime, guardianContactedTime,
             guardianArrivedTime, actionsRequired, dateActionsRequired, comments;
-    TimePicker time;
     Button save, send;
     FirebaseAuth mAuth;
     FirebaseHelper fbh;
     FirebaseDatabase db;
     DatabaseReference ref;
     String myKey;
+    int timeHour, timeMinute;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +76,8 @@ public class SeriousFormActivity extends AppCompatActivity {
 
         // Get references for form elements
         child = findViewById(R.id.child);
-//        date = findViewById(R.id.date);
-        time = findViewById(R.id.time);
+        date = findViewById(R.id.date);
+        incidentTime = findViewById(R.id.time);
         description = findViewById(R.id.description);
         injury = findViewById(R.id.injury);
         location = findViewById(R.id.location);
@@ -91,6 +101,180 @@ public class SeriousFormActivity extends AppCompatActivity {
         send = findViewById(R.id.send);
         ClickSave();
         ClickSend();
+
+        Calendar calender = Calendar.getInstance();
+
+        final int year = calender.get(calender.YEAR);
+        final int month = calender.get(calender.MONTH);
+        final int day = calender.get(calender.DAY_OF_MONTH);
+
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        SeriousFormActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
+                        month = month+1;
+                        String selectedDate = day+"/"+month+"/"+year;
+                        date.setText(selectedDate);
+                    }
+                },year,month,day);
+                datePickerDialog.show();
+            }
+        });
+
+        dateActionsRequired.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        SeriousFormActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
+                        month = month+1;
+                        String selectedDate = day+"/"+month+"/"+year;
+                        dateActionsRequired.setText(selectedDate);
+                    }
+                },year,month,day);
+                datePickerDialog.show();
+            }
+        });
+
+        incidentTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(
+                        SeriousFormActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        timeHour = hourOfDay;
+                        timeMinute = minute;
+
+                        String time = timeHour+":"+timeMinute;
+
+                        SimpleDateFormat f24Hours = new SimpleDateFormat(
+                                "HH:mm"
+                        );
+                        try {
+                            Date date = f24Hours.parse(time);
+
+                            SimpleDateFormat f12Hours = new SimpleDateFormat(
+                                    "hh:mm aa"
+                            );
+                            incidentTime.setText(f12Hours.format(date));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, 12, 0, false
+                );
+                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                timePickerDialog.updateTime(timeHour, timeMinute);
+                timePickerDialog.show();
+            }
+        });
+
+        guardianContactedTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(
+                        SeriousFormActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        timeHour = hourOfDay;
+                        timeMinute = minute;
+
+                        String time = timeHour+":"+timeMinute;
+
+                        SimpleDateFormat f24Hours = new SimpleDateFormat(
+                                "HH:mm"
+                        );
+                        try {
+                            Date date = f24Hours.parse(time);
+
+                            SimpleDateFormat f12Hours = new SimpleDateFormat(
+                                    "hh:mm aa"
+                            );
+                            guardianContactedTime.setText(f12Hours.format(date));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, 12, 0, false
+                );
+                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                timePickerDialog.updateTime(timeHour, timeMinute);
+                timePickerDialog.show();
+            }
+        });
+
+        guardianArrivedTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(
+                        SeriousFormActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        timeHour = hourOfDay;
+                        timeMinute = minute;
+
+                        String time = timeHour+":"+timeMinute;
+
+                        SimpleDateFormat f24Hours = new SimpleDateFormat(
+                                "HH:mm"
+                        );
+                        try {
+                            Date date = f24Hours.parse(time);
+
+                            SimpleDateFormat f12Hours = new SimpleDateFormat(
+                                    "hh:mm aa"
+                            );
+                            guardianArrivedTime.setText(f12Hours.format(date));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, 12, 0, false
+                );
+                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                timePickerDialog.updateTime(timeHour, timeMinute);
+                timePickerDialog.show();
+            }
+        });
+
+        ambulanceDoctorCalledTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(
+                        SeriousFormActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        timeHour = hourOfDay;
+                        timeMinute = minute;
+
+                        String time = timeHour+":"+timeMinute;
+
+                        SimpleDateFormat f24Hours = new SimpleDateFormat(
+                                "HH:mm"
+                        );
+                        try {
+                            Date date = f24Hours.parse(time);
+
+                            SimpleDateFormat f12Hours = new SimpleDateFormat(
+                                    "hh:mm aa"
+                            );
+                            ambulanceDoctorCalledTime.setText(f12Hours.format(date));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, 12, 0, false
+                );
+                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                timePickerDialog.updateTime(timeHour, timeMinute);
+                timePickerDialog.show();
+            }
+        });
 
         // Dropdown list for injury types
         List<String> injuryList = new ArrayList<>();
@@ -366,8 +550,8 @@ public class SeriousFormActivity extends AppCompatActivity {
 
         // Get text from form elements
         String myChild = child.getText().toString();
-//        String myDate = date.getText().toString();
-//        String myTime = time.getText().toString();
+        String myDate = date.getText().toString();
+        String myTime = incidentTime.getText().toString();
         String myDescription = description.getText().toString();
         String myInjury = injury.getSelectedItem().toString();
         String myLocation = location.getSelectedItem().toString();
@@ -397,8 +581,8 @@ public class SeriousFormActivity extends AppCompatActivity {
         HashMap<String, Object> map = new HashMap<>();
         map.put("userID", myUID);
         map.put("childName", encrypt(myChild));
-//        map.put("incidentDate", myDate);
-//        map.put("incidentTime", myTime);
+        map.put("incidentDate", myDate);
+        map.put("incidentTime", myTime);
         map.put("description", encrypt(myDescription));
         map.put("injury", myInjury);
         map.put("location", myLocation);

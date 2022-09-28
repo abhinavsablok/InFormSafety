@@ -16,53 +16,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
-            android:layout_marginVertical="8dp"
             android:hint="Child Name"
             android:inputType="textPersonName"
             tools:layout_editor_absoluteX="199dp"
             tools:layout_editor_absoluteY="1024dp" />
 
-        <Button
+        <EditText
             android:id="@+id/date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="100sp"
-            android:paddingVertical="8sp"
-            android:text="Pick a date"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            tools:layout_editor_absoluteX="199dp"
-            tools:layout_editor_absoluteY="1024dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="60sp"
-            android:layout_marginVertical="8dp"
-            android:textSize="16sp"
-            android:text="Selected Date"
-            android:textAlignment="center"
-            tools:layout_editor_absoluteX="199dp"
-            tools:layout_editor_absoluteY="1024dp" />
-
-
-<!--        <EditText-->
-<!--            android:id="@+id/date"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginHorizontal="8dp"-->
-<!--            android:layout_marginVertical="8dp"-->
-<!--            android:hint="Record Date"-->
-<!--            android:inputType="date"-->
-<!--            tools:layout_editor_absoluteX="199dp"-->
-<!--            tools:layout_editor_absoluteY="1024dp" />-->
+            android:layout_marginHorizontal="8dp"
+            android:focusable="false"
+            android:hint="Select Date" />
 
         <EditText
             android:id="@+id/note"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="8dp"
-            android:layout_marginVertical="8dp"
+            android:layout_margin="8dp"
             android:hint="Describe what you have noticed and the situation when you noticed it. Who have you informed about this?"
             android:inputType="textMultiLine" />
 
