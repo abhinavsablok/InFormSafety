@@ -263,7 +263,7 @@ public class SeriousFormActivity extends AppCompatActivity {
                         // Set form elements to show the saved values
                         // Text/date/time fields
                         child.setText(decrypt(snapshot.child("childName").getValue().toString()));
-                        date.setText(snapshot.child("incidentDate").getValue().toString());
+//                        date.setText(snapshot.child("incidentDate").getValue().toString());
 //                        time.setText(snapshot.child("incidentTime").getValue().toString());
                         description.setText(decrypt(snapshot.child("description").getValue().toString()));
                         ambulanceDoctorCalledTime.setText(snapshot.child("ambulanceDoctorCalledTime").getValue().toString());

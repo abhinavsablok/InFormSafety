@@ -65,8 +65,8 @@ public class IllnessFormActivity extends AppCompatActivity {
         teacherChecked = findViewById(R.id.teacherChecked);
         treatment = findViewById(R.id.treatment);
         date = findViewById(R.id.date);
-        incidentTime = findViewById(R.id.incidentTime);
-        guardianArrivedTime = findViewById(R.id.guardianArrivedTime);
+//        incidentTime = findViewById(R.id.incidentTime);
+//        guardianArrivedTime = findViewById(R.id.guardianArrivedTime);
         observation = findViewById(R.id.observation);
         notes = findViewById(R.id.notes);
         save = findViewById(R.id.save);
@@ -184,8 +184,8 @@ public class IllnessFormActivity extends AppCompatActivity {
                         }
 
                         notes.setText(decrypt(snapshot.child("notes").getValue().toString()));
-                        incidentTime.setText(snapshot.child("incidentTime").getValue().toString());
-                        guardianArrivedTime.setText(snapshot.child("guardianArrivedTime").getValue().toString());
+//                        incidentTime.setText(snapshot.child("incidentTime").getValue().toString());
+//                        guardianArrivedTime.setText(snapshot.child("guardianArrivedTime").getValue().toString());
 
                         String qTeacherProvided = decrypt(snapshot.child("teacherProvided").getValue().toString());
                         if (qTeacherProvided != null) {
