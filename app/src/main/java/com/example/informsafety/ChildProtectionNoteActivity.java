@@ -3,6 +3,7 @@ package com.example.informsafety;
 import static com.example.informsafety.EncryptDecrypt.decrypt;
 import static com.example.informsafety.EncryptDecrypt.encrypt;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -31,6 +33,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -39,8 +42,8 @@ import javax.annotation.Nullable;
 public class ChildProtectionNoteActivity extends AppCompatActivity {
 
     AutoCompleteTextView child;
-    EditText note;
-    Button save, date;
+    EditText note, date;
+    Button save;
     FirebaseAuth mAuth;
     FirebaseDatabase db;
     DatabaseReference ref;
@@ -66,6 +69,28 @@ public class ChildProtectionNoteActivity extends AppCompatActivity {
 
         // Call button functions
         save.setOnClickListener(v -> ClickSave());
+
+        Calendar calender = Calendar.getInstance();
+
+        final int year = calender.get(calender.YEAR);
+        final int month = calender.get(calender.MONTH);
+        final int day = calender.get(calender.DAY_OF_MONTH);
+
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        ChildProtectionNoteActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
+                        month = month+1;
+                        String selectedDate = day+"/"+month+"/"+year;
+                        date.setText(selectedDate);
+                    }
+                },year,month,day);
+                datePickerDialog.show();
+            }
+        });
 
 
         // Autocomplete text + dropdown for Child
@@ -98,20 +123,6 @@ public class ChildProtectionNoteActivity extends AppCompatActivity {
                 child.showDropDown();
             }
         });
-
-        date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(ChildProtectionNoteActivity.this);
-                LayoutInflater inflater = getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.activity_date, null);
-                dialog.setView(dialogView);
-                dialog.show();
-            }
-        });
-
-
-
 
         // If user opened a saved form, populate the form with the saved values
         Bundle extras = getIntent().getExtras();

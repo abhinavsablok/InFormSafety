@@ -7,7 +7,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.AdaptiveIconDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -15,8 +20,10 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -31,7 +38,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Clock;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -39,13 +52,14 @@ public class IllnessFormActivity extends AppCompatActivity {
 
     AutoCompleteTextView child;
     Spinner teacherProvided, teacherChecked, treatment;
-    EditText incidentTime, guardianArrivedTime, observation, notes;
-    Button save, send, date;
+    EditText date, guardianContactedTime, guardianArrivedTime, observation, notes;
+    Button save, send;
     FirebaseAuth mAuth;
     FirebaseHelper fbh;
     FirebaseDatabase db;
     DatabaseReference ref;
     String myKey;
+    int timeHour, timeMinute;
 
 
     @Override
@@ -65,7 +79,7 @@ public class IllnessFormActivity extends AppCompatActivity {
         teacherChecked = findViewById(R.id.teacherChecked);
         treatment = findViewById(R.id.treatment);
         date = findViewById(R.id.date);
-        incidentTime = findViewById(R.id.incidentTime);
+        guardianContactedTime = findViewById(R.id.guardianContactedTime);
         guardianArrivedTime = findViewById(R.id.guardianArrivedTime);
         observation = findViewById(R.id.observation);
         notes = findViewById(R.id.notes);
@@ -74,6 +88,97 @@ public class IllnessFormActivity extends AppCompatActivity {
 
         ClickSave();
         ClickSend();
+
+        Calendar calender = Calendar.getInstance();
+
+        final int year = calender.get(calender.YEAR);
+        final int month = calender.get(calender.MONTH);
+        final int day = calender.get(calender.DAY_OF_MONTH);
+
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        IllnessFormActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
+                        month = month+1;
+                        String selectedDate = day+"/"+month+"/"+year;
+                        date.setText(selectedDate);
+                    }
+                },year,month,day);
+            datePickerDialog.show();
+            }
+        });
+
+        guardianContactedTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(
+                        IllnessFormActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        timeHour = hourOfDay;
+                        timeMinute = minute;
+
+                        String time = timeHour+":"+timeMinute;
+
+                        SimpleDateFormat f24Hours = new SimpleDateFormat(
+                                "HH:mm"
+                        );
+                        try {
+                            Date date = f24Hours.parse(time);
+
+                            SimpleDateFormat f12Hours = new SimpleDateFormat(
+                                    "hh:mm aa"
+                            );
+                            guardianContactedTime.setText(f12Hours.format(date));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, 12, 0, false
+                );
+                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                timePickerDialog.updateTime(timeHour, timeMinute);
+                timePickerDialog.show();
+            }
+        });
+
+        guardianArrivedTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(
+                        IllnessFormActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        timeHour = hourOfDay;
+                        timeMinute = minute;
+
+                        String time = timeHour+":"+timeMinute;
+
+                        SimpleDateFormat f24Hours = new SimpleDateFormat(
+                                "HH:mm"
+                        );
+                        try {
+                            Date date = f24Hours.parse(time);
+
+                            SimpleDateFormat f12Hours = new SimpleDateFormat(
+                                    "hh:mm aa"
+                            );
+                            guardianArrivedTime.setText(f12Hours.format(date));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, 12, 0, false
+                );
+                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                timePickerDialog.updateTime(timeHour, timeMinute);
+                timePickerDialog.show();
+            }
+        });
+
 
 
         // Dropdown list for incident treatments
@@ -184,7 +289,7 @@ public class IllnessFormActivity extends AppCompatActivity {
                         }
 
                         notes.setText(decrypt(snapshot.child("notes").getValue().toString()));
-                        incidentTime.setText(snapshot.child("incidentTime").getValue().toString());
+                        guardianContactedTime.setText(snapshot.child("incidentTime").getValue().toString());
                         guardianArrivedTime.setText(snapshot.child("guardianArrivedTime").getValue().toString());
 
                         String qTeacherProvided = decrypt(snapshot.child("teacherProvided").getValue().toString());
@@ -209,18 +314,6 @@ public class IllnessFormActivity extends AppCompatActivity {
 
 
         }
-
-        date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(IllnessFormActivity.this);
-                LayoutInflater inflater = getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.activity_date, null);
-                dialog.setView(dialogView);
-                dialog.show();
-            }
-        });
-
     }
 
 
@@ -235,7 +328,7 @@ public class IllnessFormActivity extends AppCompatActivity {
         String myObservation = observation.getText().toString();
         String myTreatment = treatment.getSelectedItem().toString();
         String myNotes = notes.getText().toString();
-        String myIncidentTime = incidentTime.getText().toString();
+        String myIncidentTime = guardianContactedTime.getText().toString();
         String myGuardianArrivedTime = guardianArrivedTime.getText().toString();
         String myTeacherProvided = teacherProvided.getSelectedItem().toString();
         String myTeacherChecked = teacherChecked.getSelectedItem().toString();

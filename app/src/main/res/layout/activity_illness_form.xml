@@ -5,149 +5,111 @@
     android:layout_height="match_parent"
     tools:context=".IllnessFormActivity">
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <AutoCompleteTextView
+            android:id="@+id/child"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="4dp"
+            android:hint="Child Name"
+            android:inputType="textPersonName"
+            tools:layout_editor_absoluteX="199dp"
+            tools:layout_editor_absoluteY="1024dp" />
 
+        <EditText
+            android:id="@+id/date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:focusable="false"
+            android:hint="Select Date" />
 
-            <AutoCompleteTextView
-                android:id="@+id/child"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginVertical="8dp"
-                android:hint="Child Name"
-                android:inputType="textPersonName"
-                tools:layout_editor_absoluteX="199dp"
-                tools:layout_editor_absoluteY="1024dp" />
+        <EditText
+            android:id="@+id/observation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:hint="Observation of the Child"
+            android:inputType="textMultiLine" />
 
-            <Button
-                android:id="@+id/date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="60sp"
-                android:paddingVertical="8sp"
-                android:text="Pick a date"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                tools:layout_editor_absoluteX="199dp"
-                tools:layout_editor_absoluteY="1024dp" />
+        <Spinner
+            android:id="@+id/treatment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:contentDescription="Dropdown list for incident treatment"
+            android:textAlignment="center" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="60sp"
-                android:layout_marginVertical="8dp"
-                android:text="Selected Date"
-                android:textAlignment="center"
-                android:textSize="16sp"
-                tools:layout_editor_absoluteX="199dp"
-                tools:layout_editor_absoluteY="1024dp" />
+        <EditText
+            android:id="@+id/notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:ems="10"
+            android:hint="Time and Temperature Notes"
+            android:inputType="text" />
 
-            <!--        <EditText-->
-            <!--            android:id="@+id/date"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:layout_marginTop="16dp"-->
-            <!--            android:ems="10"-->
-            <!--            android:hint="Date"-->
-            <!--            android:inputType="date"-->
-            <!--            app:layout_constraintEnd_toEndOf="parent"-->
-            <!--            app:layout_constraintStart_toStartOf="parent"-->
-            <!--            app:layout_constraintTop_toBottomOf="@+id/child" />-->
+        <EditText
+            android:id="@+id/guardianContactedTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:focusable="false"
+            android:hint="Guardian Contacted Time" />
 
-            <EditText
-                android:id="@+id/observation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginVertical="8dp"
-                android:ems="10"
-                android:hint="Observation of the Child"
-                android:inputType="textMultiLine" />
+        <EditText
+            android:id="@+id/guardianArrivedTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:focusable="false"
+            android:hint="Guardian Arrived Time" />
 
-            <Spinner
-                android:id="@+id/treatment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginVertical="8dp"
-                android:textAlignment="center"
-                android:contentDescription="Dropdown list for incident treatment" />
+        <Spinner
+            android:id="@+id/teacherProvided"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:contentDescription="Dropdown list for Teacher name"
+            android:textAlignment="center" />
 
-            <EditText
-                android:id="@+id/notes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginVertical="8dp"
-                android:ems="10"
-                android:hint="Time and Temperature Notes"
-                android:inputType="text" />
+        <Spinner
+            android:id="@+id/teacherChecked"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:contentDescription="Dropdown list for Teacher name"
+            android:textAlignment="center" />
 
-            <EditText
-                android:id="@+id/incidentTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginVertical="8dp"
-                android:ems="10"
-                android:hint="Guardian Contacted Time"
-                android:inputType="text" />
+        <Button
+            android:id="@+id/save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:paddingVertical="8sp"
+            android:text="Save as a draft"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            tools:layout_editor_absoluteX="199dp"
+            tools:layout_editor_absoluteY="1024dp" />
 
-            <EditText
-                android:id="@+id/guardianArrivedTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginVertical="8dp"
-                android:ems="10"
-                android:hint="Guardian Arrived Time"
-                android:inputType="text" />
+        <Button
+            android:id="@+id/send"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:paddingVertical="8sp"
+            android:text="send form to guardian"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            tools:layout_editor_absoluteX="199dp"
+            tools:layout_editor_absoluteY="1024dp" />
 
-            <Spinner
-                android:id="@+id/teacherProvided"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginVertical="8dp"
-                android:textAlignment="center"
-                android:contentDescription="Dropdown list for Teacher name" />
-
-            <Spinner
-                android:id="@+id/teacherChecked"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginVertical="8dp"
-                android:textAlignment="center"
-                android:contentDescription="Dropdown list for Teacher name" />
-
-            <Button
-                android:id="@+id/save"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:paddingVertical="8sp"
-                android:text="Save as a draft"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                tools:layout_editor_absoluteX="199dp"
-                tools:layout_editor_absoluteY="1024dp" />
-
-            <Button
-                android:id="@+id/send"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:paddingVertical="8sp"
-                android:text="send form to guardian"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                tools:layout_editor_absoluteX="199dp"
-                tools:layout_editor_absoluteY="1024dp" />
-
-        </LinearLayout>
+    </LinearLayout>
 
 </ScrollView>

@@ -7,7 +7,11 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.MenuItem;
@@ -15,8 +19,10 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -31,7 +37,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -39,13 +49,14 @@ public class MinorFormActivity extends AppCompatActivity {
 
     AutoCompleteTextView child;
     Spinner teacherProvided, teacherChecked, location, treatment;
-    EditText date, time, description, comments;
+    EditText date, incidentTime, description, comments;
     Button save, send;
     FirebaseAuth mAuth;
     FirebaseHelper fbh;
     FirebaseDatabase db;
     DatabaseReference ref;
     String myKey;
+    int timeHour, timeMinute;
 
 
     @Override
@@ -72,7 +83,7 @@ public class MinorFormActivity extends AppCompatActivity {
         location = findViewById(R.id.location);
         treatment = findViewById(R.id.treatment);
         date = findViewById(R.id.date);
-        time = findViewById(R.id.time);
+        incidentTime = findViewById(R.id.time);
         description = findViewById(R.id.description);
         comments = findViewById(R.id.comments);
         save = findViewById(R.id.save);
@@ -80,6 +91,62 @@ public class MinorFormActivity extends AppCompatActivity {
 
         ClickSave();
         ClickSend();
+
+        Calendar calender = Calendar.getInstance();
+
+        final int year = calender.get(calender.YEAR);
+        final int month = calender.get(calender.MONTH);
+        final int day = calender.get(calender.DAY_OF_MONTH);
+
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        MinorFormActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
+                        month = month+1;
+                        String selectedDate = day+"/"+month+"/"+year;
+                        date.setText(selectedDate);
+                    }
+                },year,month,day);
+                datePickerDialog.show();
+            }
+        });
+
+        incidentTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(
+                        MinorFormActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        timeHour = hourOfDay;
+                        timeMinute = minute;
+
+                        String time = timeHour+":"+timeMinute;
+
+                        SimpleDateFormat f24Hours = new SimpleDateFormat(
+                                "HH:mm"
+                        );
+                        try {
+                            Date date = f24Hours.parse(time);
+
+                            SimpleDateFormat f12Hours = new SimpleDateFormat(
+                                    "hh:mm aa"
+                            );
+                            incidentTime.setText(f12Hours.format(date));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, 12, 0, false
+                );
+                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                timePickerDialog.updateTime(timeHour, timeMinute);
+                timePickerDialog.show();
+            }
+        });
 
 
         // Dropdown list for incident locations
@@ -227,7 +294,7 @@ public class MinorFormActivity extends AppCompatActivity {
 
                         child.setText(decrypt(snapshot.child("childName").getValue().toString()));
                         date.setText(snapshot.child("incidentDate").getValue().toString());
-                        time.setText(snapshot.child("incidentTime").getValue().toString());
+                        incidentTime.setText(snapshot.child("incidentTime").getValue().toString());
                         description.setText(decrypt(snapshot.child("description").getValue().toString()));
 
                         String qLocation = snapshot.child("location").getValue().toString();
@@ -279,7 +346,7 @@ public class MinorFormActivity extends AppCompatActivity {
         // Get text from form elements
         String myChild = child.getText().toString();
         String myDate = date.getText().toString();
-        String myTime = time.getText().toString();
+        String myTime = incidentTime.getText().toString();
         String myDescription = description.getText().toString();
         String myLocation = location.getSelectedItem().toString();
         String myTreatment = treatment.getSelectedItem().toString();

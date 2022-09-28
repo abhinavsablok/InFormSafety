@@ -23,6 +23,7 @@
         <entry key="..\:/Users/abhin/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/activity_illness_form.xml" value="0.3223958333333333" />
         <entry key="..\:/Users/abhin/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/activity_login.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/abhin/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/activity_main.xml" value="0.2658514492753623" />
+        <entry key="..\:/Users/abhin/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/activity_minor_form.xml" value="0.3223958333333333" />
         <entry key="..\:/Users/abhin/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/activity_minor_incident_form.xml" value="0.25" />
         <entry key="..\:/Users/abhin/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/activity_progress_bar.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/abhin/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/activity_reset_password.xml" value="0.2658514492753623" />
@@ -40,21 +41,11 @@
         <entry key="..\:/Users/abhin/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/fragment_confirm_logout.xml" value="0.32135416666666666" />
         <entry key="..\:/Users/abhin/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/fragment_drafts.xml" value="0.3223958333333333" />
         <entry key="..\:/Users/abhin/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/fragment_home.xml" value="0.2658514492753623" />
+        <entry key="..\:/Users/abhin/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/fragment_sent_forms.xml" value="0.3223958333333333" />
         <entry key="..\:/Users/abhin/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/fragment_settings.xml" value="0.30833333333333335" />
         <entry key="..\:/Users/abhin/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/fragment_testsettings.xml" value="0.3223958333333333" />
         <entry key="..\:/Users/abhin/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/list_item.xml" value="0.3223958333333333" />
         <entry key="..\:/Users/abhin/AndroidStudioProjects/InFormSafety/app/src/main/res/menu/drawer_menu.xml" value="0.3223958333333333" />
-
-        <entry key="..\:/Users/rajiv.anand/AndroidStudioProjects/InFormSafetyDB/InFormSafety/app/src/main/res/drawable/bg_view_blue_oval.xml" value="0.1" />
-        <entry key="..\:/Users/rajiv.anand/AndroidStudioProjects/InFormSafetyDB/InFormSafety/app/src/main/res/drawable/bg_view_grey_oval.xml" value="0.1" />
-        <entry key="..\:/Users/rajiv.anand/AndroidStudioProjects/InFormSafetyDB/InFormSafety/app/src/main/res/layout/activity_home.xml" value="0.1328125" />
-        <entry key="..\:/Users/rajiv.anand/AndroidStudioProjects/InFormSafetyDB/InFormSafety/app/src/main/res/layout/activity_login.xml" value="0.1328125" />
-        <entry key="..\:/Users/rajiv.anand/AndroidStudioProjects/InFormSafetyDB/InFormSafety/app/src/main/res/layout/activity_main.xml" value="0.1328125" />
-        <entry key="..\:/Users/rajiv.anand/AndroidStudioProjects/InFormSafetyDB/InFormSafety/app/src/main/res/layout/activity_passcode.xml" value="0.3375" />
-        <entry key="..\:/Users/rajiv.anand/AndroidStudioProjects/InFormSafetyDB/InFormSafety/app/src/main/res/layout/activity_permission.xml" value="0.3328125" />
-        <entry key="..\:/Users/rajiv.anand/AndroidStudioProjects/InFormSafetyDB/InFormSafety/app/src/main/res/layout/fragment_legal.xml" value="0.1" />
-        <entry key="..\:/Users/rajiv.anand/AndroidStudioProjects/InFormSafetyDB/InFormSafety/app/src/main/res/layout/fragment_legal_privacy.xml" value="0.25" />
-
       </map>
     </option>
   </component>

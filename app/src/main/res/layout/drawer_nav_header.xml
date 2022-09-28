@@ -5,19 +5,18 @@
     android:background="@color/blue"
     android:gravity="bottom"
     android:orientation="vertical"
-    android:padding="12sp"
+    android:padding="10sp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:layout_width="64sp"
-        android:layout_height="64sp"
-        android:layout_marginTop="20sp"
-        android:src="@drawable/logo" />
+        android:layout_width="90sp"
+        android:layout_height="90sp"
+        android:src="@drawable/backround" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="5sp"
+        android:textSize="15sp"
         android:text="Welcome to InFormSafety" />
 
 </LinearLayout>
