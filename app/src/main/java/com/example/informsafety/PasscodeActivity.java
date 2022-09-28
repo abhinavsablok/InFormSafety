@@ -205,6 +205,7 @@ public class PasscodeActivity extends AppCompatActivity implements View.OnClickL
                 // Set passcode - second entry
                 if (checkPasscode.equals(passCode)){
                     savePassCode(passCode);
+                    Toast.makeText(this,"Passcode set",Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
                     numbers_list.clear();

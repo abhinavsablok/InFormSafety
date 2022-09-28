@@ -36,7 +36,7 @@ import java.util.HashMap;
 import javax.annotation.Nullable;
 
 
-public class SentFormsFragment extends Fragment {
+public class CompletedFormsFragment extends Fragment {
 
     FirebaseHelper fbh = new FirebaseHelper();
     FirebaseDatabase db = FirebaseDatabase.getInstance("https://informsafetydb-default-rtdb.asia-southeast1.firebasedatabase.app/");
@@ -46,23 +46,22 @@ public class SentFormsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView =  inflater.inflate(R.layout.fragment_sent_forms, container, false);
+        View rootView =  inflater.inflate(R.layout.fragment_completed_forms, container, false);
 
         // Display a list of all draft forms in a ListView
-        // Sent forms have sentToGuardian = true and signedByGuardian = false
-        ListView sentFormsListView = rootView.findViewById(R.id.sentFormsListView);
-        ArrayList<String> sentFormsList = new ArrayList<>();
-        ArrayList<String> sentFormsKeyList = new ArrayList<>();
-        ArrayList<String> sentFormsFormTypeList = new ArrayList<>();
-        ArrayAdapter sentFormsAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item, sentFormsList);
-        sentFormsListView.setAdapter(sentFormsAdapter);
-        DatabaseReference sentFormsRef = ref.child("Incident");
-        Query sentFormsQuery = sentFormsRef.orderByChild("formStatus").equalTo("Sent");
+        ListView completedFormsListView = rootView.findViewById(R.id.completedFormsListView);
+        ArrayList<String> completedFormsList = new ArrayList<>();
+        ArrayList<String> completedFormsKeyList = new ArrayList<>();
+        ArrayList<String> completedFormsFormTypeList = new ArrayList<>();
+        ArrayAdapter completedFormsAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item, completedFormsList);
+        completedFormsListView.setAdapter(completedFormsAdapter);
+        DatabaseReference completedFormsRef = ref.child("Incident");
+        Query completedFormsQuery = completedFormsRef.orderByChild("formStatus").equalTo("Completed");
 
-        sentFormsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+        completedFormsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                sentFormsList.clear();
+                completedFormsList.clear();
 
                 // Get each draft form in order
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
@@ -75,19 +74,19 @@ public class SentFormsFragment extends Fragment {
 //                    String qIncidentTime = snapshot.child("incidentTime").getValue().toString();
 
                     // Add selected form data into one field in the ListView
-                    sentFormsList.add(qChildName + ", " + qFormType /*+ ", " + qIncidentDate*/);
+                    completedFormsList.add(qChildName + ", " + qFormType /*+ ", " + qIncidentDate*/);
 
                     // Populate lookup lists to open the clicked form in the correct view
-                    sentFormsKeyList.add(qKey);
-                    sentFormsFormTypeList.add(qFormType);
+                    completedFormsKeyList.add(qKey);
+                    completedFormsFormTypeList.add(qFormType);
 
                 }
 
                 // Reverse the list to get the latest incident at the top
-                Collections.reverse(sentFormsList);
-                Collections.reverse(sentFormsKeyList);
-                Collections.reverse(sentFormsFormTypeList);
-                sentFormsAdapter.notifyDataSetChanged();
+                Collections.reverse(completedFormsList);
+                Collections.reverse(completedFormsKeyList);
+                Collections.reverse(completedFormsFormTypeList);
+                completedFormsAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -96,13 +95,13 @@ public class SentFormsFragment extends Fragment {
         });
 
 
-        // Click a form on the sentForms list to reopen the form
-        sentFormsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        // Click a form on the completedForms list to reopen the form
+        completedFormsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> sentFormsListView, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> completedFormsListView, View view, int position, long id) {
                 // Get the unique key and form type for the clicked form
-                String myKey = sentFormsKeyList.get(position);
-                String myFormType = sentFormsFormTypeList.get(position);
+                String myKey = completedFormsKeyList.get(position);
+                String myFormType = completedFormsFormTypeList.get(position);
 
                 // Choose a form activity to open based on the Form Type of the clicked form
                 // By default, return to current activity
