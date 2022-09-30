@@ -346,8 +346,8 @@ public class SeriousFormActivity extends AppCompatActivity {
 
         // List for Yes/No dropdowns
         List<String> yesNo = new ArrayList<>();
-        yesNo.add("Yes");
         yesNo.add("No");
+        yesNo.add("Yes");
 
 
         // Dropdown for Injury Type

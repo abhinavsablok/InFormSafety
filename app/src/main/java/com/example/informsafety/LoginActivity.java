@@ -108,9 +108,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
-
-
+    // Validation for user name: contains only letters, spaces, apostrophe, hyphen
+    public boolean validateName(String name) {
+        for (int i = 0; i < name.length(); i++) {
+            char c = name.charAt(i);
+            if (!(Character.isLetter(c) || Character.isWhitespace(c) || c == '\'' || c == '-')) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 
     private void ClickLogin() {
@@ -221,8 +228,11 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (name.getText().toString().trim().isEmpty()) {
+                String myName = name.getText().toString().trim();
+                if (myName.isEmpty()) {
                     name.setError("Please fill out this field");
+                } else if (!validateName(myName)) {
+                    name.setError("Name must not contain numbers or special characters");
                 } else if (contact.getText().toString().trim().isEmpty()) {
                     contact.setError("Please fill out this field");
                 } else if (reg_email.getText().toString().trim().isEmpty()) {

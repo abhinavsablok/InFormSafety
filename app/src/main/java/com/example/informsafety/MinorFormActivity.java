@@ -357,6 +357,11 @@ public class MinorFormActivity extends AppCompatActivity {
 
         // Get text from form elements
         String myChild = child.getText().toString();
+
+        if (myChild.isEmpty()) {
+            child.setError("Please fill out this field");
+        }
+
         String myDate = date.getText().toString();
         String myTime = incidentTime.getText().toString();
         String myDescription = description.getText().toString();

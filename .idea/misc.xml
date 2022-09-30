@@ -38,11 +38,14 @@
         <entry key="..\:/Users/evan.williams/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/fragment_home.xml" value="0.3546875" />
         <entry key="..\:/Users/evan.williams/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/fragment_settings.xml" value="0.25" />
         <entry key="..\:/Users/evan.williams/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/list_item.xml" value="0.3536458333333333" />
+        <entry key="..\:/Users/turtl/AndroidStudioProjects/InFormSafety/app/src/main/res/drawable/ic_baseline_adb_24.xml" value="0.2595" />
+        <entry key="..\:/Users/turtl/AndroidStudioProjects/InFormSafety/app/src/main/res/drawable/ic_baseline_looks_two_24.xml" value="0.2595" />
         <entry key="..\:/Users/turtl/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/activity_change_email.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/turtl/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/activity_child_information.xml" value="0.253125" />
         <entry key="..\:/Users/turtl/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/activity_drafts.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/turtl/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/activity_login.xml" value="0.22826086956521738" />
         <entry key="..\:/Users/turtl/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/activity_minor_form.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/turtl/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/activity_notification.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/turtl/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/activity_reset_password.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/turtl/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/activity_serious_form.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/turtl/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/activity_signup.xml" value="0.25416666666666665" />
@@ -57,6 +60,7 @@
         <entry key="..\:/Users/turtl/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/fragment_sent_forms.xml" value="0.24010416666666667" />
         <entry key="..\:/Users/turtl/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/fragment_settings.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/turtl/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/fragment_testsettings.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/turtl/AndroidStudioProjects/InFormSafety/app/src/main/res/layout/ic_baseline_adb_24.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>
