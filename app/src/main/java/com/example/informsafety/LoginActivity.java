@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         resetPassword = findViewById(R.id.resetPassword);
         mAuth = FirebaseAuth.getInstance();
         fbh = new FirebaseHelper();
-
+        
 
         PERMISSIONS = new String[]{
 
