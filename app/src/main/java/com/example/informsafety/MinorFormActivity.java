@@ -15,14 +15,17 @@ import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.os.Environment;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -62,6 +65,7 @@ public class MinorFormActivity extends AppCompatActivity {
     DatabaseReference ref;
     String myKey;
     int timeHour, timeMinute;
+    ArrayList<String> childList;
     Bitmap bmp, scaledBmp;
     int pageWidth = 2100;
 
@@ -69,6 +73,8 @@ public class MinorFormActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Action bar with page title and back button
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Minor Incident Form");
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -115,6 +121,8 @@ public class MinorFormActivity extends AppCompatActivity {
                         month = month+1;
                         String selectedDate = day+"/"+month+"/"+year;
                         date.setText(selectedDate);
+                        // Clear the error on this field if there was one
+                        date.setError(null);
                     }
                 },year,month,day);
                 datePickerDialog.show();
@@ -143,6 +151,8 @@ public class MinorFormActivity extends AppCompatActivity {
                                     "hh:mm aa"
                             );
                             incidentTime.setText(f12Hours.format(date));
+                            // Clear the error on this field if there was one
+                            incidentTime.setError(null);
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
@@ -196,7 +206,7 @@ public class MinorFormActivity extends AppCompatActivity {
 
 
         // Autocomplete text + dropdown for Child
-        ArrayList<String> childList = new ArrayList<>();
+        childList = new ArrayList<>();
         ArrayAdapter childAdapter = new ArrayAdapter<String>(this, R.layout.list_item, childList);
         child.setAdapter(childAdapter);
         child.setThreshold(1);
@@ -225,6 +235,15 @@ public class MinorFormActivity extends AppCompatActivity {
                 child.showDropDown();
             }
         });
+
+        // Clear validation error when child selected
+        child.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                child.setError(null);
+            }
+        });
+
 
         // Dropdown for Location
         ArrayAdapter locationAdapter = new ArrayAdapter<String>(this, R.layout.list_item, locationList);
@@ -258,28 +277,11 @@ public class MinorFormActivity extends AppCompatActivity {
             }
         });
 
-//        DatabaseReference teacherRef = ref.child("Teacher");
-//        teacherRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                teacherList.clear();
-//                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-//                    teacherList.add(decrypt(snapshot.child("Name").getValue().toString()));
-//                }
-//                teacherAdapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//            }
-//        });
-
 
         // If user opened a saved form, populate the form with the saved values
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             myKey = extras.getString("Key");
-//            Toast.makeText(MinorFormActivity.this, myKey, Toast.LENGTH_SHORT).show();
 
             // Query the database for the clicked record
             DatabaseReference draftsRef = ref.child("Incident");
@@ -288,16 +290,7 @@ public class MinorFormActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                        // Do something with the selected draft form
-//                        Toast.makeText(MinorFormActivity.this, snapshot.toString() ,Toast.LENGTH_SHORT).show();
-
                         // Set form elements to show the saved values
-//                        String qChildName = decrypt(snapshot.child("childName").getValue().toString());
-//                        if (qChildName != null) {
-//                            int spinnerPosition = childAdapter.getPosition(qChildName);
-//                            child.setSelection(spinnerPosition);
-//                        }
-
                         child.setText(decrypt(snapshot.child("childName").getValue().toString()));
                         date.setText(snapshot.child("incidentDate").getValue().toString());
                         incidentTime.setText(snapshot.child("incidentTime").getValue().toString());
@@ -344,6 +337,19 @@ public class MinorFormActivity extends AppCompatActivity {
     }
 
 
+    // Implement Back button in action bar
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            onBackPressed();  return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
     // Function to save a  Minor Incident form to Firebase
     private void saveMinorIncidentForm() {
         // Get UID of logged in user
@@ -381,6 +387,7 @@ public class MinorFormActivity extends AppCompatActivity {
         map.put("formStatus", mFormStatus);
         map.put("pdfFilename", mPdfFilename);
 
+
         // Insert to Realtime Database
         // If already created, update values instead
         if (myKey != null) {
@@ -397,58 +404,96 @@ public class MinorFormActivity extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveMinorIncidentForm();
-                Toast.makeText(MinorFormActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                // Validations
+                // Child name must match an enrolled child
+                if (!(childList.contains(child.getText().toString()))) {
+                    child.setError("Please select an enrolled child");
+                }
+                // Date and time must be selected
+                else if (date.getText().toString().isEmpty()) {
+                    date.setError("Please fill out this field");
+                }
+                else if (incidentTime.getText().toString().isEmpty()) {
+                    incidentTime.setError("Please fill out this field");
+                }
+                else {
+                    saveMinorIncidentForm();
+                    Toast.makeText(MinorFormActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
 
-    // When user clicks Save, add the teacher's signature and send a notification to the Guardian
+    // When user clicks Send, add the teacher's signature and send a notification to the Guardian
     private void ClickSend() {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Validations
+                // Child name must match an enrolled child
+                if (!(childList.contains(child.getText().toString()))) {
+                    child.setError("Please select an enrolled child");
+                }
+                // Date and time must be selected
+                else if (date.getText().toString().isEmpty()) {
+                    date.setError("Please fill out this field");
+                }
+                else if (incidentTime.getText().toString().isEmpty()) {
+                    incidentTime.setError("Please fill out this field");
+                }
+                // Description must not be empty
+                else if (description.getText().toString().isEmpty()) {
+                    description.setError("Please fill out this field");
+                }
+                // Teacher Provided and Teacher Checked must be different
+                else if (teacherProvided.getSelectedItem().toString().equals(teacherChecked.getSelectedItem().toString())) {
+                    TextView errorText = (TextView)teacherChecked.getSelectedView();
+                    errorText.setError("");
+                    errorText.setTextColor(Color.RED);
+                    errorText.setText("Form must be checked by another teacher");
+                }
+                else {
+                    // Save the form before sending
+                    saveMinorIncidentForm();
 
-                // Save the form before sending
-                saveMinorIncidentForm();
+                    // Get Guardian's ID by querying on Child's name
+                    String myChild = child.getText().toString();
+                    Query guardianQuery = ref.child("Child").orderByChild("Name").equalTo(encrypt(myChild));
+                    guardianQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
-                // Get Guardian's ID by querying on Child's name
-                String myChild = child.getText().toString();
-                Query guardianQuery = ref.child("Child").orderByChild("Name").equalTo(encrypt(myChild));
-                guardianQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                                // Get the associated key for Guardian
+                                String myGuardianID = snapshot.child("ParentKey").getValue().toString();
 
-                            // Get the associated key for Guardian
-                            String myGuardianID = snapshot.child("ParentKey").getValue().toString();
+                                // Query the database for guardian's email
+                                DatabaseReference userRef = ref.child("User");
+                                Query myUserQuery = userRef.orderByKey().equalTo(myGuardianID);
+                                myUserQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                            // Set form elements to show the saved values
+                                            String myGuardianEmail = decrypt(snapshot.child("Email").getValue().toString());
 
-                            // Query the database for guardian's email
-                            DatabaseReference userRef = ref.child("User");
-                            Query myUserQuery = userRef.orderByKey().equalTo(myGuardianID);
-                            myUserQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                                        // Set form elements to show the saved values
-                                        String myGuardianEmail = decrypt(snapshot.child("Email").getValue().toString());
-
-                                        // Go to Passcode to continue
-                                        Intent intent = new Intent(MinorFormActivity.this, PasscodeActivity.class);
-                                        intent.putExtra("isSendingForm", true);
-                                        intent.putExtra("formKey", myKey);
-                                        intent.putExtra("childName", myChild);
-                                        intent.putExtra("guardianEmail", myGuardianEmail);
-                                        startActivity(intent);
+                                            // Go to Passcode to continue
+                                            Intent intent = new Intent(MinorFormActivity.this, PasscodeActivity.class);
+                                            intent.putExtra("isSendingForm", true);
+                                            intent.putExtra("formKey", myKey);
+                                            intent.putExtra("childName", myChild);
+                                            intent.putExtra("guardianEmail", myGuardianEmail);
+                                            startActivity(intent);
+                                        }
                                     }
-                                }
-                                @Override
-                                public void onCancelled(DatabaseError error) {
-                                }
-                            });
+
+                                    @Override
+                                    public void onCancelled(DatabaseError error) {
+                                    }
+                                });
+                            }
                         }
-                    }
 
                     @Override
                     public void onCancelled(DatabaseError error) {

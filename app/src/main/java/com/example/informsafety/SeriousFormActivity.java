@@ -9,17 +9,23 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -54,12 +60,18 @@ public class SeriousFormActivity extends AppCompatActivity {
     DatabaseReference ref;
     String myKey;
     int timeHour, timeMinute;
+    ArrayList<String> childList;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setTitle("Serious Incident Form");
+        // Action bar with page title and back button
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Serious Incident Form");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         setContentView(R.layout.activity_serious_form);
 
 
@@ -112,6 +124,8 @@ public class SeriousFormActivity extends AppCompatActivity {
                         month = month+1;
                         String selectedDate = day+"/"+month+"/"+year;
                         date.setText(selectedDate);
+                        // Clear the error on this field if there was one
+                        date.setError(null);
                     }
                 },year,month,day);
                 datePickerDialog.show();
@@ -128,9 +142,26 @@ public class SeriousFormActivity extends AppCompatActivity {
                         month = month+1;
                         String selectedDate = day+"/"+month+"/"+year;
                         dateActionsRequired.setText(selectedDate);
+                        // Clear the error on this field if there was one
+                        dateActionsRequired.setError(null);
                     }
                 },year,month,day);
                 datePickerDialog.show();
+            }
+        });
+
+        // If action required is removed, clear validation error on date required
+        actionsRequired.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String txt = actionsRequired.getText().toString();
+                if(txt.isEmpty() ) {
+                    dateActionsRequired.setError(null);
+                }
             }
         });
 
@@ -156,6 +187,8 @@ public class SeriousFormActivity extends AppCompatActivity {
                                     "hh:mm aa"
                             );
                             incidentTime.setText(f12Hours.format(date));
+                            // Clear the error on this field if there was one
+                            incidentTime.setError(null);
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
@@ -190,6 +223,9 @@ public class SeriousFormActivity extends AppCompatActivity {
                                     "hh:mm aa"
                             );
                             guardianContactedTime.setText(f12Hours.format(date));
+                            // Clear the error on this field if there was one
+                            guardianContactedTime.setError(null);
+
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
@@ -224,6 +260,8 @@ public class SeriousFormActivity extends AppCompatActivity {
                                     "hh:mm aa"
                             );
                             guardianArrivedTime.setText(f12Hours.format(date));
+                            // Clear the error on this field if there was one
+                            guardianArrivedTime.setError(null);
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
@@ -258,6 +296,8 @@ public class SeriousFormActivity extends AppCompatActivity {
                                     "hh:mm aa"
                             );
                             ambulanceDoctorCalledTime.setText(f12Hours.format(date));
+                            // Clear the error on this field if there was one
+                            ambulanceDoctorCalledTime.setError(null);
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
@@ -334,8 +374,8 @@ public class SeriousFormActivity extends AppCompatActivity {
 
         // List for Yes/No dropdowns
         List<String> yesNo = new ArrayList<>();
-        yesNo.add("Yes");
         yesNo.add("No");
+        yesNo.add("Yes");
 
 
         // Dropdown for Injury Type
@@ -362,9 +402,23 @@ public class SeriousFormActivity extends AppCompatActivity {
         adviseRph.setAdapter(yesNoAdapter);
         followUpWithGuardian.setAdapter(yesNoAdapter);
 
+        // If ambulance/doctor called is changed to No, clear validation error on the time
+        ambulanceDoctorCalled.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                if (position == 0) {ambulanceDoctorCalledTime.setError(null);}
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+
+            }
+        });
+
+
 
         // Autocomplete text + dropdown for Child
-        ArrayList<String> childList = new ArrayList<>();
+        childList = new ArrayList<>();
         ArrayAdapter childAdapter = new ArrayAdapter<String>(this, R.layout.list_item, childList);
         child.setAdapter(childAdapter);
         child.setThreshold(1);
@@ -391,6 +445,14 @@ public class SeriousFormActivity extends AppCompatActivity {
             @Override
             public void onClick(final View arg0) {
                 child.showDropDown();
+            }
+        });
+
+        // Clear validation error when child selected
+        child.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                child.setError(null);
             }
         });
 
@@ -426,7 +488,6 @@ public class SeriousFormActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             myKey = extras.getString("Key");
-//            Toast.makeText(MinorFormActivity.this, myKey, Toast.LENGTH_SHORT).show();
 
             // Query the database for the clicked record
             DatabaseReference draftsRef = ref.child("Incident");
@@ -435,14 +496,9 @@ public class SeriousFormActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                        // Do something with the selected draft form
-//                        Toast.makeText(MinorFormActivity.this, snapshot.toString() ,Toast.LENGTH_SHORT).show();
-
                         // Set form elements to show the saved values
                         // Text/date/time fields
                         child.setText(decrypt(snapshot.child("childName").getValue().toString()));
-//                        date.setText(snapshot.child("incidentDate").getValue().toString());
-//                        time.setText(snapshot.child("incidentTime").getValue().toString());
                         description.setText(decrypt(snapshot.child("description").getValue().toString()));
                         ambulanceDoctorCalledTime.setText(snapshot.child("ambulanceDoctorCalledTime").getValue().toString());
                         guardianContactedTime.setText(snapshot.child("guardianContactedTime").getValue().toString());
@@ -537,6 +593,19 @@ public class SeriousFormActivity extends AppCompatActivity {
     }
 
 
+    // Implement Back button in action bar
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            onBackPressed();  return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
     // Function to save an Illness form to Firebase
     private void saveSeriousIncidentForm() {
         // Get UID of logged in user
@@ -616,63 +685,120 @@ public class SeriousFormActivity extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveSeriousIncidentForm();
-                Toast.makeText(SeriousFormActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                // Validations
+                // Child name must match an enrolled child
+                if (!(childList.contains(child.getText().toString()))) {
+                    child.setError("Please select an enrolled child");
+                }
+                // Date and time must be selected
+                else if (date.getText().toString().isEmpty()) {
+                    date.setError("Please fill out this field");
+                }
+                else if (incidentTime.getText().toString().isEmpty()) {
+                    incidentTime.setError("Please fill out this field");
+                }
+                else {
+                    saveSeriousIncidentForm();
+                    Toast.makeText(SeriousFormActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
 
 
-    // When user clicks Save, add the teacher's signature and send a notification to the Guardian
+    // When user clicks Send, add the teacher's signature and send a notification to the Guardian
     private void ClickSend() {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Save the form before sending
-                saveSeriousIncidentForm();
+                // Validations
+                // Child name must match an enrolled child
+                if (!(childList.contains(child.getText().toString()))) {
+                    child.setError("Please select an enrolled child");
+                }
+                // Date and time must be selected
+                else if (date.getText().toString().isEmpty()) {
+                    date.setError("Please fill out this field");
+                }
+                else if (incidentTime.getText().toString().isEmpty()) {
+                    incidentTime.setError("Please fill out this field");
+                }
+                // Description must not be empty
+                else if (description.getText().toString().isEmpty()) {
+                    description.setError("Please fill out this field");
+                }
+                // If ambulance or doctor called, time of call must not be empty
+                else if (ambulanceDoctorCalled.getSelectedItem().toString().equals("Yes")
+                        && ambulanceDoctorCalledTime.getText().toString().isEmpty()) {
+                    ambulanceDoctorCalledTime.setError("Please fill out this field");
+                }
+                // Guardian contacted and arrived times must be selected
+                else if (guardianContactedTime.getText().toString().isEmpty()) {
+                    guardianContactedTime.setError("Please fill out this field");
+                }
+                else if (guardianArrivedTime.getText().toString().isEmpty()) {
+                    guardianArrivedTime.setError("Please fill out this field");
+                }
+                // If an action is required, date when actions required must not be empty
+                else if (!(actionsRequired.getText().toString().isEmpty())
+                        && dateActionsRequired.getText().toString().isEmpty()) {
+                    dateActionsRequired.setError("Please fill out this field");
+                }
+                // Teacher Provided and Teacher Checked must be different
+                else if (teacherProvided.getSelectedItem().toString().equals(teacherChecked.getSelectedItem().toString())) {
+                    TextView errorText = (TextView)teacherChecked.getSelectedView();
+                    errorText.setError("");
+                    errorText.setTextColor(Color.RED);
+                    errorText.setText("Form must be checked by another teacher");
+                }
+                else {
+                    // Save the form before sending
+                    saveSeriousIncidentForm();
 
-                // Get Guardian's ID by querying on Child's name
-                String myChild = child.getText().toString();
-                Query guardianQuery = ref.child("Child").orderByChild("Name").equalTo(encrypt(myChild));
-                guardianQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                    // Get Guardian's ID by querying on Child's name
+                    String myChild = child.getText().toString();
+                    Query guardianQuery = ref.child("Child").orderByChild("Name").equalTo(encrypt(myChild));
+                    guardianQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
-                            // Get the associated key for Guardian
-                            String myGuardianID = snapshot.child("ParentKey").getValue().toString();
+                                // Get the associated key for Guardian
+                                String myGuardianID = snapshot.child("ParentKey").getValue().toString();
 
-                            // Query the database for guardian's email
-                            DatabaseReference userRef = ref.child("User");
-                            Query myUserQuery = userRef.orderByKey().equalTo(myGuardianID);
-                            myUserQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                                        // Set form elements to show the saved values
-                                        String myGuardianEmail = decrypt(snapshot.child("Email").getValue().toString());
+                                // Query the database for guardian's email
+                                DatabaseReference userRef = ref.child("User");
+                                Query myUserQuery = userRef.orderByKey().equalTo(myGuardianID);
+                                myUserQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                            // Set form elements to show the saved values
+                                            String myGuardianEmail = decrypt(snapshot.child("Email").getValue().toString());
 
-                                        // Go to Passcode to continue
-                                        Intent intent = new Intent(SeriousFormActivity.this, PasscodeActivity.class);
-                                        intent.putExtra("isSendingForm", true);
-                                        intent.putExtra("formKey", myKey);
-                                        intent.putExtra("childName", myChild);
-                                        intent.putExtra("guardianEmail", myGuardianEmail);
-                                        startActivity(intent);
+                                            // Go to Passcode to continue
+                                            Intent intent = new Intent(SeriousFormActivity.this, PasscodeActivity.class);
+                                            intent.putExtra("isSendingForm", true);
+                                            intent.putExtra("formKey", myKey);
+                                            intent.putExtra("childName", myChild);
+                                            intent.putExtra("guardianEmail", myGuardianEmail);
+                                            startActivity(intent);
+                                        }
                                     }
-                                }
-                                @Override
-                                public void onCancelled(DatabaseError error) {
-                                }
-                            });
-                        }
-                    }
 
-                    @Override
-                    public void onCancelled(DatabaseError error) {
-                    }
-                });
+                                    @Override
+                                    public void onCancelled(DatabaseError error) {
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError error) {
+                        }
+                    });
+                }
             }
         });
     }

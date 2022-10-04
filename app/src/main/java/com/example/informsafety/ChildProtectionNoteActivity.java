@@ -4,25 +4,19 @@ import static com.example.informsafety.EncryptDecrypt.decrypt;
 import static com.example.informsafety.EncryptDecrypt.encrypt;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -34,10 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.HashMap;
-
-import javax.annotation.Nullable;
 
 public class ChildProtectionNoteActivity extends AppCompatActivity {
 
@@ -53,7 +44,11 @@ public class ChildProtectionNoteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setTitle("Child Protection Note");
+        // Action bar with page title and back button
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Child Protection Note");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
         setContentView(R.layout.activity_child_protection_note);
 
         // Get user and database refs
@@ -149,6 +144,19 @@ public class ChildProtectionNoteActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+
+    // Implement Back button in action bar
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            onBackPressed();  return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 

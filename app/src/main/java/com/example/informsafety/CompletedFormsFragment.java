@@ -1,27 +1,19 @@
 package com.example.informsafety;
 
 import static com.example.informsafety.EncryptDecrypt.decrypt;
-import static com.example.informsafety.EncryptDecrypt.encrypt;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
+import androidx.fragment.app.Fragment;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,7 +23,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 
 import javax.annotation.Nullable;
 
@@ -70,11 +61,11 @@ public class CompletedFormsFragment extends Fragment {
                     String qKey = snapshot.getKey();
                     String qFormType = snapshot.child("formType").getValue().toString();
                     String qChildName = decrypt(snapshot.child("childName").getValue().toString());
-//                    String qIncidentDate = snapshot.child("incidentDate").getValue().toString();
-//                    String qIncidentTime = snapshot.child("incidentTime").getValue().toString();
+                    String qIncidentDate = snapshot.child("incidentDate").getValue().toString();
+                    String qIncidentTime = snapshot.child("incidentTime").getValue().toString();
 
                     // Add selected form data into one field in the ListView
-                    completedFormsList.add(qChildName + ", " + qFormType /*+ ", " + qIncidentDate*/);
+                    completedFormsList.add(qChildName + ", " + qFormType + ", " + qIncidentDate);
 
                     // Populate lookup lists to open the clicked form in the correct view
                     completedFormsKeyList.add(qKey);
