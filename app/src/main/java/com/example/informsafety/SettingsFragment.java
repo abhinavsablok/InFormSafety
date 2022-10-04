@@ -61,8 +61,6 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemClic
     DatabaseReference ref;
     FirebaseUser user;
 
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -82,7 +80,7 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemClic
 
 
 
-        String[] setting = {"Email", "Contact Information", "Child Information", "Change Password", "Set Passcode", "View Signature", "Save Signature", "Logout"};
+        String[] setting = {"Email", "Contact Information", "List of Children" , "Change Password", "Set Passcode", "View Signature", "Save Signature", "Logout"};
 
         ListView listView = (ListView)view.findViewById(R.id.list);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, setting);
@@ -98,9 +96,9 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemClic
             ClickUpdateEmail();
         } if (i == 1) {  // Contact Information
             ClickUpdateContact();
-        } if (i == 2) {  //  Child Information
+        } if (i == 2) {  //  Password
             ClickChildInformation();
-        } if (i == 3) {  //  Password
+        }if (i == 3) {  //  Password
             ClickUpdatePassword();
         } if (i == 4) {  // Set Passcode
             ClickSetPasscode();
