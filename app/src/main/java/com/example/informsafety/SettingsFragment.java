@@ -5,6 +5,8 @@ import static com.example.informsafety.EncryptDecrypt.encrypt;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +15,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +29,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
@@ -37,7 +42,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -129,6 +139,36 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemClic
         updateSign = dialogView.findViewById(R.id.updateSign);
         viewSign = dialogView.findViewById(R.id.viewImage);
 
+        // Create a storage reference from our app
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+
+        // Create a reference to 'signatures/[UID].jpg'
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        StorageReference signaturesRef = storageRef.child("signatures/" + mAuth.getUid() + ".jpg");
+
+        // Download the user's signature file
+        File localFile = null;
+        try {
+            localFile = File.createTempFile("signature", "jpg");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        File finalLocalFile = localFile;
+        signaturesRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                Bitmap bitmap = BitmapFactory.decodeFile(finalLocalFile.getAbsolutePath());
+                viewSign.setImageBitmap(bitmap);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Toast.makeText(getActivity(), "No signature found", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         updateSign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -137,10 +177,7 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemClic
             }
         });
 
-
         dialog.show();
-
-
     }
 
     private void ClickSaveSign() {
