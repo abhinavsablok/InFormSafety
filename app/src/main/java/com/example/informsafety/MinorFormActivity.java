@@ -430,7 +430,7 @@ public class MinorFormActivity extends AppCompatActivity {
     }
 
 
-    // When user clicks Save, add the teacher's signature and send a notification to the Guardian
+    // When user clicks Send, add the teacher's signature and send a notification to the Guardian
     private void ClickSend() {
         send.setOnClickListener(new View.OnClickListener() {
             @Override

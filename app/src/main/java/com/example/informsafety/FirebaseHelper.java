@@ -55,7 +55,17 @@ public class FirebaseHelper {
 //        insertChild("PhVaPsq6QpZH3ykYMCgH1PT1xeS2", "Lisa Simpson");
 //        insertChild("jfwOV5GCXNQi1q6vLobVxKyySqD3", "Ralph Wiggum");
 
-
+        // Realistic child names for the manual
+//        insertChild("PhVaPsq6QpZH3ykYMCgH1PT1xeS2", "Charlotte Smith");
+//        insertChild("PhVaPsq6QpZH3ykYMCgH1PT1xeS2", "Isla Wilson");
+//        insertChild("PhVaPsq6QpZH3ykYMCgH1PT1xeS2", "Amelia Williams");
+//        insertChild("PhVaPsq6QpZH3ykYMCgH1PT1xeS2", "Olivia Brown");
+//        insertChild("PhVaPsq6QpZH3ykYMCgH1PT1xeS2", "Ava Taylor");
+//        insertChild("PhVaPsq6QpZH3ykYMCgH1PT1xeS2", "Oliver Jones");
+//        insertChild("PhVaPsq6QpZH3ykYMCgH1PT1xeS2", "Noah Anderson");
+//        insertChild("PhVaPsq6QpZH3ykYMCgH1PT1xeS2", "Jack Thompson");
+//        insertChild("PhVaPsq6QpZH3ykYMCgH1PT1xeS2", "Leo Walker");
+//        insertChild("PhVaPsq6QpZH3ykYMCgH1PT1xeS2", "George Lee");
 
 
 

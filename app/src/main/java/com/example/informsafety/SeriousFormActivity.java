@@ -13,6 +13,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.format.Time;
 import android.util.Patterns;
 import android.view.MenuItem;
@@ -151,6 +153,21 @@ public class SeriousFormActivity extends AppCompatActivity {
                     }
                 },year,month,day);
                 datePickerDialog.show();
+            }
+        });
+
+        // If action required is removed, clear validation error on date required
+        actionsRequired.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String txt = actionsRequired.getText().toString();
+                if(txt.isEmpty() ) {
+                    dateActionsRequired.setError(null);
+                }
             }
         });
 
@@ -390,6 +407,20 @@ public class SeriousFormActivity extends AppCompatActivity {
         worksafeMoeAdvised.setAdapter(yesNoAdapter);
         adviseRph.setAdapter(yesNoAdapter);
         followUpWithGuardian.setAdapter(yesNoAdapter);
+
+        // If ambulance/doctor called is changed to No, clear validation error on the time
+        ambulanceDoctorCalled.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                if (position == 0) {ambulanceDoctorCalledTime.setError(null);}
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+
+            }
+        });
+
 
 
         // Autocomplete text + dropdown for Child
@@ -688,7 +719,7 @@ public class SeriousFormActivity extends AppCompatActivity {
 
 
 
-    // When user clicks Save, add the teacher's signature and send a notification to the Guardian
+    // When user clicks Send, add the teacher's signature and send a notification to the Guardian
     private void ClickSend() {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
