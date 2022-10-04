@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:textAlignment="center"
             android:layout_height="wrap_content"
-            android:text="Child Information"
+            android:text="List of Children"
             android:textColor="@color/blue"
             android:textSize="36sp"
             android:layout_gravity="center" />

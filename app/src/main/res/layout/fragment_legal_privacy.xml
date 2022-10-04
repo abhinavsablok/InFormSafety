@@ -4,369 +4,359 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LegalFragment">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
         <TextView
-            android:id="@+id/textView2"
-            android:layout_width="198dp"
-            android:layout_height="97dp"
-            android:layout_marginLeft="150sp"
-            android:layout_marginTop="60sp"
-            android:fontFamily="sans-serif-black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="Privacy Policy"
-            android:textAlignment="center"
-            android:textColor="@color/teal_700"
-            android:textSize="30sp" />
+            android:textColor="@color/blue"
+            android:textSize="36sp" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Last updated [October 4th, 2022]"
+            android:textSize="10sp" />
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15sp"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
             android:layout_marginTop="10sp"
-            android:fontFamily="sans-serif-condensed"
-            android:textColor="@color/blue"
-            android:text="InformSaftey mission is to create a fast
-way to transfer the inforamtion between Kindergarten Staff and Parent or Guradian any incident happens during the Child is at the KinderGarten Centre.
-"
-            android:textAlignment="gravity"
+            android:text="This privacy policy covers all of the InFormSafety application. Please read this statement carefully if you decide to access InFormSafety. Your use of InFormSafety indicates your agreement to abide by this Privacy Policy and any Terms and Conditions in effect."
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15sp"
-            android:layout_marginTop="6sp"
-            android:fontFamily="sans-serif-condensed"
-            android:text="To guide our development of the InFormSafety Application, and
-             as our privacy commitment to you, we have the following Privacy Principles."
-            android:textAlignment="gravity"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:layout_marginTop="10sp"
+            android:text="Information Collection"
             android:textColor="@color/blue"
-            android:textSize="15sp" />
-
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40sp"
-            android:layout_marginTop="6sp"
-            android:fontFamily="sans-serif-condensed"
-            android:text="1 . We don’t own the content you provide – our customers do."
-            android:textAlignment="gravity"
-            android:textColor="@color/blue"
-            android:textSize="15sp" />
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40sp"
-            android:layout_marginTop="6sp"
-            android:fontFamily="sans-serif-condensed"
-            android:text="2 . Content is private by default. Teachers control what is shared and with whom."
-            android:textAlignment="gravity"
-            android:textColor="@color/blue"
-            android:textSize="15sp" />
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40sp"
-            android:layout_marginTop="6sp"
-            android:fontFamily="sans-serif-condensed"
-            android:text="3 . We don’t advertise in InformSafety or sell any user data."
-            android:textAlignment="gravity"
-            android:textColor="@color/blue"
-            android:textSize="15sp" />
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40sp"
-            android:layout_marginTop="6sp"
-            android:fontFamily="sans-serif-condensed"
-            android:text="4 . We use security industry best practices and routinely monitor our systems to protect you."
-            android:textAlignment="gravity"
-            android:textColor="@color/blue"
-            android:textSize="15sp" />
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40sp"
-            android:layout_marginTop="6sp"
-            android:fontFamily="sans-serif-condensed"
-            android:text="5 . We are transparent about our practices and will notify you if things change."
-            android:textAlignment="gravity"
-            android:textColor="@color/blue"
-            android:textSize="15sp" />
-        <TextView
-            android:id="@+id/textView10"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40sp"
-            android:layout_marginTop="6sp"
-            android:fontFamily="sans-serif-condensed"
-            android:text="6 . We follow Privacy Act 2020(New Zealand)."
-            android:textAlignment="gravity"
-            android:textColor="@color/blue"
-            android:textSize="15sp" />
-        <TextView
-            android:id="@+id/textView11"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15sp"
-            android:layout_marginTop="6sp"
-            android:fontFamily="sans-serif-condensed"
-            android:text="PRIVACY POLICY OVERVIEW"
-            android:textAlignment="gravity"
-            android:textColor="@color/black"
             android:textSize="20sp" />
+
         <TextView
-            android:id="@+id/textView12"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15sp"
-            android:layout_marginTop="6sp"
-            android:fontFamily="sans-serif-condensed"
-            android:text="InFormSafety (“we”, “us”, “our”) takes your privacy very seriously. This Privacy Policy explains how we use, collect and store personal information"
-            android:textAlignment="gravity"
-            android:textColor="@color/blue"
-            android:textSize="15sp" />
-        <TextView
-            android:id="@+id/textView13"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15sp"
-            android:layout_marginTop="6sp"
-            android:fontFamily="sans-serif-condensed"
-            android:text="Here’s what we will cover in this policy:"
-            android:textAlignment="gravity"
-            android:textColor="@color/blue"
-            android:textSize="15sp" />
-        <TextView
-            android:id="@+id/textView14"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40sp"
-            android:layout_marginTop="6sp"
-            android:fontFamily="sans-serif-condensed"
-            android:text="1. Collection and use of Personal Information"
-            android:textAlignment="gravity"
-            android:textColor="@color/blue"
-            android:textSize="15sp" />
-        <TextView
-            android:id="@+id/textView15"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40sp"
-            android:layout_marginTop="6sp"
-            android:fontFamily="sans-serif-condensed"
-            android:text="2. Protection of Personal Information"
-            android:textAlignment="gravity"
-            android:textColor="@color/blue"
-            android:textSize="15sp" />
-        <TextView
-            android:id="@+id/textView16"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40sp"
-            android:layout_marginTop="6sp"
-            android:fontFamily="sans-serif-condensed"
-            android:text="3. Data Storage"
-            android:textAlignment="gravity"
-            android:textColor="@color/blue"
-            android:textSize="15sp" />
-        <TextView
-            android:id="@+id/textView17"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40sp"
-            android:layout_marginTop="6sp"
-            android:fontFamily="sans-serif-condensed"
-            android:text="4. Disclosure of Personal Information"
-            android:textAlignment="gravity"
-            android:textColor="@color/blue"
-            android:textSize="15sp" />
-        <TextView
-            android:id="@+id/textView18"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40sp"
-            android:layout_marginTop="6sp"
-            android:fontFamily="sans-serif-condensed"
-            android:text="5. Your Rights"
-            android:textAlignment="gravity"
-            android:textColor="@color/blue"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:text="InFormSafety is the sole controller of the information collected on the InFormSafety app. InFormSafety may collect information from our users at several different points on our app."
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/textView19"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40sp"
-            android:layout_marginTop="6sp"
-            android:fontFamily="sans-serif-condensed"
-            android:text="1. Collection and use of Personal Information"
-            android:textAlignment="gravity"
-            android:textColor="@color/black"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:layout_marginTop="5sp"
+            android:text="We collect the following kinds of personal information:"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:text="1. Name, phone number, and email address from the user."
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:text="2. Child names from the enrolling Early Childhood Centre. Events/Incidents the children encountered at Early Childhood Centre."
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:text="3. Teacher's observation of the child."
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:layout_marginTop="10sp"
+            android:text="Records of your communications and interactions with us"
+            android:textColor="@color/blue"
             android:textSize="20sp" />
+
         <TextView
-            android:id="@+id/textView20"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40sp"
-            android:layout_marginTop="6sp"
-            android:fontFamily="sans-serif-condensed"
-            android:text="We collect information from the Parent or Guradian and Teacher when they register with ChildHood Center."
-            android:textAlignment="gravity"
-            android:textColor="@color/blue"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:text="In providing this sensitive information to us, you warrant that you are authorised to disclose any sensitive information of a third party that is provided and we are authorised to collect and manage this sensitive information in line with the relevant laws and this Privacy Policy."
             android:textSize="15sp" />
+
         <TextView
-            android:id="@+id/textView21"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40sp"
-            android:layout_marginTop="6sp"
-            android:fontFamily="sans-serif-condensed"
-            android:text=" * where this is included in information we store about children had incident and treatment by particular Staff and treatment type"
-            android:textAlignment="gravity"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:layout_marginTop="10sp"
+            android:text="How Personal Information is Collected: Indirect Collection"
             android:textColor="@color/blue"
-            android:textSize="15sp" />
-        <TextView
-            android:id="@+id/textView22"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40sp"
-            android:layout_marginTop="6sp"
-            android:fontFamily="sans-serif-condensed"
-            android:text=" * Contents used are child and guardian information link with the Staff and incident forms ,only register user or authenticated person can view it and Edit it if it stored in the Draft forms. "
-            android:textAlignment="gravity"
-            android:textColor="@color/blue"
-            android:textSize="15sp" />
-        <TextView
-            android:id="@+id/textView23"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40sp"
-            android:layout_marginTop="6sp"
-            android:fontFamily="sans-serif-condensed"
-            android:text=" * We use personal Information improve the site and couumicate between Staff and Guardian. "
-            android:textAlignment="gravity"
-            android:textColor="@color/blue"
-            android:textSize="15sp" />
-        <TextView
-            android:id="@+id/textView24"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40sp"
-            android:layout_marginTop="6sp"
-            android:fontFamily="sans-serif-condensed"
-            android:text="2. Protection of Personal Information"
-            android:textAlignment="gravity"
-            android:textColor="@color/black"
             android:textSize="20sp" />
+
         <TextView
-            android:id="@+id/textView25"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40sp"
-            android:layout_marginTop="6sp"
-            android:fontFamily="sans-serif-condensed"
-            android:text=" We do not rent, sell, or share Personal Information about Staff ,Child or Guardian.We strive to ensure that the personal information we hold on behalf of child care services is protected by all the security safeguards it is reasonable to take.we use a secure encrypted integration process that most of the inforamtion is ecrypted,"
-            android:textAlignment="gravity"
-            android:textColor="@color/blue"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:text="We may collect your information when you authorise someone else to act on your behalf or provide us with your personal information. For example, a client (an Early Childcare Centre) of InFormSafety may provide us with your personal or sensitive information when using InFormSafety for the management of its business (for example to fill out a child care centre accident report). Where personal information is provided to InFormSafety by its clients, InFormSafety relies on its clients having obtained the necessary consent of the individual or relevant parent/guardian/attorney for the collection, use and disclosure of the personal information to and by InFormSafety in accordance with this Privacy Policy."
             android:textSize="15sp" />
+
         <TextView
-            android:id="@+id/textView26"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40sp"
-            android:layout_marginTop="6sp"
-            android:fontFamily="sans-serif-condensed"
-            android:text="3. Data Storage"
-            android:textAlignment="gravity"
-            android:textColor="@color/black"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:layout_marginTop="5sp"
+            android:text="Where InFormSafety holds personal or sensitive information provided indirectly by its clients via InFormSafety, InFormSafety does not use or disclose this information for direct marketing or for any secondary purpose unrelated to the purpose of its original collection."
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:layout_marginTop="10sp"
+            android:text="Purposes for Collecting and Holding the Information"
+            android:textColor="@color/blue"
             android:textSize="20sp" />
+
         <TextView
-            android:id="@+id/textView27"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40sp"
-            android:layout_marginTop="6sp"
-            android:fontFamily="sans-serif-condensed"
-            android:text=" All the personal information we collect, hold and process
-             is securely stored in the monitored Firebase Database"
-            android:textAlignment="gravity"
-            android:textColor="@color/blue"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:text="InFormSafety will only collect information necessary and directly related to our functions or services, including:"
             android:textSize="15sp" />
+
         <TextView
-            android:id="@+id/textView28"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40sp"
-            android:layout_marginTop="6sp"
-            android:fontFamily="sans-serif-condensed"
-            android:text="4. Disclosure of Personal Information"
-            android:textAlignment="gravity"
-            android:textColor="@color/black"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:text="1. Providing early childhood centres with electronic health and safety forms"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:text="2. Enabling guardians to view and acknowledge these health and safety forms"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:layout_marginTop="10sp"
+            android:text="Storage of Personal Information"
+            android:textColor="@color/blue"
             android:textSize="20sp" />
+
         <TextView
-            android:id="@+id/textView29"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40sp"
-            android:layout_marginTop="6sp"
-            android:fontFamily="sans-serif-condensed"
-            android:text=" We may disclose any of the personal information to team working with us on the operation and ongoing development of the Application"
-            android:textAlignment="gravity"
-            android:textColor="@color/blue"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:text="InFormSafety collects personal information through its application and the enrolling early childhood centre. Personal information is stored electronically on cloud servers operated by Google. This information is encrypted so that only the relevant users are able to read it."
             android:textSize="15sp" />
+
         <TextView
-            android:id="@+id/textView30"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40sp"
-            android:layout_marginTop="6sp"
-            android:fontFamily="sans-serif-condensed"
-            android:text="5. Your Right"
-            android:textAlignment="gravity"
-            android:textColor="@color/black"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:layout_marginTop="5sp"
+            android:text="InFormSafety will keep your personal information only for as long as necessary to achieve the purpose it is collected for and in all cases for such periods as InFormSafety is required to in order to comply with any relevant legislation or regulations."
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:layout_marginTop="5sp"
+            android:text="If you request us to do so, we will delete your personal information from our application. If we delete your personal information, we may not be able to continue providing services to you. We may, however, retain your personal information to the extent necessary to comply with our legal obligations, for example, for auditing requirements. Also, the enrolling early childhood centre will retain a copy of these records in their own systems.     However, even though you requested for your personal information to be deleted in InFormSafety system, your information will still be in existence in the Early Childhood Centre system or if you wish to request deletion of your personal information, please refer to the contact us page in this app."
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:layout_marginTop="10sp"
+            android:text="Disclosure of Personal Information"
+            android:textColor="@color/blue"
             android:textSize="20sp" />
+
         <TextView
-            android:id="@+id/textView31"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40sp"
-            android:layout_marginTop="6sp"
-            android:fontFamily="sans-serif-condensed"
-            android:text="You have right to request to delete the inforamtion when you de-register your child from the Kindergarten center.
- Whereas InfromSafety is processor of data, our customer are controllers of personal data. As such they  are advised to seek consent from parents and families using forms like this from the New Zealand MOE."
-            android:textAlignment="gravity"
-            android:textColor="@color/blue"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:text="InFormSafety does not sell your personal information to anyone. The personal information collected through InFormSafety is only disclosed to third parties for the reasons set out in this privacy policy, or when otherwise authorised by you. InFormSafety will only use and disclose personal information for the particular purpose for which it was given or a directly related secondary purpose. In doing so, it may be necessary for InFormSafety to disclose your personal information to third parties such as cloud and storage providers."
             android:textSize="15sp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:layout_marginTop="5sp"
+            android:text="We may not disclose your personal information to any third party unless that party is subject to similar or greater safeguards than to those in the Privacy Act 2020 (New Zealand) and this policy. We may also disclose your personal information to the person that provided your personal information to us."
+            android:textSize="15sp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:layout_marginTop="10sp"
+            android:text="Legal Disclaimer"
+            android:textColor="@color/blue"
+            android:textSize="20sp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:text="Though we make every effort to preserve user privacy, InFormSafety may need to disclose personal information when required by law wherein we have a good-faith belief that such action is necessary to comply with a current judicial proceeding, a court order or legal process served on InFormSafety, or to act in urgent circumstances to protect our rights. InFormSafety may also disclose information about someone whose activities could cause harm to themselves or others (i.e. fraud). Where possible and appropriate, InFormSafety will notify you of this type of disclosure. You acknowledge and agree that we are not liable for a breach of privacy in these circumstances."
+            android:textSize="15sp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:layout_marginTop="10sp"
+            android:text="Security of Data"
+            android:textColor="@color/blue"
+            android:textSize="20sp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:text="InFormSafety will take reasonable measures (including industry-standard techniques) to prevent the loss, misuse or alteration of personal information, but as the internet is not a secure environment, it cannot guarantee that your personal information will be protected from unauthorised access or security breaches."
+            android:textSize="15sp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:layout_marginTop="5sp"
+            android:text="InFormSafety will review its security arrangements from time to time as we deem appropriate."
+            android:textSize="15sp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:layout_marginTop="10sp"
+            android:text="Changes to our Privacy Policy"
+            android:textColor="@color/blue"
+            android:textSize="20sp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:text="InFormSafety is committed to reviewing its privacy practices and procedures from time to time to ensure these reflect the best and current practice, this includes the review of this Privacy Policy. Whenever InFormSafety changes its Privacy Policy, we will post those changes to this privacy statement, and other places we deem appropriate so our users are always aware of what information we collect, how we use it, and under what circumstances, if any, we disclose it."
+            android:textSize="15sp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:layout_marginTop="10sp"
+            android:text="Access to or Correction of Information and Complaints"
+            android:textColor="@color/blue"
+            android:textSize="20sp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:text="You have the right to:"
+            android:textSize="15sp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:text="a) ask questions about this Privacy Policy by email;"
+            android:textSize="15sp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:text="b) access the personal information InFormSafety holds about you;"
+            android:textSize="15sp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:text="c) request the correction of personal information that we hold about you;"
+            android:textSize="15sp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:text="d) request further information about how your personal information is collected, used, held or disclosed; or"
+            android:textSize="15sp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:text="e) make a complaint if you believe we have breached your privacy rights."
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:layout_marginTop="5sp"
+            android:text="InFormSafety is committed to responding to respecting your rights and we will endeavour to resolve any requests or complaints within a timely manner."
+            android:textSize="15sp" />
 
     </LinearLayout>
-
 
 </ScrollView>

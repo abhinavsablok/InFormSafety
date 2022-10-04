@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ContactUsFragment">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:layout_marginTop="10sp"
+            android:text="Contact Information"
+            android:textColor="@color/blue"
+            android:textSize="30sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10sp"
+            android:text="If you have any questions or suggestions regarding the InFormSafety App or the app's privacy policy or if you wish to exercise any of your app related rights mentioned in the privacy policy or are facing any difficulties using the app, please feel free to contact the InFormSafety App's team at"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10sp"
+            android:layout_marginTop="-3sp"
+            android:textColor="@color/blue"
+            android:autoLink="email"
+            android:textStyle="italic"
+            android:text="app.informsafety@gmail.com."
+            android:textSize="15sp" />
+
+
+</LinearLayout>

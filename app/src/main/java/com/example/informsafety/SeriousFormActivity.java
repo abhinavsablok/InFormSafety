@@ -65,7 +65,7 @@ public class SeriousFormActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setTitle("SERIOUS INCIDENT FORM");
+        getSupportActionBar().setTitle("Serious Incident Form");
         setContentView(R.layout.activity_serious_form);
 
 

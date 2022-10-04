@@ -19,13 +19,11 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.InFormSafety"
         tools:targetApi="31">
-        <activity
-            android:name=".ViewSignatureActivity"
-            android:exported="false" />
         <activity
             android:name=".SignatureActivity"
             android:exported="false" />
