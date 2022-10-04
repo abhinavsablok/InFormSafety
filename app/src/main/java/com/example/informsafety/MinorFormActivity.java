@@ -3,13 +3,20 @@ package com.example.informsafety;
 import static com.example.informsafety.EncryptDecrypt.decrypt;
 import static com.example.informsafety.EncryptDecrypt.encrypt;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.os.Environment;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,6 +32,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -34,6 +42,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -55,6 +66,8 @@ public class MinorFormActivity extends AppCompatActivity {
     String myKey;
     int timeHour, timeMinute;
     ArrayList<String> childList;
+    Bitmap bmp, scaledBmp;
+    int pageWidth = 2100;
 
 
     @Override
@@ -65,8 +78,9 @@ public class MinorFormActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Minor Incident Form");
         actionBar.setDisplayHomeAsUpEnabled(true);
-
         setContentView(R.layout.activity_minor_form);
+
+        ActivityCompat.requestPermissions(MinorFormActivity.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
 
         fbh = new FirebaseHelper();
         db = FirebaseDatabase.getInstance("https://informsafetydb-default-rtdb.asia-southeast1.firebasedatabase.app/");
@@ -85,6 +99,8 @@ public class MinorFormActivity extends AppCompatActivity {
         comments = findViewById(R.id.comments);
         save = findViewById(R.id.save);
         send = findViewById(R.id.send);
+        bmp = BitmapFactory.decodeResource(getResources(), R.drawable.logo_kindergarten);
+        scaledBmp = Bitmap.createScaledBitmap(bmp, 2300, 946, false);
 
         ClickSave();
         ClickSend();
@@ -479,13 +495,112 @@ public class MinorFormActivity extends AppCompatActivity {
                             }
                         }
 
-                        @Override
-                        public void onCancelled(DatabaseError error) {
-                        }
-                    });
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                    }
+                });
+
+                if (child.getText().toString().length() == 0 || date.getText().toString().length() == 0 ||
+                        incidentTime.getText().toString().length() == 0 || description.getText().toString().length() == 0 ||
+                        comments.getText().toString().length() == 0) {
+                    Toast.makeText(MinorFormActivity.this, "Some Fields are empty!", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    PdfDocument pdfDocument = new PdfDocument();
+                    Paint paint = new Paint();
+                    Paint titlePaint  = new Paint();
+
+                    PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(1200, 2100, 1).create();
+                    PdfDocument.Page page = pdfDocument.startPage(pageInfo);
+
+//                    Canvas canvas = page.getCanvas();
+
+//                    canvas.drawBitmap(scaledBmp, 0, 0, paint);
+//
+//                    titlePaint.setTextAlign(Paint.Align.CENTER);
+//                    titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+//                    titlePaint.setTextSize(70);
+//                    canvas.drawText("Minor accident, incident or injury form", pageWidth/2, 1000, titlePaint);
+
+                    pdfDocument.finishPage(page);
+
+                    String fileName = "stored.pdf";
+                    String baseDir = Environment.getExternalStorageDirectory().getAbsolutePath();
+                    String pathDir = baseDir + "/Android/data/com.example.informsafety";
+                    File file = new File(pathDir + File.separator + fileName);
+
+                    try {
+                        pdfDocument.writeTo(new FileOutputStream(file));
+                        Toast.makeText(MinorFormActivity.this, "Created", Toast.LENGTH_SHORT).show();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Toast.makeText(MinorFormActivity.this, "Something Wrong!" + e, Toast.LENGTH_SHORT).show();
+                    }
+
+                    pdfDocument.close();
                 }
             }
         });
     }
+
+
+
+//    public void createPDF(View view) {
+//
+//        PdfDocument pdfDocument = new PdfDocument();
+//        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(210, 297, 1).create();
+//        PdfDocument.Page page = pdfDocument.startPage(pageInfo);
+//
+//        Paint paint = new Paint();
+//        String myChild = child.getText().toString();
+//        String myDate = date.getText().toString();
+//        String myTime = incidentTime.getText().toString();
+//        String myDescription = description.getText().toString();
+//        String myLocation = location.getSelectedItem().toString();
+//        String myTreatment = treatment.getSelectedItem().toString();
+//        String myTeacherProvided = teacherProvided.getSelectedItem().toString();
+//        String myTeacherChecked = teacherChecked.getSelectedItem().toString();
+//        String myComments = comments.getText().toString();
+//
+//        String[] array = {myChild, myDate, myTime, myDescription, myLocation, myTreatment, myTeacherProvided, myTeacherChecked, myComments};
+//
+//        // Additional data for form status
+//        String formType = "Minor Incident";
+//        String mFormStatus = "Draft";
+//        String mPdfFilename = "PdfFile";
+//
+//        // Create a HashMap of incident form contents
+//        HashMap<String, Object> map = new HashMap<>();
+//        map.put("childName", encrypt(myChild));
+//        map.put("incidentDate", myDate);
+//        map.put("incidentTime", myTime);
+//        map.put("description", myDescription);
+//        map.put("location", myLocation);
+//        map.put("treatment", myTreatment);
+//        map.put("teacherProvided", myTeacherProvided);
+//        map.put("teacherChecked", myTeacherChecked);
+//        map.put("comments", myComments);
+//        map.put("formType", formType);
+//        map.put("formStatus", mFormStatus);
+//        map.put("pdfFilename", mPdfFilename);
+//
+//        int x=10, y=25;
+//
+//        page.getCanvas().drawText(String.valueOf(array), x, y, paint);
+//        pdfDocument.finishPage(page);
+//
+//        String filePath = Environment.getExternalStorageDirectory().getPath() + "/myPDFFile.pdf";
+//        File file = new File(filePath);
+//
+//        try {
+//            pdfDocument.writeTo(new FileOutputStream(file));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            child.setError("Pdf File Error!");
+//        }
+//
+//        pdfDocument.close();
+//    }
 
 }

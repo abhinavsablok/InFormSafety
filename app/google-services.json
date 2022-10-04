@@ -8,6 +8,7 @@
   "client": [
     {
       "client_info": {
+<<<<<<< HEAD
         "mobilesdk_app_id": "1:1015002955378:android:f9e4dfe97a3c8e3b238ceb",
         "android_client_info": {
           "package_name": "com.example.firebasenotification"
@@ -37,6 +38,8 @@
     },
     {
       "client_info": {
+=======
+>>>>>>> origin/master
         "mobilesdk_app_id": "1:1015002955378:android:1b4e84affacf891a238ceb",
         "android_client_info": {
           "package_name": "com.example.informsafety"
@@ -153,6 +156,7 @@
     },
     {
       "client_info": {
+<<<<<<< HEAD
         "mobilesdk_app_id": "1:1015002955378:android:8d1b56037c527ad6238ceb",
         "android_client_info": {
           "package_name": "com.example.notificationexample"
@@ -182,6 +186,8 @@
     },
     {
       "client_info": {
+=======
+>>>>>>> origin/master
         "mobilesdk_app_id": "1:1015002955378:android:6a39de376ba763a6238ceb",
         "android_client_info": {
           "package_name": "com.example.twofactor"

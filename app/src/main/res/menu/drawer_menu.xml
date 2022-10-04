@@ -25,22 +25,12 @@
             android:icon="@drawable/ic_online_mark_email_read_24"
             android:title="Completed Forms" />
 
+        <item
+            android:id="@+id/navigation_child_protection"
+            android:icon="@drawable/ic_child"
+            android:title="Child Protection" />
+
     </group>
-
-    <item android:title="Communication">
-        <menu>
-            <item
-                android:id="@+id/navigation_notifications"
-                android:icon="@drawable/ic_notifications"
-                android:title="Notifications" />
-
-            <item
-                android:id="@+id/navigation_child_protection"
-                android:icon="@drawable/ic_child"
-                android:title="Child Protection" />
-
-        </menu>
-    </item>
 
     <item android:title="Services">
         <menu>
