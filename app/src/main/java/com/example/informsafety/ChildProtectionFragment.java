@@ -1,23 +1,18 @@
 package com.example.informsafety;
 
 import static com.example.informsafety.EncryptDecrypt.decrypt;
-import static com.example.informsafety.EncryptDecrypt.encrypt;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -29,7 +24,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 
 import javax.annotation.Nullable;
 
@@ -121,7 +115,6 @@ public class ChildProtectionFragment extends Fragment {
 
     // When the user clicks Add Note, open Child Protection Note
     private void ClickAddNote() {
-//        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ChildProtectionNoteFragment()).commit();
         Intent intent = new Intent(getActivity(), ChildProtectionNoteActivity.class);
         startActivity(intent);
 

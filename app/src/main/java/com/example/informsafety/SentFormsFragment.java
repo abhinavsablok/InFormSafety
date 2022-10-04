@@ -1,27 +1,19 @@
 package com.example.informsafety;
 
 import static com.example.informsafety.EncryptDecrypt.decrypt;
-import static com.example.informsafety.EncryptDecrypt.encrypt;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
+import androidx.fragment.app.Fragment;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,7 +23,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 
 import javax.annotation.Nullable;
 
@@ -49,7 +40,6 @@ public class SentFormsFragment extends Fragment {
         View rootView =  inflater.inflate(R.layout.fragment_sent_forms, container, false);
 
         // Display a list of all draft forms in a ListView
-        // Sent forms have sentToGuardian = true and signedByGuardian = false
         ListView sentFormsListView = rootView.findViewById(R.id.sentFormsListView);
         ArrayList<String> sentFormsList = new ArrayList<>();
         ArrayList<String> sentFormsKeyList = new ArrayList<>();

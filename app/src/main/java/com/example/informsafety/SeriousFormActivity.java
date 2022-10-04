@@ -1,11 +1,7 @@
 package com.example.informsafety;
 
-import static com.example.informsafety.EncryptDecrypt.*;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
+import static com.example.informsafety.EncryptDecrypt.decrypt;
+import static com.example.informsafety.EncryptDecrypt.encrypt;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -15,8 +11,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.format.Time;
-import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -30,10 +24,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.AuthResult;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -494,7 +488,6 @@ public class SeriousFormActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             myKey = extras.getString("Key");
-//            Toast.makeText(MinorFormActivity.this, myKey, Toast.LENGTH_SHORT).show();
 
             // Query the database for the clicked record
             DatabaseReference draftsRef = ref.child("Incident");
@@ -503,14 +496,9 @@ public class SeriousFormActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                        // Do something with the selected draft form
-//                        Toast.makeText(MinorFormActivity.this, snapshot.toString() ,Toast.LENGTH_SHORT).show();
-
                         // Set form elements to show the saved values
                         // Text/date/time fields
                         child.setText(decrypt(snapshot.child("childName").getValue().toString()));
-//                        date.setText(snapshot.child("incidentDate").getValue().toString());
-//                        time.setText(snapshot.child("incidentTime").getValue().toString());
                         description.setText(decrypt(snapshot.child("description").getValue().toString()));
                         ambulanceDoctorCalledTime.setText(snapshot.child("ambulanceDoctorCalledTime").getValue().toString());
                         guardianContactedTime.setText(snapshot.child("guardianContactedTime").getValue().toString());

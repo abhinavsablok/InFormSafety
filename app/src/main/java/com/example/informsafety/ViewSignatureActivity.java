@@ -38,7 +38,6 @@ public class ViewSignatureActivity extends AppCompatActivity {
         StorageReference signaturesRef = storageRef.child("signatures/" + mAuth.getUid() + ".jpg");
 
 
-
         // Download the user's signature file
         File localFile = null;
         try {
@@ -61,22 +60,5 @@ public class ViewSignatureActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Something went wrong, please try again", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
-//        final long ONE_MEGABYTE = 1024 * 1024;  // limit download size
-//        signaturesRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-//            @Override
-//            public void onSuccess(byte[] bytes) {
-//                // Display the signature
-//                Bitmap bitmap= BitmapFactory.decodeByteArray(bytes,0,bytes.length);
-//                viewImage.setImageBitmap(bitmap);
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception exception) {
-//                Toast.makeText(ViewSignatureActivity.this, "Something went wrong, please try again", Toast.LENGTH_SHORT).show();
-//            }
-//        });
     }
 }

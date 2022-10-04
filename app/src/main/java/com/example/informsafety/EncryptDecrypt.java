@@ -17,25 +17,7 @@ public class EncryptDecrypt {
     private static final String ALGORITHM = "Blowfish";
     private static final String MODE = "Blowfish/CBC/PKCS5Padding";
     private static final String IV = "abcedfgh";
-    private static final String Key = "SECERETKEY"; //replace this with your custom Key
-
-//    public static String encrypt(String value) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-//        SecretKeySpec secretKeySpec = new SecretKeySpec(Key.getBytes(),ALGORITHM);
-//        Cipher cipher = Cipher.getInstance(MODE);
-//        cipher.init(Cipher.ENCRYPT_MODE,secretKeySpec,new IvParameterSpec(IV.getBytes()));
-//        byte[] values= cipher.doFinal(value.getBytes());
-//        return Base64.encodeToString(values,Base64.DEFAULT);
-//
-//    }
-//    public static String decrypt(String value) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-//
-//        byte[] values = Base64.decode(value,Base64.DEFAULT);
-//        SecretKeySpec secretKeySpec=new SecretKeySpec(Key.getBytes(),ALGORITHM);
-//        Cipher cipher = Cipher.getInstance(MODE);
-//        cipher.init(Cipher.DECRYPT_MODE,secretKeySpec,new IvParameterSpec(IV.getBytes()));
-//        return new String(cipher.doFinal(values));
-//
-//    }
+    private static final String Key = "SECERETKEY";
 
     public static String encrypt(String value) { //throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
         String output = "";

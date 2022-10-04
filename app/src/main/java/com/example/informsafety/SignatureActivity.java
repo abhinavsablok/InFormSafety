@@ -41,7 +41,6 @@ public class SignatureActivity extends AppCompatActivity {
         Button checkSign = findViewById(R.id.checkSign);
         ImageView signImage = findViewById(R.id.signImage);
         Button confirm = findViewById(R.id.confirm);
-//        Bitmap bitmap = sign.getSignatureBitmap();
 
         checkSign.setOnClickListener(new View.OnClickListener() {
             @Override

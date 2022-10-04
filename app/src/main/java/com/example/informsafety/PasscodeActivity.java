@@ -1,10 +1,6 @@
 package com.example.informsafety;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -12,12 +8,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 
 public class PasscodeActivity extends AppCompatActivity implements View.OnClickListener {
@@ -218,10 +214,6 @@ public class PasscodeActivity extends AppCompatActivity implements View.OnClickL
         else if (isSendingForm) {
             // Enter correct passcode to continue sending form
             if (getPassCode().equals(passCode)){
-
-                // TODO: Attach Teacher's signature to form
-
-                // TODO: Notify the Guardian that they have a form to sign
 
                 // Mark the form as Sent
                 ref.child("Incident").child(formKey).child("formStatus").setValue("Sent");

@@ -1,10 +1,5 @@
 package com.example.informsafety;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -15,9 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -27,8 +25,6 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.auth.User;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -133,17 +129,13 @@ public class LoginActivity extends AppCompatActivity {
                             .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                 @Override
                                 public void onSuccess(AuthResult authResult) {
-//                                    if (mAuth.getCurrentUser().isEmailVerified()) {
-//                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-//                                        startActivity(new Intent(LoginActivity.this, MinorFormActivity.class));
-//                                        startActivity(new Intent(LoginActivity.this, IllnessFormActivity.class));
-//                                        startActivity(new Intent(LoginActivity.this, DraftsActivity.class));
+                                    if (mAuth.getCurrentUser().isEmailVerified()) {
                                         startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                                         Toast.makeText(LoginActivity.this, "Logged In!", Toast.LENGTH_SHORT).show();
                                         finish();
-//                                    } else {
-//                                        Toast.makeText(LoginActivity.this, "Please Verify this email before login!", Toast.LENGTH_SHORT).show();
-//                                    }
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, "Please Verify this email before login!", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
@@ -262,8 +254,6 @@ public class LoginActivity extends AppCompatActivity {
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()) {
 
-                                                        // TODO: Set a Passcode
-
                                                         Toast.makeText(LoginActivity.this, "Registration Completed! Please check your email for verification.", Toast.LENGTH_SHORT).show();
                                                         // Get UID of new user
                                                         String myUID = mAuth.getCurrentUser().getUid();
@@ -290,176 +280,3 @@ public class LoginActivity extends AppCompatActivity {
         dialog.show();
     }
 }
-
-//    private void ClickSignUp() {
-//
-//        register = findViewById(R.id.register);
-//        name = findViewById(R.id.name);
-//        contact = findViewById(R.id.contact);
-//        email = findViewById(R.id.email);
-//        reg_password = findViewById(R.id.reg_password);
-//        confirmPassword = findViewById(R.id.confirmPassword);
-//        reg_email = findViewById(R.id.reg_email);
-//
-//        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-//        LayoutInflater inflater = getLayoutInflater();
-//        View dialogView = inflater.inflate(R.layout.activity_signup, null);
-//        dialog.setView(dialogView);
-//
-//        register.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (reg_password.getText().toString().trim().isEmpty()) {
-//                    reg_password.setError("Please fill out this field");
-//                } else if (name.getText().toString().trim().isEmpty()) {
-//
-//                    name.setError("Please fill out this field");
-//                } else if (contact.getText().toString().trim().isEmpty()) {
-//                    contact.setError("Please fill out this field");
-//                } else if (reg_email.getText().toString().trim().isEmpty()) {
-//                    reg_email.setError("Please fill out this field");
-//                } else if (confirmPassword.getText().toString().trim().isEmpty()) {
-//                    confirmPassword.setError("Please fill out this field");
-//                } else {
-//                    String mName = name.getText().toString();
-//                    String mContact = contact.getText().toString();
-//                    String mEmail = reg_email.getText().toString();
-//                    String mPassword = reg_password.getText().toString();
-//                    String mConfirmPassword = confirmPassword.getText().toString();
-//
-//
-//
-//                    if (Patterns.EMAIL_ADDRESS.matcher(mEmail).matches()) {
-//                        mAuth.createUserWithEmailAndPassword(mEmail, mPassword)
-//                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-//                                    @Override
-//                                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                                        if (task.isSuccessful()) {
-//                                            User user = new User(mName, mContact, mEmail, mPassword, mConfirmPassword);
-//                                            FirebaseDatabase.getInstance().getReference("Users")
-//                                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-//                                                    .setValue(user);
-//                                            Toast.makeText(LoginActivity.this, "Registration Completed", Toast.LENGTH_LONG).show();
-//                                            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-//                                        } else {
-//                                            Toast.makeText(LoginActivity.this, "Failed to register the user. Please Try Again!", Toast.LENGTH_LONG).show();
-//                                        }
-//                                    }
-//                                });
-//                    } else {
-//                        reg_email.setError("Please enter a valid email address!");
-//                    }
-//                }
-//            }
-//        });
-//        dialog.show();
-//
-//
-//        // Import database functions
-//        DatabaseHelper databaseHelper = new DatabaseHelper(LoginActivity.this);
-//
-//        // FOR TESTING ONLY: Empty the database tables and start over
-//        databaseHelper.deleteRecords();
-//    }
-
-//      Test Registration
-//        RegistrationForm registrationForm = new RegistrationForm("Teacher 1", "teacher1@huttkindergartens.org.nz", "0210727600", "password01", "password01");
-//        registerUser(registrationForm);
-
-//    private void ClickRegister(RegistrationForm registrationForm) {
-//
-//        if (registrationForm.getPassword().equals(registrationForm.getConfirmPassword())) {
-//
-//            // If user has an ECE Centre email address, register them as a Teacher
-//            // Otherwise register them as a Guardian (default value 0).
-//            if (registrationForm.getEmail().contains("@huttkindergartens.org.nz")) {
-//                registrationForm.setTeacher(1);
-//            }
-//
-//            // Insert to Teacher/Guardian table according to isTeacher flag
-//            if (registrationForm.isTeacher() == 1) {
-//                teacherID = databaseHelper.insertTeacher(registrationForm);
-//                registrationForm.setTeacherID((int) teacherID);
-//            }
-//            else {
-//                guardianID = databaseHelper.insertGuardian(registrationForm);
-//                registrationForm.setGuardianID((int) guardianID);
-//            }
-//
-//            // Insert to User table
-//            userID = databaseHelper.insertUser(registrationForm);
-//            Toast.makeText(LoginActivity.this, "Registered " + registrationForm.getName(), Toast.LENGTH_SHORT).show();
-//
-//            // Log the user into their new account
-//            loginForm = new LoginForm(registrationForm.getEmail(), registrationForm.getPassword());
-//            logInUser(loginForm);
-//            Toast.makeText(LoginActivity.this, "Logged in as " + userModel.getName(), Toast.LENGTH_SHORT).show();
-//
-//        }
-//        else {
-//            Toast.makeText(LoginActivity.this, "Password and Confirm Password do not match", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-
-
-//    public void registerUser(RegistrationForm registrationForm) {
-//
-//        // Check that password and confirm password match
-//        if (registrationForm.getPassword().equals(registrationForm.getConfirmPassword())) {
-//
-//            // If user has an ECE Centre email address, register them as a Teacher
-//            // Otherwise register them as a Guardian (default value 0).
-//            if (registrationForm.getEmail().contains("@huttkindergartens.org.nz")) {
-//                registrationForm.setTeacher(1);
-//            }
-//
-//            // Insert to Teacher/Guardian table according to isTeacher flag
-//            if (registrationForm.isTeacher() == 1) {
-//                teacherID = databaseHelper.insertTeacher(registrationForm);
-//                registrationForm.setTeacherID((int) teacherID);
-//            }
-//            else {
-//                guardianID = databaseHelper.insertGuardian(registrationForm);
-//                registrationForm.setGuardianID((int) guardianID);
-//            }
-//
-//            // Insert to User table
-//            userID = databaseHelper.insertUser(registrationForm);
-////            Toast.makeText(MainActivity.this, "Registered " + registrationForm.getName(), Toast.LENGTH_SHORT).show();
-//
-//            // Log the user into their new account
-//            loginForm = new LoginForm(registrationForm.getEmail(), registrationForm.getPassword());
-//            logInUser(loginForm);
-//            Toast.makeText(LoginActivity.this, "Logged in as " + userModel.getName(), Toast.LENGTH_SHORT).show();
-//
-//        }
-//        else {
-//            Toast.makeText(LoginActivity.this, "Password and Confirm Password do not match", Toast.LENGTH_SHORT).show();
-//        }
-//
-//    }
-
-//    public void logInUser(LoginForm loginForm) {
-//
-//        // Encrypt email to match to database
-//        //String encEmail = encrypt(loginForm.getEmail());
-//
-//        // Get user ID matching the provided email
-//        int id = databaseHelper.getUserIDFromEmail(loginForm.getEmail());
-//
-//        // Get and decrypt password matching the provided id
-//        String correctPassword = databaseHelper.selectPassword(id);
-//
-//        // If correct password given, generate a UserModel with all of the user's data
-//        if (loginForm.getPassword().equals(correctPassword)) {
-//
-//            userModel = databaseHelper.selectUser(id);
-//
-////            Toast.makeText(MainActivity.this, "Logged in as " + userModel.getName(), Toast.LENGTH_SHORT).show();
-//
-//        } else {
-//            Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-//
-//}

@@ -1,11 +1,7 @@
 package com.example.informsafety;
 
-import static com.example.informsafety.EncryptDecrypt.*;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
+import static com.example.informsafety.EncryptDecrypt.decrypt;
+import static com.example.informsafety.EncryptDecrypt.encrypt;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -13,7 +9,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,10 +22,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.AuthResult;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -265,22 +260,6 @@ public class MinorFormActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-
-//        DatabaseReference teacherRef = ref.child("Teacher");
-//        teacherRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                teacherList.clear();
-//                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-//                    teacherList.add(decrypt(snapshot.child("Name").getValue().toString()));
-//                }
-//                teacherAdapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//            }
-//        });
 
 
         // If user opened a saved form, populate the form with the saved values

@@ -8,14 +8,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
-
-import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +19,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -48,15 +45,13 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Array;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 
 public class SettingsFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     EditText updateEmail, updateName, updatePhone, currentPassword, newPassword, confirmPassword;
-    Button update, addChild, updateSign;
+    Button update, updateSign;
     ListView childListView;
     ImageView viewSign;
 
@@ -98,17 +93,6 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemClic
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-//        if (i == 0) {
-//            Intent intent = new Intent(getActivity().getApplication(), MinorIncidentFormActivity.class);
-//            startActivity(intent);
-//        } if (i == 1) {
-//            Intent intent = new Intent(getActivity().getApplication(), TestActivity.class);
-//            startActivity(intent);
-//        } if (i == 2) {
-//            Intent intent = new Intent(getActivity().getApplication(), TestActivity.class);
-//            startActivity(intent);
-//        }
 
         if (i == 0) {    // Email
             ClickUpdateEmail();
@@ -240,7 +224,6 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemClic
                     ref.child("User").child(myUID).updateChildren(map);
 
                     Toast.makeText(getActivity(), "Updated", Toast.LENGTH_SHORT).show();
-                    // TODO: Exit to Settings page
                 }
             }
         });
@@ -305,7 +288,6 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemClic
                     ref.child("User").child(myUID).updateChildren(map);
 
                     Toast.makeText(getActivity(), "Updated", Toast.LENGTH_SHORT).show();
-                    // TODO: Exit to Settings page
                 }
             }
         });
@@ -325,7 +307,6 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemClic
         dialog.setView(dialogView);
 
         // Display a list of children
-//        addChild = dialogView.findViewById(R.id.addChild);
         childListView = dialogView.findViewById(R.id.childListView);
         ArrayList<String> childList = new ArrayList<>();
         ArrayList<String> childKeyList = new ArrayList<>();
@@ -429,20 +410,14 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemClic
                                     });
                                 } else {
                                     Toast.makeText(getActivity(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-//                                    Toast.makeText(getActivity(), "Authentication Failed", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
-
-//                    Toast.makeText(getActivity(), "Updated", Toast.LENGTH_SHORT).show();
-                    // TODO: Exit to Settings page
                 }
             }
         });
 
         dialog.show();
-
-
     }
 
 
@@ -456,7 +431,6 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemClic
 
     // When the user clicks Logout, return to home screen
     private void ClickLogout() {
-
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("Are you sure you want to logout from your account. Your login details will not be saved.")
@@ -477,31 +451,5 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemClic
                 });
 
         builder.show();
-
-//        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-//        LayoutInflater inflater = getLayoutInflater();
-//        View dialogView = inflater.inflate(R.layout.fragment_confirm_logout, null);
-//        dialog.setView(dialogView);
-//        yes = dialogView.findViewById(R.id.yes);
-//        cancel = dialogView.findViewById(R.id.cancel);
-//
-//        yes.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                FirebaseAuth mAuth = FirebaseAuth.getInstance();
-//                FirebaseAuth.getInstance().signOut();
-//                mAuth.signOut();
-//                Toast.makeText(getActivity(), "Logged Out", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(getActivity().getApplication(), LoginActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//
-//        cancel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
     }
 }
