@@ -127,11 +127,11 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(AuthResult authResult) {
 //                                    if (mAuth.getCurrentUser().isEmailVerified()) {
-                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
 //                                        startActivity(new Intent(LoginActivity.this, MinorFormActivity.class));
 //                                        startActivity(new Intent(LoginActivity.this, IllnessFormActivity.class));
 //                                        startActivity(new Intent(LoginActivity.this, DraftsActivity.class));
-//                                        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                                        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                                         Toast.makeText(LoginActivity.this, "Logged In!", Toast.LENGTH_SHORT).show();
                                         finish();
 //                                    } else {
