@@ -438,8 +438,7 @@ public class MinorFormActivity extends AppCompatActivity {
                 // Date and time must be selected
                 else if (date.getText().toString().isEmpty()) {
                     date.setError("Please fill out this field");
-                }
-                else if (incidentTime.getText().toString().isEmpty()) {
+                } else if (incidentTime.getText().toString().isEmpty()) {
                     incidentTime.setError("Please fill out this field");
                 }
                 // Description must not be empty
@@ -448,12 +447,11 @@ public class MinorFormActivity extends AppCompatActivity {
                 }
                 // Teacher Provided and Teacher Checked must be different
                 else if (teacherProvided.getSelectedItem().toString().equals(teacherChecked.getSelectedItem().toString())) {
-                    TextView errorText = (TextView)teacherChecked.getSelectedView();
+                    TextView errorText = (TextView) teacherChecked.getSelectedView();
                     errorText.setError("");
                     errorText.setTextColor(Color.RED);
                     errorText.setText("Form must be checked by another teacher");
-                }
-                else {
+                } else {
                     // Save the form before sending
                     saveMinorIncidentForm();
 
@@ -495,23 +493,23 @@ public class MinorFormActivity extends AppCompatActivity {
                             }
                         }
 
-                    @Override
-                    public void onCancelled(DatabaseError error) {
-                    }
-                });
+                        @Override
+                        public void onCancelled(DatabaseError error) {
+                        }
+                    });
 
-                if (child.getText().toString().length() == 0 || date.getText().toString().length() == 0 ||
-                        incidentTime.getText().toString().length() == 0 || description.getText().toString().length() == 0 ||
-                        comments.getText().toString().length() == 0) {
-                    Toast.makeText(MinorFormActivity.this, "Some Fields are empty!", Toast.LENGTH_SHORT).show();
-                } else {
+                    if (child.getText().toString().length() == 0 || date.getText().toString().length() == 0 ||
+                            incidentTime.getText().toString().length() == 0 || description.getText().toString().length() == 0 ||
+                            comments.getText().toString().length() == 0) {
+                        Toast.makeText(MinorFormActivity.this, "Some Fields are empty!", Toast.LENGTH_SHORT).show();
+                    } else {
 
-                    PdfDocument pdfDocument = new PdfDocument();
-                    Paint paint = new Paint();
-                    Paint titlePaint  = new Paint();
+                        PdfDocument pdfDocument = new PdfDocument();
+                        Paint paint = new Paint();
+                        Paint titlePaint = new Paint();
 
-                    PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(1200, 2100, 1).create();
-                    PdfDocument.Page page = pdfDocument.startPage(pageInfo);
+                        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(1200, 2100, 1).create();
+                        PdfDocument.Page page = pdfDocument.startPage(pageInfo);
 
 //                    Canvas canvas = page.getCanvas();
 
@@ -522,23 +520,24 @@ public class MinorFormActivity extends AppCompatActivity {
 //                    titlePaint.setTextSize(70);
 //                    canvas.drawText("Minor accident, incident or injury form", pageWidth/2, 1000, titlePaint);
 
-                    pdfDocument.finishPage(page);
+                        pdfDocument.finishPage(page);
 
-                    String fileName = "stored.pdf";
-                    String baseDir = Environment.getExternalStorageDirectory().getAbsolutePath();
-                    String pathDir = baseDir + "/Android/data/com.example.informsafety";
-                    File file = new File(pathDir + File.separator + fileName);
+                        String fileName = "stored.pdf";
+                        String baseDir = Environment.getExternalStorageDirectory().getAbsolutePath();
+                        String pathDir = baseDir + "/Android/data/com.example.informsafety";
+                        File file = new File(pathDir + File.separator + fileName);
 
-                    try {
-                        pdfDocument.writeTo(new FileOutputStream(file));
-                        Toast.makeText(MinorFormActivity.this, "Created", Toast.LENGTH_SHORT).show();
+                        try {
+                            pdfDocument.writeTo(new FileOutputStream(file));
+                            Toast.makeText(MinorFormActivity.this, "Created", Toast.LENGTH_SHORT).show();
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        Toast.makeText(MinorFormActivity.this, "Something Wrong!" + e, Toast.LENGTH_SHORT).show();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            Toast.makeText(MinorFormActivity.this, "Something Wrong!" + e, Toast.LENGTH_SHORT).show();
+                        }
+
+                        pdfDocument.close();
                     }
-
-                    pdfDocument.close();
                 }
             }
         });
