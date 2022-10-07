@@ -3,6 +3,8 @@ package com.example.informsafety;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -14,4 +16,20 @@ public class ExampleUnitTest {
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
     }
+
 }
+
+class NameValidatorTest {
+
+    @Test
+    public void validateNameIsCorrect()
+    {
+        assertTrue(validateName.isValidName("Olivia Brown"));
+    }
+
+    @Test
+    public void validateNameIsNotCorrect() {
+        assertFalse(validateName.isvalidName("12345"));
+    }
+}
+

@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setTitle("LOGIN");
+        getSupportActionBar().setTitle("Login");
         setContentView(R.layout.activity_login);
 
         String[] PERMISSIONS;
@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
-    private boolean hasPermissions(Context context, String... PERMISSIONS) {
+    public boolean hasPermissions(Context context, String... PERMISSIONS) {
 
         if (context != null && PERMISSIONS != null) {
 
@@ -116,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void ClickLogin() {
+    public void ClickLogin() {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

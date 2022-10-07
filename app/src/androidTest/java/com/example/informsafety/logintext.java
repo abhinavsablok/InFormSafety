@@ -29,17 +29,17 @@ public class logintext {
     @Test
     public void logintext() {
         ViewInteraction textView = onView(
-                allOf(withText("LOGIN"),
+                allOf(withText("Login"),
                         withParent(allOf(withId(androidx.appcompat.R.id.action_bar),
                                 withParent(withId(androidx.appcompat.R.id.action_bar_container)))),
                         isDisplayed()));
-        textView.check(matches(withText("LOGIN")));
+        textView.check(matches(withText("Login")));
 
         ViewInteraction textView2 = onView(
-                allOf(withText("LOGIN"),
+                allOf(withText("Login"),
                         withParent(allOf(withId(androidx.appcompat.R.id.action_bar),
                                 withParent(withId(androidx.appcompat.R.id.action_bar_container)))),
                         isDisplayed()));
-        textView2.check(matches(withText("LOGIN")));
+        textView2.check(matches(withText("Login")));
     }
 }
