@@ -6,9 +6,15 @@ import static com.example.informsafety.EncryptDecrypt.encrypt;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -34,6 +40,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -55,6 +64,8 @@ public class IllnessFormActivity extends AppCompatActivity {
     String myKey;
     int timeHour, timeMinute;
     ArrayList<String> childList;
+    Bitmap bmp, scaledBmp;
+
 
 
 
@@ -446,6 +457,114 @@ public class IllnessFormActivity extends AppCompatActivity {
                     errorText.setText("Form must be checked by another teacher");//changes the selected item text to this
                 }
                 else {
+
+                    if (child.getText().toString().length() == 0 || date.getText().toString().length() == 0 ||
+                            observation.getText().toString().length() == 0 || guardianContactedTime.getText().toString().length() == 0
+                            || guardianArrivedTime.getText().toString().length() == 0) {
+                        Toast.makeText(IllnessFormActivity.this, "Some Fields are empty!", Toast.LENGTH_SHORT).show();
+                    } else {
+
+                        PdfDocument pdfDocument = new PdfDocument();
+                        Paint paint = new Paint();
+                        Paint titlePaint = new Paint();
+                        Paint name = new Paint();
+                        Paint date = new Paint();
+                        Paint description = new Paint();
+                        Paint treatment = new Paint();
+                        Paint notes = new Paint();
+                        Paint arrived = new Paint();
+                        Paint contacted = new Paint();
+                        Paint given = new Paint();
+                        Paint checked = new Paint();
+                        Paint staff = new Paint();
+                        Paint caregiver = new Paint();
+
+                        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(2100, 2970, 1).create();
+                        PdfDocument.Page page = pdfDocument.startPage(pageInfo);
+
+                        Canvas canvas = page.getCanvas();
+
+                        canvas.drawBitmap(scaledBmp, 0, 0, paint);
+
+                        titlePaint.setTextAlign(Paint.Align.CENTER);
+                        titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        titlePaint.setTextSize(50);
+                        canvas.drawText("Illness Form", 1100, 200, titlePaint);
+
+                        name.setTextAlign(Paint.Align.LEFT);
+                        name.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        name.setTextSize(30);
+                        canvas.drawText("Child Name:", 200, 350, name);
+
+                        date.setTextAlign(Paint.Align.LEFT);
+                        date.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        date.setTextSize(30);
+                        canvas.drawText("Date:", 200, 450, date);
+
+                        description.setTextAlign(Paint.Align.LEFT);
+                        description.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        description.setTextSize(30);
+                        canvas.drawText("Description:", 200, 550, description);
+
+                        treatment.setTextAlign(Paint.Align.LEFT);
+                        treatment.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        treatment.setTextSize(30);
+                        canvas.drawText("Given Treatment:", 200, 650, treatment);
+
+                        notes.setTextAlign(Paint.Align.LEFT);
+                        notes.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        notes.setTextSize(30);
+                        canvas.drawText("Given Treatment:", 200, 750, notes);
+
+                        contacted.setTextAlign(Paint.Align.LEFT);
+                        contacted.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        contacted.setTextSize(30);
+                        canvas.drawText("Given Treatment:", 200, 850, contacted);
+
+                        arrived.setTextAlign(Paint.Align.LEFT);
+                        arrived.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        arrived.setTextSize(30);
+                        canvas.drawText("Given Treatment:", 200, 950, arrived);
+
+                        given.setTextAlign(Paint.Align.LEFT);
+                        given.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        given.setTextSize(30);
+                        canvas.drawText("Given By:", 200, 1050, given);
+
+                        checked.setTextAlign(Paint.Align.LEFT);
+                        checked.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        checked.setTextSize(30);
+                        canvas.drawText("Checked By:", 200, 1150, checked);
+
+                        staff.setTextAlign(Paint.Align.LEFT);
+                        staff.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        staff.setTextSize(30);
+                        canvas.drawText("Staff Signature:", 200, 1250, staff);
+
+                        caregiver.setTextAlign(Paint.Align.LEFT);
+                        caregiver.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        caregiver.setTextSize(30);
+                        canvas.drawText("Caregiver Signature:", 200, 1350, caregiver);
+
+
+                        pdfDocument.finishPage(page);
+
+                        String fileName = "stored.pdf";
+                        String baseDir = Environment.getExternalStorageDirectory().getAbsolutePath();
+                        String pathDir = baseDir + "/Android/data/com.example.informsafety";
+                        File file = new File(pathDir + File.separator + fileName);
+
+                        try {
+                            pdfDocument.writeTo(new FileOutputStream(file));
+                            Toast.makeText(IllnessFormActivity.this, " PDF Created!", Toast.LENGTH_SHORT).show();
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            Toast.makeText(IllnessFormActivity.this, "Something Went Wrong! Please Try Again." + e, Toast.LENGTH_SHORT).show();
+                        }
+
+                        pdfDocument.close();
+                    }
                     // Save the form before sending
                     saveIllnessForm();
 

@@ -765,7 +765,9 @@ public class SeriousFormActivity extends AppCompatActivity {
                 else {
 
                     if (child.getText().toString().length() == 0 || date.getText().toString().length() == 0 ||
-                            incidentTime.getText().toString().length() == 0 || description.getText().toString().length() == 0) {
+                            incidentTime.getText().toString().length() == 0 || description.getText().toString().length() == 0
+                            || description.getText().toString().length() == 0 || guardianArrivedTime.getText().toString().length() == 0
+                            || guardianArrivedTime.getText().toString().length() == 0) {
                         Toast.makeText(SeriousFormActivity.this, "Some Fields are empty!", Toast.LENGTH_SHORT).show();
                     } else {
 
@@ -776,8 +778,16 @@ public class SeriousFormActivity extends AppCompatActivity {
                         Paint date = new Paint();
                         Paint time = new Paint();
                         Paint description = new Paint();
+                        Paint type = new Paint();
                         Paint location = new Paint();
                         Paint treatment = new Paint();
+                        Paint ambulanceCalled = new Paint();
+                        Paint contacted = new Paint();
+                        Paint arrived = new Paint();
+                        Paint happenAgain = new Paint();
+                        Paint actions = new Paint();
+                        Paint whoAction = new Paint();
+                        Paint dateAction = new Paint();
                         Paint given = new Paint();
                         Paint checked = new Paint();
                         Paint comments = new Paint();
@@ -816,40 +826,80 @@ public class SeriousFormActivity extends AppCompatActivity {
                         description.setTextSize(30);
                         canvas.drawText("Description:", 200, 650, description);
 
+                        type.setTextAlign(Paint.Align.LEFT);
+                        type.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        type.setTextSize(30);
+                        canvas.drawText("Description:", 200, 750, type);
+
                         location.setTextAlign(Paint.Align.LEFT);
                         location.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
                         location.setTextSize(30);
-                        canvas.drawText("Location:", 200, 750, location);
+                        canvas.drawText("Location:", 200, 850, location);
 
                         treatment.setTextAlign(Paint.Align.LEFT);
                         treatment.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
                         treatment.setTextSize(30);
-                        canvas.drawText("Given Treatment:", 200, 850, treatment);
+                        canvas.drawText("Given Treatment:", 200, 950, treatment);
+
+                        ambulanceCalled.setTextAlign(Paint.Align.LEFT);
+                        ambulanceCalled.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        ambulanceCalled.setTextSize(30);
+                        canvas.drawText("Given Treatment:", 200, 1050, ambulanceCalled);
+
+                        contacted.setTextAlign(Paint.Align.LEFT);
+                        contacted.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        contacted.setTextSize(30);
+                        canvas.drawText("Given Treatment:", 200, 1150, contacted);
+
+                        arrived.setTextAlign(Paint.Align.LEFT);
+                        arrived.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        arrived.setTextSize(30);
+                        canvas.drawText("Given Treatment:", 200, 1250, arrived);
+
+                        happenAgain.setTextAlign(Paint.Align.LEFT);
+                        happenAgain.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        happenAgain.setTextSize(30);
+                        canvas.drawText("Given Treatment:", 200, 1350, happenAgain);
+
+                        actions.setTextAlign(Paint.Align.LEFT);
+                        actions.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        actions.setTextSize(30);
+                        canvas.drawText("Given Treatment:", 200, 1450, actions);
+
+                        whoAction.setTextAlign(Paint.Align.LEFT);
+                        whoAction.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        whoAction.setTextSize(30);
+                        canvas.drawText("Given Treatment:", 200, 1550, whoAction);
+
+                        dateAction.setTextAlign(Paint.Align.LEFT);
+                        dateAction.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        dateAction.setTextSize(30);
+                        canvas.drawText("Given Treatment:", 200, 1650, dateAction);
 
                         given.setTextAlign(Paint.Align.LEFT);
                         given.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
                         given.setTextSize(30);
-                        canvas.drawText("Given By:", 200, 950, given);
+                        canvas.drawText("Given By:", 200, 1750, given);
 
                         checked.setTextAlign(Paint.Align.LEFT);
                         checked.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
                         checked.setTextSize(30);
-                        canvas.drawText("Checked By:", 200, 1050, checked);
+                        canvas.drawText("Checked By:", 200, 1850, checked);
 
                         comments.setTextAlign(Paint.Align.LEFT);
                         comments.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
                         comments.setTextSize(30);
-                        canvas.drawText("Comments:", 200, 1150, comments);
+                        canvas.drawText("Comments:", 200, 1950, comments);
 
                         staff.setTextAlign(Paint.Align.LEFT);
                         staff.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
                         staff.setTextSize(30);
-                        canvas.drawText("Staff Signature:", 200, 1250, staff);
+                        canvas.drawText("Staff Signature:", 200, 2050, staff);
 
                         caregiver.setTextAlign(Paint.Align.LEFT);
                         caregiver.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
                         caregiver.setTextSize(30);
-                        canvas.drawText("Caregiver Signature:", 200, 1350, caregiver);
+                        canvas.drawText("Caregiver Signature:", 200, 2150, caregiver);
 
 
                         pdfDocument.finishPage(page);
