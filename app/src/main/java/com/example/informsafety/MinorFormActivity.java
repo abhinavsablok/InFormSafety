@@ -499,12 +499,11 @@ public class MinorFormActivity extends AppCompatActivity {
 
                     if (child.getText().toString().length() == 0 || date.getText().toString().length() == 0 ||
                             incidentTime.getText().toString().length() == 0 || description.getText().toString().length() == 0) {
+
                         Toast.makeText(MinorFormActivity.this, "Some Fields are empty!", Toast.LENGTH_SHORT).show();
                     } else {
 
                         PdfDocument pdfDocument = new PdfDocument();
-                        Paint paint = new Paint();
-                        Paint titlePaint = new Paint();
                         Paint name = new Paint();
                         Paint date = new Paint();
                         Paint time = new Paint();
@@ -600,7 +599,6 @@ public class MinorFormActivity extends AppCompatActivity {
                             e.printStackTrace();
                             Toast.makeText(MinorFormActivity.this, "Something Went Wrong! Please Try Again." + e, Toast.LENGTH_SHORT).show();
                         }
-
                         pdfDocument.close();
                     }
                 }

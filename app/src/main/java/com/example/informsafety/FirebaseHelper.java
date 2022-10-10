@@ -27,16 +27,20 @@ public class FirebaseHelper {
 
     // Check whether the user is a Teacher based on their email address
     public boolean isTeacherEmail(String email) {
-        List<String> teacherDomains = new ArrayList<>();
-        teacherDomains.add("@huttkindergartens.org.nz");
 
-        for (String domain : teacherDomains){
-            if (email.contains(domain)) {
-                return true;
-            }
-        }
-        return false;
+        // VERSION 1: Teacher perspective only - assume all users are teachers
+        return true;
 
+        // VERSION 2: Only users with ECE emails are teachers
+//        List<String> teacherDomains = new ArrayList<>();
+//        teacherDomains.add("@huttkindergartens.org.nz");
+//
+//        for (String domain : teacherDomains){
+//            if (email.contains(domain)) {
+//                return true;
+//            }
+//        }
+//        return false;
     }
 
     // Insert a User

@@ -315,12 +315,17 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemClic
         // Teacher: get a list of all children
         // Guardian: get a list of own children
         Query childQuery;
-        if (fbh.isTeacherEmail(user.getEmail())) {
-            childQuery = childRef.orderByKey();
-        }
-        else {
-            childQuery = childRef.orderByChild("ParentKey").equalTo(user.getUid());
-        }
+
+        // VERSION 1: Teacher perspective only - show list of all children
+        childQuery = childRef.orderByKey();
+
+        // VERSION 2: Only teachers can view the full list
+//        if (fbh.isTeacherEmail(user.getEmail())) {
+//            childQuery = childRef.orderByKey();
+//        }
+//        else {
+//            childQuery = childRef.orderByChild("ParentKey").equalTo(user.getUid());
+//        }
 
         childQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

@@ -8,6 +8,37 @@
   "client": [
     {
       "client_info": {
+
+        "mobilesdk_app_id": "1:1015002955378:android:f9e4dfe97a3c8e3b238ceb",
+        "android_client_info": {
+          "package_name": "com.example.firebasenotification"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1015002955378-td5d03polsc1jno7hc29mtmvgm84d101.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6eqURsv1LlK9LZDRmo-dpvTZ_n2tV6zg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1015002955378-td5d03polsc1jno7hc29mtmvgm84d101.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+
         "mobilesdk_app_id": "1:1015002955378:android:1b4e84affacf891a238ceb",
         "android_client_info": {
           "package_name": "com.example.informsafety"
@@ -124,6 +155,37 @@
     },
     {
       "client_info": {
+
+        "mobilesdk_app_id": "1:1015002955378:android:8d1b56037c527ad6238ceb",
+        "android_client_info": {
+          "package_name": "com.example.notificationexample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1015002955378-td5d03polsc1jno7hc29mtmvgm84d101.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6eqURsv1LlK9LZDRmo-dpvTZ_n2tV6zg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1015002955378-td5d03polsc1jno7hc29mtmvgm84d101.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+
         "mobilesdk_app_id": "1:1015002955378:android:6a39de376ba763a6238ceb",
         "android_client_info": {
           "package_name": "com.example.twofactor"
