@@ -10,13 +10,15 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.os.Environment;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -67,7 +69,6 @@ public class MinorFormActivity extends AppCompatActivity {
     int timeHour, timeMinute;
     ArrayList<String> childList;
     Bitmap bmp, scaledBmp;
-    int pageWidth = 2100;
 
 
     @Override
@@ -80,7 +81,7 @@ public class MinorFormActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_minor_form);
 
-        ActivityCompat.requestPermissions(MinorFormActivity.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
+        ActivityCompat.requestPermissions(MinorFormActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
 
         fbh = new FirebaseHelper();
         db = FirebaseDatabase.getInstance("https://informsafetydb-default-rtdb.asia-southeast1.firebasedatabase.app/");
@@ -99,8 +100,8 @@ public class MinorFormActivity extends AppCompatActivity {
         comments = findViewById(R.id.comments);
         save = findViewById(R.id.save);
         send = findViewById(R.id.send);
-        bmp = BitmapFactory.decodeResource(getResources(), R.drawable.logo_kindergarten);
-        scaledBmp = Bitmap.createScaledBitmap(bmp, 2300, 946, false);
+        bmp = BitmapFactory.decodeResource(getResources(), R.drawable.kindergarten_logo);
+        scaledBmp = Bitmap.createScaledBitmap(bmp, 575, 237, false);
 
         ClickSave();
         ClickSend();
@@ -118,13 +119,13 @@ public class MinorFormActivity extends AppCompatActivity {
                         MinorFormActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int day) {
-                        month = month+1;
-                        String selectedDate = day+"/"+month+"/"+year;
+                        month = month + 1;
+                        String selectedDate = day + "/" + month + "/" + year;
                         date.setText(selectedDate);
                         // Clear the error on this field if there was one
                         date.setError(null);
                     }
-                },year,month,day);
+                }, year, month, day);
                 datePickerDialog.show();
             }
         });
@@ -139,7 +140,7 @@ public class MinorFormActivity extends AppCompatActivity {
                         timeHour = hourOfDay;
                         timeMinute = minute;
 
-                        String time = timeHour+":"+timeMinute;
+                        String time = timeHour + ":" + timeMinute;
 
                         SimpleDateFormat f24Hours = new SimpleDateFormat(
                                 "HH:mm"
@@ -204,7 +205,6 @@ public class MinorFormActivity extends AppCompatActivity {
         treatmentList.add("Other");
 
 
-
         // Autocomplete text + dropdown for Child
         childList = new ArrayList<>();
         ArrayAdapter childAdapter = new ArrayAdapter<String>(this, R.layout.list_item, childList);
@@ -217,7 +217,7 @@ public class MinorFormActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 childList.clear();
-                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     childList.add(decrypt(snapshot.child("Name").getValue().toString()));
                 }
                 childAdapter.notifyDataSetChanged();
@@ -266,7 +266,7 @@ public class MinorFormActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 teacherList.clear();
-                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     teacherList.add(decrypt(snapshot.child("Name").getValue().toString()));
                 }
                 teacherAdapter.notifyDataSetChanged();
@@ -289,7 +289,7 @@ public class MinorFormActivity extends AppCompatActivity {
             myDraftQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         // Set form elements to show the saved values
                         child.setText(decrypt(snapshot.child("childName").getValue().toString()));
                         date.setText(snapshot.child("incidentDate").getValue().toString());
@@ -343,7 +343,8 @@ public class MinorFormActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == android.R.id.home) {
-            onBackPressed();  return true;
+            onBackPressed();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -412,11 +413,9 @@ public class MinorFormActivity extends AppCompatActivity {
                 // Date and time must be selected
                 else if (date.getText().toString().isEmpty()) {
                     date.setError("Please fill out this field");
-                }
-                else if (incidentTime.getText().toString().isEmpty()) {
+                } else if (incidentTime.getText().toString().isEmpty()) {
                     incidentTime.setError("Please fill out this field");
-                }
-                else {
+                } else {
                     saveMinorIncidentForm();
                     Toast.makeText(MinorFormActivity.this, "Saved", Toast.LENGTH_SHORT).show();
                 }
@@ -499,26 +498,91 @@ public class MinorFormActivity extends AppCompatActivity {
                     });
 
                     if (child.getText().toString().length() == 0 || date.getText().toString().length() == 0 ||
-                            incidentTime.getText().toString().length() == 0 || description.getText().toString().length() == 0 ||
-                            comments.getText().toString().length() == 0) {
+                            incidentTime.getText().toString().length() == 0 || description.getText().toString().length() == 0) {
+
                         Toast.makeText(MinorFormActivity.this, "Some Fields are empty!", Toast.LENGTH_SHORT).show();
                     } else {
 
                         PdfDocument pdfDocument = new PdfDocument();
-                        Paint paint = new Paint();
-                        Paint titlePaint = new Paint();
+                        Paint name = new Paint();
+                        Paint date = new Paint();
+                        Paint time = new Paint();
+                        Paint description = new Paint();
+                        Paint location = new Paint();
+                        Paint treatment = new Paint();
+                        Paint given = new Paint();
+                        Paint checked = new Paint();
+                        Paint comments = new Paint();
+                        Paint staff = new Paint();
+                        Paint caregiver = new Paint();
 
-                        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(1200, 2100, 1).create();
+                        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(2100, 2970, 1).create();
                         PdfDocument.Page page = pdfDocument.startPage(pageInfo);
 
-//                    Canvas canvas = page.getCanvas();
+                        Canvas canvas = page.getCanvas();
 
-//                    canvas.drawBitmap(scaledBmp, 0, 0, paint);
-//
-//                    titlePaint.setTextAlign(Paint.Align.CENTER);
-//                    titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-//                    titlePaint.setTextSize(70);
-//                    canvas.drawText("Minor accident, incident or injury form", pageWidth/2, 1000, titlePaint);
+                        canvas.drawBitmap(scaledBmp, 0, 0, paint);
+
+                        titlePaint.setTextAlign(Paint.Align.CENTER);
+                        titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        titlePaint.setTextSize(50);
+                        canvas.drawText("Minor accident, incident or injury form", 1100, 200, titlePaint);
+
+                        name.setTextAlign(Paint.Align.LEFT);
+                        name.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        name.setTextSize(30);
+                        canvas.drawText("Child Name:", 200, 350, name);
+
+                        date.setTextAlign(Paint.Align.LEFT);
+                        date.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        date.setTextSize(30);
+                        canvas.drawText("Date:", 200, 450, date);
+
+                        time.setTextAlign(Paint.Align.LEFT);
+                        time.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        time.setTextSize(30);
+                        canvas.drawText("Time:", 200, 550, time);
+
+                        description.setTextAlign(Paint.Align.LEFT);
+                        description.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        description.setTextSize(30);
+                        canvas.drawText("Description:", 200, 650, description);
+
+                        location.setTextAlign(Paint.Align.LEFT);
+                        location.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        location.setTextSize(30);
+                        canvas.drawText("Location:", 200, 750, location);
+
+                        treatment.setTextAlign(Paint.Align.LEFT);
+                        treatment.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        treatment.setTextSize(30);
+                        canvas.drawText("Given Treatment:", 200, 850, treatment);
+
+                        given.setTextAlign(Paint.Align.LEFT);
+                        given.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        given.setTextSize(30);
+                        canvas.drawText("Given By:", 200, 950, given);
+
+                        checked.setTextAlign(Paint.Align.LEFT);
+                        checked.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        checked.setTextSize(30);
+                        canvas.drawText("Checked By:", 200, 1050, checked);
+
+                        comments.setTextAlign(Paint.Align.LEFT);
+                        comments.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        comments.setTextSize(30);
+                        canvas.drawText("Comments:", 200, 1150, comments);
+
+                        staff.setTextAlign(Paint.Align.LEFT);
+                        staff.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        staff.setTextSize(30);
+                        canvas.drawText("Staff Signature:", 200, 1250, staff);
+
+                        caregiver.setTextAlign(Paint.Align.LEFT);
+                        caregiver.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                        caregiver.setTextSize(30);
+                        canvas.drawText("Caregiver Signature:", 200, 1350, caregiver);
+
 
                         pdfDocument.finishPage(page);
 
@@ -529,20 +593,18 @@ public class MinorFormActivity extends AppCompatActivity {
 
                         try {
                             pdfDocument.writeTo(new FileOutputStream(file));
-                            Toast.makeText(MinorFormActivity.this, "Created", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MinorFormActivity.this, " PDF Created!", Toast.LENGTH_SHORT).show();
 
                         } catch (IOException e) {
                             e.printStackTrace();
-                            Toast.makeText(MinorFormActivity.this, "Something Wrong!" + e, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MinorFormActivity.this, "Something Went Wrong! Please Try Again." + e, Toast.LENGTH_SHORT).show();
                         }
-
                         pdfDocument.close();
                     }
                 }
             }
         });
     }
-
 
 
 //    public void createPDF(View view) {
