@@ -36,9 +36,6 @@ import io.grpc.Context;
 
 public class SignatureActivity extends AppCompatActivity {
 
-//    FirebaseHelper fbh = new FirebaseHelper();
-//    FirebaseDatabase db = FirebaseDatabase.getInstance("https://informsafetydb-default-rtdb.asia-southeast1.firebasedatabase.app/");
-//    DatabaseReference ref = db.getReference("Signature");
     DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Signature");
     StorageReference storageReference = FirebaseStorage.getInstance().getReference();
 
@@ -73,16 +70,6 @@ public class SignatureActivity extends AppCompatActivity {
             }
         });
 
-//        signImage.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent();
-//                intent.setAction(Intent.ACTION_GET_CONTENT);
-//                intent.setType("image/*");
-//                startActivityForResult(intent,2);
-//            }
-//        });
-
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,36 +93,4 @@ public class SignatureActivity extends AppCompatActivity {
             }
         });
     }
-
-//    private void UploadImage(Uri uri) {
-//        StorageReference file = storageReference.child(System.currentTimeMillis()+ "." +getFileLink(uri));
-//        file.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//            @Override
-//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                file.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                    @Override
-//                    public void onSuccess(Uri uri) {
-//                        SignatureModel model =  new SignatureModel(uri.toString());
-//                        String sModel = reference.push().getKey();
-//                        reference.child(sModel).setValue(model);
-//                    }
-//                });
-//            }
-//        });
-//    }
-//
-//    private String getFileLink(Uri uri) {
-//        ContentResolver contentResolver = getContentResolver();
-//        MimeTypeMap map = MimeTypeMap.getSingleton();
-//        return map.getExtensionFromMimeType(contentResolver.getType(uri));
-//    }
-//
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == 2 && requestCode == RESULT_OK && data != null) {
-//            uri = data.getData();
-//            signImage.setImageURI(uri);
-//        }
-//    }
 }

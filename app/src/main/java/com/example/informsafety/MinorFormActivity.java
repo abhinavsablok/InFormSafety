@@ -504,6 +504,8 @@ public class MinorFormActivity extends AppCompatActivity {
                     } else {
 
                         PdfDocument pdfDocument = new PdfDocument();
+                        Paint paint = new Paint();
+                        Paint titlePaint = new Paint();
                         Paint name = new Paint();
                         Paint date = new Paint();
                         Paint time = new Paint();
@@ -605,63 +607,4 @@ public class MinorFormActivity extends AppCompatActivity {
             }
         });
     }
-
-
-//    public void createPDF(View view) {
-//
-//        PdfDocument pdfDocument = new PdfDocument();
-//        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(210, 297, 1).create();
-//        PdfDocument.Page page = pdfDocument.startPage(pageInfo);
-//
-//        Paint paint = new Paint();
-//        String myChild = child.getText().toString();
-//        String myDate = date.getText().toString();
-//        String myTime = incidentTime.getText().toString();
-//        String myDescription = description.getText().toString();
-//        String myLocation = location.getSelectedItem().toString();
-//        String myTreatment = treatment.getSelectedItem().toString();
-//        String myTeacherProvided = teacherProvided.getSelectedItem().toString();
-//        String myTeacherChecked = teacherChecked.getSelectedItem().toString();
-//        String myComments = comments.getText().toString();
-//
-//        String[] array = {myChild, myDate, myTime, myDescription, myLocation, myTreatment, myTeacherProvided, myTeacherChecked, myComments};
-//
-//        // Additional data for form status
-//        String formType = "Minor Incident";
-//        String mFormStatus = "Draft";
-//        String mPdfFilename = "PdfFile";
-//
-//        // Create a HashMap of incident form contents
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("childName", encrypt(myChild));
-//        map.put("incidentDate", myDate);
-//        map.put("incidentTime", myTime);
-//        map.put("description", myDescription);
-//        map.put("location", myLocation);
-//        map.put("treatment", myTreatment);
-//        map.put("teacherProvided", myTeacherProvided);
-//        map.put("teacherChecked", myTeacherChecked);
-//        map.put("comments", myComments);
-//        map.put("formType", formType);
-//        map.put("formStatus", mFormStatus);
-//        map.put("pdfFilename", mPdfFilename);
-//
-//        int x=10, y=25;
-//
-//        page.getCanvas().drawText(String.valueOf(array), x, y, paint);
-//        pdfDocument.finishPage(page);
-//
-//        String filePath = Environment.getExternalStorageDirectory().getPath() + "/myPDFFile.pdf";
-//        File file = new File(filePath);
-//
-//        try {
-//            pdfDocument.writeTo(new FileOutputStream(file));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            child.setError("Pdf File Error!");
-//        }
-//
-//        pdfDocument.close();
-//    }
-
 }
